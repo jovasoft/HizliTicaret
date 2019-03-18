@@ -4,18 +4,18 @@ namespace Web
 {
     public class RegisterViewModel
     {
-        [Required]
-        public string UserName { get; set; }
+        [Required(ErrorMessage = "Ýsim boþ býrakýlamaz.")]
+        public string Name { get; set; }
 
-        [Required]
-        [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessage = "Mail adresi boþ býrakýlamaz.")]
+        [EmailAddress(ErrorMessage = "Lütfen geçerli bir mail adresi giriniz.")]
         public string Mail { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Þifre boþ býrakýlamaz.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Þifre Tekrarý boþ býrakýlamaz.")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }        
     }

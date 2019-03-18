@@ -10,8 +10,8 @@ using Web;
 namespace Web.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20190318150221_created-identity-tables")]
-    partial class createdidentitytables
+    [Migration("20190318184658_user-updated")]
+    partial class userupdated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,15 +140,11 @@ namespace Web.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName");
-
-                    b.Property<bool>("IsMerchant");
-
-                    b.Property<string>("LastName");
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
