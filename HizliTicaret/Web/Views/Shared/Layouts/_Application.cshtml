@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="default-style">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>@ViewData["Title"] - Asp.Net Core Starter</title>
+
+    <!-- Main font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet" crossorigin="anonymous" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <environment include="Development">
+        <!-- <link rel="stylesheet" href="~/assets/vendor/fonts/fontawesome.css" /> -->
+        <link rel="stylesheet" href="~/assets/vendor/fonts/ionicons.css" />
+        <link rel="stylesheet" href="~/assets/vendor/fonts/linearicons.css" />
+        <!-- <link rel="stylesheet" href="~/assets/vendor/fonts/open-iconic.css" /> -->
+        <!-- <link rel="stylesheet" href="~/assets/vendor/fonts/pe-icon-7-stroke.css" /> -->
+    </environment>
+    <environment exclude="Development">
+        <!-- <link rel="stylesheet" href="~/assets/vendor/fonts/fontawesome.css" asp-append-version="true" /> -->
+        <link rel="stylesheet" href="~/assets/vendor/fonts/ionicons.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/assets/vendor/fonts/linearicons.css" asp-append-version="true" />
+        <!-- <link rel="stylesheet" href="~/assets/vendor/fonts/open-iconic.css" asp-append-version="true" /> -->
+        <!-- <link rel="stylesheet" href="~/assets/vendor/fonts/pe-icon-7-stroke.css" asp-append-version="true" /> -->
+    </environment>
+
+    <!-- Core stylesheets -->
+    <environment include="Development">
+        <link rel="stylesheet" href="~/assets/vendor/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/assets/vendor/css/appwork.css" />
+        <link rel="stylesheet" href="~/assets/vendor/css/theme-sunrise.css" />
+        <link rel="stylesheet" href="~/assets/vendor/css/colors.css" />
+        <link rel="stylesheet" href="~/assets/vendor/css/uikit.css" />
+        <link rel="stylesheet" href="~/assets/css/shop.css">
+        <link rel="stylesheet" href="~/assets/vendor/libs/swiper/swiper.css">
+        <link rel="stylesheet" href="~/assets/vendor/libs/blueimp-gallery/gallery.css">
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/assets/vendor/css/bootstrap.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/assets/vendor/css/appwork.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/assets/vendor/css/theme-sunrise.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/assets/vendor/css/colors.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/assets/vendor/css/uikit.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/assets/css/shop.css">
+        <link rel="stylesheet" href="~/assets/vendor/libs/swiper/swiper.css">
+        <link rel="stylesheet" href="~/assets/vendor/libs/blueimp-gallery/gallery.css">
+    </environment>
+
+    <!-- Layout helpers -->
+    <environment include="Development">
+    <script src="~/assets/vendor/js/layout-helpers.js"></script></environment>
+    <environment exclude="Development">
+    <script src="~/assets/vendor/js/layout-helpers.js" asp-append-version="true"></script></environment>
+    <script src="~/assets/vendor/js/pace.js"></script>
+
+    <!-- Libs -->
+    <!-- `perfect-scrollbar` library required by SideNav plugin -->
+    <environment include="Development"><link rel="stylesheet" href="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" /></environment>
+    <environment exclude="Development"><link rel="stylesheet" href="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.min.css" asp-append-version="true" /></environment>
+
+    <!-- Application stylesheets -->
+    <environment include="Development"><link rel="stylesheet" href="~/assets/css/site.css" /></environment>
+    <environment exclude="Development"><link rel="stylesheet" href="~/assets/css/site.min.css" asp-append-version="true" /></environment>
+
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    @RenderBody()
+    <!-- Core scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
+
+    <environment include="Development">
+        <script src="~/assets/vendor/libs/popper/popper.js"></script>
+        <script src="~/assets/vendor/js/bootstrap.js"></script>
+        <script src="~/assets/vendor/js/mega-dropdown.js"></script>
+        <script src="~/assets/vendor/libs/swiper/swiper.js"></script>
+        <script src="~/assets/vendor/libs/blueimp-gallery/gallery.js"></script>
+        <script src="~/assets/vendor/libs/blueimp-gallery/gallery-fullscreen.js"></script>
+        <!-- Libs -->
+        <!-- `perfect-scrollbar` library required by SideNav plugin -->
+        <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <!-- Page -->
+        <script src="~/assets/js/shop.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/assets/vendor/libs/popper/popper.js" asp-append-version="true"></script>
+        <script src="~/assets/vendor/js/bootstrap.js" asp-append-version="true"></script>
+        <script src="~/assets/vendor/js/mega-dropdown.js"></script>
+        <script src="~/assets/vendor/libs/swiper/swiper.js"></script>
+        <script src="~/assets/vendor/libs/blueimp-gallery/gallery.js"></script>
+        <script src="~/assets/vendor/libs/blueimp-gallery/gallery-fullscreen.js"></script>
+        <!-- Libs -->
+        <!-- `perfect-scrollbar` library required by SideNav plugin -->
+        <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" asp-append-version="true"></script>
+
+        <!-- Page -->
+        <script src="~/assets/js/shop.js"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

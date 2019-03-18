@@ -84,6 +84,7 @@ namespace Web
             }
 
             app.UseStaticFiles();
+
             app.UseCookiePolicy();
 
             app.UseAuthentication();
