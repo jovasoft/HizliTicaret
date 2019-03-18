@@ -1,6 +1,8 @@
-﻿namespace Entities.Concrete
+﻿using Core;
+
+namespace Entities.Concrete
 {
-    public class Brand
+    public class Brand : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
