@@ -23,6 +23,7 @@ namespace Web.Controllers
 
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
             return View();
         }
 
@@ -33,15 +34,19 @@ namespace Web.Controllers
             if (ModelState.IsValid)
             {
                 User user = new User {
-                    UserName = registerViewModel.UserName,
-                    Email = registerViewModel.Mail
+                    UserName = registerViewModel.Mail,
+                    Email = registerViewModel.Mail,
+                    Name = registerViewModel.Name
                 };
 
-                IdentityResult userResult = userManager.CreateAsync(user, registerViewModel.Password).Result;
-
+                IdentityResult userResult = new IdentityResult();
+                if(registerViewModel.Password == registerViewModel.ConfirmPassword)
+                    userResult = userManager.CreateAsync(user, registerViewModel.Password).Result;
+                    else
+                    ModelState.AddModelError("", "Girilen şifreler uyuşmuyor.");
                 if (userResult.Succeeded)
                 {
-                    Role role = new Role { Name = "Admin" };
+                    Role role = new Role { Name = "User" };
 
                     if (!roleManager.RoleExistsAsync(role.Name).Result)
                     {
@@ -53,7 +58,12 @@ namespace Web.Controllers
                     return RedirectToAction("Login");
                 }
 
-                ModelState.AddModelError("registerError", "Hesap oluşturulamadı.");
+                foreach (var item in userResult.Errors)
+                {
+                    if (item.Code == "DuplicateUserName" || item.Code == "InvalidUserName") continue;
+
+                    ModelState.AddModelError("", item.Description);
+                }
             }
 
             return View(registerViewModel);
@@ -61,6 +71,7 @@ namespace Web.Controllers
 
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
             return View();
         }
 
@@ -70,7 +81,7 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = signInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password, loginViewModel.RememberMe, false).Result;
+                var result = signInManager.PasswordSignInAsync(loginViewModel.Mail, loginViewModel.Password, loginViewModel.RememberMe, false).Result;
 
                 if (result.Succeeded)
                 {
@@ -83,16 +94,38 @@ namespace Web.Controllers
             return View(loginViewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
             signInManager.SignOutAsync().Wait();
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult AccessDenied()
         {
+            return View();
+        }
+
+        public IActionResult ForgotPassword()
+        {
+            if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ForgotPassword(ForgotPasswordViewModel forgotPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("SuccessfullyReset");
+            }
+
+            return View(forgotPasswordViewModel);
+        }
+
+        public IActionResult SuccessfullyReset()
+        {
+            if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
             return View();
         }
 

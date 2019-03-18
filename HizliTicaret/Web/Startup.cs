@@ -37,7 +37,7 @@ namespace Web
 
             #region identity
 
-            services.AddIdentity<User, Role>().AddEntityFrameworkStores<DbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, Role>().AddEntityFrameworkStores<DbContext>().AddDefaultTokenProviders().AddErrorDescriber<TurkishIdentityErrorDescriber>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -49,9 +49,7 @@ namespace Web
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
 
-                // User settings.
-                options.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                // mail settings.
                 options.User.RequireUniqueEmail = true;
             });
 
@@ -59,7 +57,7 @@ namespace Web
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromDays(1);
+                options.ExpireTimeSpan = TimeSpan.FromDays(15);
                 options.Cookie.Name = "hizli-ticaret-auth";
 
                 options.LoginPath = "/Account/Login";
