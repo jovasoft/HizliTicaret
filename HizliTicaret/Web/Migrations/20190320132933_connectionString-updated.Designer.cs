@@ -10,8 +10,8 @@ using Web;
 namespace Web.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20190318184658_user-updated")]
-    partial class userupdated
+    [Migration("20190320132933_connectionString-updated")]
+    partial class connectionStringupdated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

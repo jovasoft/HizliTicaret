@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Web.Migrations
 {
-    public partial class userupdated : Migration
+    public partial class connectionStringupdated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

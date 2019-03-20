@@ -26,7 +26,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DbContext>(options => options.UseNpgsql("Server=40.68.240.47;Port=5432;Database=hizli_ticaret;User Id=postgres;Password=123456;"));
+            services.AddDbContext<DbContext>(options => options.UseNpgsql("Server=13.94.184.36;Port=5432;Database=hizli_ticaret;User Id=postgres;Password=123456;"));
 
             services.Configure<CookiePolicyOptions>(options =>
             {
