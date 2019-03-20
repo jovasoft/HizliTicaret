@@ -71,39 +71,26 @@
 </head>
 
 <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
+
+    <div class="page-loader">
+        <div class="bg-primary"></div>
+    </div>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-2">
         <div class="layout-inner">
-            <!-- Layout container -->
-            <div class="layout-container">
-                <!-- Layout content -->
-
-                <div class="page-loader">
-                    <div class="bg-primary"></div>
-                </div>
-                @RenderBody()
-
-                <!-- Core scripts -->
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
-                <script src="~/assets/vendor/libs/popper/popper.js"></script>
-                <script src="~/assets/vendor/js/bootstrap.js"></script>
-
-                <!-- Libs -->
-                <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-                <!-- Demo -->
-                <script src="~/assets/js/site.js"></script>
-
-
-                <!-- Layout content -->
-            </div>
-            <!-- / Layout container -->
+            @RenderBody()
         </div>
         <!-- Overlay -->
         <div class="layout-overlay layout-sidenav-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
 
+    <!-- Core scripts -->
+    <script src="~/assets/vendor/libs/popper/popper.js"></script>
+    <script src="~/assets/vendor/js/bootstrap.js"></script>
+    <script src="~/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/assets/js/site.js"></script>
 
 </body>
 

@@ -1,0 +1,408 @@
+﻿
+@{
+
+    ViewData["Title"] = "Index";
+    Layout = "../Shared/Layouts/_AdminLayout.cshtml";
+}
+
+<!-- Layout sidenav -->
+<div id="layout-sidenav" class="layout-sidenav sidenav sidenav-vertical bg-dark">
+
+    <!-- Brand demo (see assets/css/demo/demo.css) -->
+    <div class="app-brand demo">
+        <span class="app-brand-logo demo bg-primary">
+            <svg viewBox="0 0 148 80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="a" x1="46.49" x2="62.46" y1="53.39" y2="48.2" gradientUnits="userSpaceOnUse"><stop stop-opacity=".25" offset="0"></stop><stop stop-opacity=".1" offset=".3"></stop><stop stop-opacity="0" offset=".9"></stop></linearGradient><linearGradient id="e" x1="76.9" x2="92.64" y1="26.38" y2="31.49" xlink:href="#a"></linearGradient><linearGradient id="d" x1="107.12" x2="122.74" y1="53.41" y2="48.33" xlink:href="#a"></linearGradient></defs><path style="fill: #fff;" transform="translate(-.1)" d="M121.36,0,104.42,45.08,88.71,3.28A5.09,5.09,0,0,0,83.93,0H64.27A5.09,5.09,0,0,0,59.5,3.28L43.79,45.08,26.85,0H.1L29.43,76.74A5.09,5.09,0,0,0,34.19,80H53.39a5.09,5.09,0,0,0,4.77-3.26L74.1,35l16,41.74A5.09,5.09,0,0,0,94.82,80h18.95a5.09,5.09,0,0,0,4.76-3.24L148.1,0Z"></path><path transform="translate(-.1)" d="M52.19,22.73l-8.4,22.35L56.51,78.94a5,5,0,0,0,1.64-2.19l7.34-19.2Z" fill="url(#a)"></path><path transform="translate(-.1)" d="M95.73,22l-7-18.69a5,5,0,0,0-1.64-2.21L74.1,35l8.33,21.79Z" fill="url(#e)"></path><path transform="translate(-.1)" d="M112.73,23l-8.31,22.12,12.66,33.7a5,5,0,0,0,1.45-2l7.3-18.93Z" fill="url(#d)"></path></svg>
+        </span>
+        <a href="index.html" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Hızlı Ticaret</a>
+        <a href="javascript:void(0)" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
+            <i class="ion ion-md-menu align-middle"></i>
+        </a>
+    </div>
+
+    <div class="sidenav-divider mt-0"></div>
+
+    <!-- Links -->
+    <ul class="sidenav-inner py-1">
+
+        <!-- Dashboards -->
+        <li class="sidenav-item open active">
+            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                <i class="sidenav-icon ion ion-md-speedometer"></i>
+                <div>Dashboards</div>
+            </a>
+
+            <ul class="sidenav-menu">
+                <li class="sidenav-item active">
+                    <a href="dashboards_dashboard-2.html" class="sidenav-link">
+                        <div>Dashboard 2</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Layouts -->
+        <li class="sidenav-item">
+            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                <i class="sidenav-icon ion ion-ios-albums"></i>
+                <div>Layouts</div>
+            </a>
+
+            <ul class="sidenav-menu">
+                <li class="sidenav-item">
+                    <a href="layouts_options.html" class="sidenav-link">
+                        <div>Layout options</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="sidenav-divider mb-1"></li>
+        <li class="sidenav-header small font-weight-semibold">ELEMENTS</li>
+
+        <li class="sidenav-item">
+            <a href="typography.html" class="sidenav-link">
+                <i class="sidenav-icon ion ion-md-quote"></i>
+                <div>Typography</div>
+            </a>
+        </li>
+
+        <!-- UI elements -->
+        <li class="sidenav-item">
+            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                <i class="sidenav-icon ion ion-md-cube"></i>
+                <div>User inteface</div>
+            </a>
+
+            <ul class="sidenav-menu">
+                <li class="sidenav-item">
+                    <a href="ui_buttons.html" class="sidenav-link">
+                        <div>Buttons</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_badges.html" class="sidenav-link">
+                        <div>Badges</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_button-groups.html" class="sidenav-link">
+                        <div>Button groups</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_dropdowns.html" class="sidenav-link">
+                        <div>Dropdowns</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_navs.html" class="sidenav-link">
+                        <div>Navs</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_pagination.html" class="sidenav-link">
+                        <div>Pagination and breadcrumbs</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_progress.html" class="sidenav-link">
+                        <div>Progress bars</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_list-groups.html" class="sidenav-link">
+                        <div>List groups</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_notifications.html" class="sidenav-link">
+                        <div>Notifications</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_modals.html" class="sidenav-link">
+                        <div>Modals</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_tooltips.html" class="sidenav-link">
+                        <div>Tooltips and popovers</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_thumbnails.html" class="sidenav-link">
+                        <div>Thumbnails</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_cards.html" class="sidenav-link">
+                        <div>Cards</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_accordion.html" class="sidenav-link">
+                        <div>Accordion</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_app-brand.html" class="sidenav-link">
+                        <div>App brand</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_navbar.html" class="sidenav-link">
+                        <div>Navbar</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_sidenav.html" class="sidenav-link">
+                        <div>Sidenav</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_footer.html" class="sidenav-link">
+                        <div>Footer</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_carousel.html" class="sidenav-link">
+                        <div>Carousel</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_lightbox.html" class="sidenav-link">
+                        <div>Lightbox</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_drag-and-drop.html" class="sidenav-link">
+                        <div>Drag&amp;Drop</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_treeview.html" class="sidenav-link">
+                        <div>Treeview</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_media-player.html" class="sidenav-link">
+                        <div>Plyr</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_cropper.html" class="sidenav-link">
+                        <div>Cropper.js</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_tour.html" class="sidenav-link">
+                        <div>Bootstrap tour</div>
+                    </a>
+                </li>
+                <li class="sidenav-item">
+                    <a href="ui_fullcalendar.html" class="sidenav-link">
+                        <div>Fullcalendar</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+
+        <li class="sidenav-divider mb-1"></li>
+        <li class="sidenav-header small font-weight-semibold">EXTRAS</li>
+
+        <!-- Pages -->
+        <li class="sidenav-item">
+            <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                <i class="sidenav-icon ion ion-md-document"></i>
+                <div>Pages</div>
+                <div class="pl-1 ml-auto">
+                    <div class="badge badge-primary">59</div>
+                </div>
+            </a>
+            <ul class="sidenav-menu">
+
+                <li class="sidenav-item">
+                    <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
+                        <div>E-commerce</div>
+                    </a>
+
+                    <ul class="sidenav-menu">
+                        <li class="sidenav-item">
+                            <a href="pages_e-commerce_product-list.html" class="sidenav-link">
+                                <div>Product list</div>
+                            </a>
+                        </li>
+                        <li class="sidenav-item">
+                            <a href="pages_e-commerce_product-item.html" class="sidenav-link">
+                                <div>Product item</div>
+                            </a>
+                        </li>
+                        <li class="sidenav-item">
+                            <a href="pages_e-commerce_product-edit.html" class="sidenav-link">
+                                <div>Product edit</div>
+                            </a>
+                        </li>
+                        <li class="sidenav-item">
+                            <a href="pages_e-commerce_order-list.html" class="sidenav-link">
+                                <div>Order list</div>
+                            </a>
+                        </li>
+                        <li class="sidenav-item">
+                            <a href="pages_e-commerce_order-detail.html" class="sidenav-link">
+                                <div>Order detail</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </li>
+
+
+    </ul>
+</div>
+<!-- / Layout sidenav -->
+<!-- Layout container -->
+<div class="layout-container">
+    <!-- Layout content -->
+    <div class="layout-content">
+
+        <!-- Content -->
+        <div class="container-fluid flex-grow-1 container-p-y">
+
+            <h4 class="d-flex justify-content-between align-items-center py-2 mb-4">
+                <div class="font-weight-bold">Shop Overview</div>
+            </h4>
+
+            <hr class="border-light container-m--x my-0">
+
+            <!-- Stats block -->
+            <div class="row no-gutters row-bordered row-border-light container-m--x">
+
+                <!-- Counters -->
+                <div class="col-sm-6 col-md-3 col-lg-6 col-xl-3">
+                    <div class="d-flex align-items-center container-p-x py-4">
+                        <div class="lnr lnr-cart display-4 text-primary"></div>
+                        <div class="ml-3">
+                            <div class="text-muted small">Toplam Ürün Satışı</div>
+                            <div class="text-large">2362</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-6 col-xl-3">
+                    <div class="d-flex align-items-center container-p-x py-4">
+                        <div class="lnr lnr-earth display-4 text-primary"></div>
+                        <div class="ml-3">
+                            <div class="text-muted small">Aylık Ziyaretçi</div>
+                            <div class="text-large">687,123</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-6 col-xl-3">
+                    <div class="d-flex align-items-center container-p-x py-4">
+                        <div class="lnr lnr-gift display-4 text-primary"></div>
+                        <div class="ml-3">
+                            <div class="text-muted small">Toplam Ürün Adedi</div>
+                            <div class="text-large">985</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-6 col-xl-3">
+                    <div class="d-flex align-items-center container-p-x py-4">
+                        <div class="lnr lnr-users display-4 text-primary"></div>
+                        <div class="ml-3">
+                            <div class="text-muted small">Kayıtlı Kullanıcı</div>
+                            <div class="text-large">105,652</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Counters -->
+            </div>
+            <!-- / Stats block -->
+
+            <hr class="border-light container-m--x mt-0 mb-4">
+
+            <div class="row">
+
+                <div class="col-md-6 col-lg-12 col-xl-6">
+
+                    <!-- Popular products -->
+                    <div class="card mb-4">
+                        <h6 class="card-header">En Çok Satılan Ürünler</h6>
+                        <div class="table-responsive">
+                            <table class="table card-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Ürün</th>
+                                        <th>Fiyat</th>
+                                        <th>Satış</th>
+                                        <th>Görüntüleme</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="align-middle" style="width: 75px">
+                                            <img class="ui-w-40" src="assets/img/uikit/ps4.jpg" alt>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="javascript:void(0)" class="text-dark">PlayStation 4 1TB (Jet Black)</a>
+                                        </td>
+                                        <td class="align-middle">$480.00</td>
+                                        <td class="align-middle">123</td>
+                                        <td class="align-middle">3,432</td>
+                                    </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- / Popular products -->
+
+                </div>
+                <div class="col-md-6 col-lg-12 col-xl-6">
+
+                    <!-- Popular cart -->
+                    <div class="card mb-4">
+                        <h6 class="card-header">En Çok Sepete Eklenen Ürünler</h6>
+                        <div class="table-responsive">
+                            <table class="table card-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Ürün</th>
+                                        <th>Adet</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="align-middle" style="width: 75px">
+                                            <img class="ui-w-40" src="assets/img/uikit/ps4.jpg" alt>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="javascript:void(0)" class="text-dark">PlayStation 4 1TB (Jet Black)</a>
+                                        </td>
+                                        <td class="align-middle">3,432</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- / Popular cart -->
+                </div>
+            </div>
+        </div>
+        <!-- / Content -->
+        <!-- Layout footer -->
+        <nav class="layout-footer footer bg-footer-theme">
+            <div class="container-fluid d-flex flex-wrap justify-content-between text-center container-p-x pb-3">
+                <div class="pt-3">
+                    <span class="footer-text font-weight-bolder">Hızlı Ticaret</span> ©
+                </div>
+            </div>
+        </nav>
+        <!-- / Layout footer -->
+
+    </div>
+    <!-- Layout content -->
+
+</div>
+<!-- / Layout container -->
