@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -9,24 +10,32 @@ namespace Business.Concrete
 {
     public class SaleManager : ISaleService
     {
+        ISaleDal saleDal;
+
+        public SaleManager(ISaleDal saleDal)
+        {
+            this.saleDal = saleDal;
+        }
+
         public bool Add(Sale sale)
         {
-            throw new NotImplementedException();
+            saleDal.Add(sale);
+            return true;
         }
 
         public void Delete(Guid saleId)
         {
-            throw new NotImplementedException();
+            saleDal.Delete(saleDal.Get(x => x.Id == saleId);
         }
 
         public Sale Get(Guid saleId)
         {
-            throw new NotImplementedException();
+            return saleDal.Get(x => x.Id == saleId);
         }
 
-        public List<Sale> GetList(Expression<Func<Sale, bool>> filter = null)
+        public List<Sale> GetList()
         {
-            throw new NotImplementedException();
+            return GetList();
         }
     }
 }

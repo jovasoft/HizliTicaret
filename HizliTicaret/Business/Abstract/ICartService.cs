@@ -12,7 +12,7 @@ namespace Business.Abstract
 
         Cart Get(Guid cartId);
 
-        List<Cart> GetList(Expression<Func<Cart, bool>> filter = null);
+        List<Cart> GetList();
 
         void Delete(Guid cartId);
     }

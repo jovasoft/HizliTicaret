@@ -12,7 +12,7 @@ namespace Business.Abstract
 
         Brand Get(Guid brandId);
 
-        List<Brand> GetList(Expression<Func<Brand, bool>> filter = null);
+        List<Brand> GetList();
 
         void Delete(Guid brandId);
     }

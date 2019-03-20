@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -9,24 +10,32 @@ namespace Business.Concrete
 {
     public class CartManager : ICartService
     {
+        ICartDal cartDal;
+
+        public CartManager(ICartDal cartDal)
+        {
+            this.cartDal = cartDal;
+        }
+
         public bool Add(Cart cart)
         {
-            throw new NotImplementedException();
+            cartDal.Add(cart);
+            return true;
         }
 
         public void Delete(Guid cartId)
         {
-            throw new NotImplementedException();
+            cartDal.Delete(cartDal.Get(x => x.Id == cartId));
         }
 
         public Cart Get(Guid cartId)
         {
-            throw new NotImplementedException();
+            return cartDal.Get(x => x.Id == cartId);
         }
 
-        public List<Cart> GetList(Expression<Func<Cart, bool>> filter = null)
+        public List<Cart> GetList()
         {
-            throw new NotImplementedException();
+            return cartDal.GetList();
         }
     }
 }
