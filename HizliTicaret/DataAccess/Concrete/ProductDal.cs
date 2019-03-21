@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataAccess.Concrete
 {
-    public class ProductDal : EntityRepositoryBase<Product, PosgresContext>, IProductDal
+    public class ProductDal : EntityRepositoryBase<Product, PostgresContext>, IProductDal
     {
     }
 }

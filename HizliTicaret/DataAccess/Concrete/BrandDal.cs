@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataAccess.Concrete
 {
-    public class BrandDal : EntityRepositoryBase<Brand, PosgresContext>, IBrandDal
+    public class BrandDal : EntityRepositoryBase<Brand, PostgresContext>, IBrandDal
     {
     
     }

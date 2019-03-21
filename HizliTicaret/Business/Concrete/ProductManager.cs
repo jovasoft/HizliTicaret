@@ -3,6 +3,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -36,6 +37,13 @@ namespace Business.Concrete
         public List<Product> GetList()
         {
             return GetList();
+        }
+
+        public List<Product> GetProductsInCategory(Guid categoryId)
+        {
+            var products = productDal.GetList().Where(x => x.CategoryId == categoryId);
+
+            return products.ToList();
         }
     }
 }
