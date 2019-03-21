@@ -25,7 +25,7 @@ namespace Business.Concrete
 
         public void Delete(Guid saleId)
         {
-            saleDal.Delete(saleDal.Get(x => x.Id == saleId);
+            saleDal.Delete(saleDal.Get(x => x.Id == saleId));
         }
 
         public Sale Get(Guid saleId)
