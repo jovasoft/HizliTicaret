@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Favorilerim";
+    Layout = "../Shared/_Layout.cshtml";
+}
+<div class="layout-content">
+
+    <!-- Content -->
+    <div class="container-fluid flex-grow-1 container-p-y">
+
+        <h4 class="font-weight-bold py-3 mb-4"> Favorilerim <span class="text-muted">@User.Identity.Name</span></h4>
+
+        <div class="nav-tabs-top">
+            <div class="tab-content">
+                <div class="tab-pane active show" id="user-favorites">
+                    <div class="card-body pb-2">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item py-3">
+                                <label class="btn btn-outline-primary btn-sm float-right">Sil</label>
+                                <div class="font-weight-semibold">System Boot</div>
+                                <small class="text-muted">02/05/2018 11:32:45</small>
+                            </li>
+                            <li class="list-group-item py-3">
+                                <label class="btn btn-outline-primary btn-sm float-right">Sil</label>
+                                <div class="font-weight-semibold">System Restart</div>
+                                <small class="text-muted">02/05/2018 11:32:15</small>
+                            </li>
+                            <li class="list-group-item py-3">
+                                <label class="btn btn-outline-primary btn-sm float-right">Sil</label>
+                                <div class="font-weight-semibold">System Restart</div>
+                                <small class="text-muted">02/05/2018 11:32:02</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+</div>

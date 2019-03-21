@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Web.Models;
 
 namespace Web.Controllers
 {
@@ -41,19 +43,24 @@ namespace Web.Controllers
 
                 IdentityResult userResult = new IdentityResult();
                 if(registerViewModel.Password == registerViewModel.ConfirmPassword)
+                {
                     userResult = userManager.CreateAsync(user, registerViewModel.Password).Result;
-                    else
+
+                }
+                else
+                {
                     ModelState.AddModelError("", "Girilen şifreler uyuşmuyor.");
+                }
+
                 if (userResult.Succeeded)
                 {
-                    Role role = new Role { Name = "User" };
-
-                    if (!roleManager.RoleExistsAsync(role.Name).Result)
+                    if (!roleManager.RoleExistsAsync("User").Result)
                     {
+                        Role role = new Role { Name = "User" };
                         IdentityResult roleResult = roleManager.CreateAsync(role).Result;
                     }
 
-                    userManager.AddToRoleAsync(user, role.Name);
+                    userManager.AddToRoleAsync(user, "User").Wait();
 
                     return RedirectToAction("Login");
                 }
@@ -71,6 +78,8 @@ namespace Web.Controllers
 
         public IActionResult Login()
         {
+            bool test = User.IsInRole("User");
+
             if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
             return View();
         }
@@ -129,5 +138,52 @@ namespace Web.Controllers
             return View();
         }
 
+        #region autherized
+
+        [Authorize(Roles = "Admin, User")]
+        public IActionResult Orders()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        public IActionResult Manage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, User")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Manage(ManageViewModel manageViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return View(manageViewModel);
+        }
+
+        [Authorize(Roles = "Admin, User")]
+        public IActionResult Favorites()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, User")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Favorites(MyFavoritesViewModel myFavoritesViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return View(myFavoritesViewModel);
+        }
+
+        #endregion
     }
 }
