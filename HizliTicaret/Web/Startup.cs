@@ -71,8 +71,15 @@ namespace Web
             #endregion
 
             #region ioc
+
             services.AddScoped<ICategoryService, CategoryManager>();
+            services.AddScoped<IProductService, ProductManager>();
+            services.AddScoped<IBrandService, BrandManager>();
+
             services.AddScoped<ICategoryDal, CategoryDal>();
+            services.AddScoped<IProductDal, ProductDal>();
+            services.AddScoped<IBrandDal, BrandDal>();
+
             #endregion
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
