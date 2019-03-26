@@ -14,6 +14,8 @@ namespace Business.Abstract
 
         List<Product> GetList();
 
+        List<Product> GetProductsInCategory(Guid categoryId);
+
         void Delete(Guid productId);
     }
 }

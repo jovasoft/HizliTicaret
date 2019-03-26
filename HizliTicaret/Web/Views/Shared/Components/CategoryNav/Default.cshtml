@@ -12,10 +12,7 @@
                             <div class="col-12 p-4">
                                 <h6 class="small font-weight-bold text-expanded">@category.Name</h6>
                                 @{
-                                    foreach (var subCategory in Model.Where(x => x.MainCategoryId == category.Id))
-                                    {
-                                        <a href="@Url.Action("Index", "Category", new { id = subCategory.Id } )" class="mega-link d-block text-dark small mb-2">@subCategory.Name</a>
-                                    }
+                                    <a href="@Url.Action("Index", "Category", new { id = category.Id } )" class="mega-link d-block text-dark small mb-2">@category.Name</a>
                                 }
                             </div>
                         </div>
@@ -26,57 +23,3 @@
     </div>
 </li>
 <!-- / Women categories -->
-<!-- Men categories -->
-<li class="nav-item mega-dropdown">
-    <a class="nav-link dropdown-toggle small text-expanded px-lg-3" href="#" data-toggle="mega-dropdown" data-trigger="hover">ERKEK</a>
-    <div class="dropdown-menu p-0 mt-2">
-        <div class="row no-gutters row-bordered">
-            @{
-                foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Men))
-                {
-                    <div class="col-6 col-lg-3">
-                        <div class="row no-gutters row-bordered">
-                            <div class="col-12 p-4">
-                                <h6 class="small font-weight-bold text-expanded">@category.Name</h6>
-                                @{
-                                    foreach (var subCategory in Model.Where(x => x.MainCategoryId == category.Id))
-                                    {
-                                        <a href="@Url.Action("Index", "Category", subCategory)" class="mega-link d-block text-dark small mb-2">@subCategory.Name</a>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-    </div>
-</li>
-<!-- / Men categories -->
-<!-- Kid categories -->
-<li class="nav-item mega-dropdown">
-    <a class="nav-link dropdown-toggle small text-expanded px-lg-3" href="#" data-toggle="mega-dropdown" data-trigger="hover">ÇOCUK</a>
-    <div class="dropdown-menu p-0 mt-2">
-        <div class="row no-gutters row-bordered">
-            @{
-                foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Kid))
-                {
-                    <div class="col-6 col-lg-3">
-                        <div class="row no-gutters row-bordered">
-                            <div class="col-12 p-4">
-                                <h6 class="small font-weight-bold text-expanded">@category.Name</h6>
-                                @{
-                                    foreach (var subCategory in Model.Where(x => x.MainCategoryId == category.Id))
-                                    {
-                                        <a href="@Url.Action("Index", "Category", subCategory)" class="mega-link d-block text-dark small mb-2">@subCategory.Name</a>
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-        </div>
-    </div>
-</li>
-<!-- / Kid categories -->

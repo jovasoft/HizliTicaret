@@ -10,6 +10,8 @@ namespace DataAccess.Concrete
     public class PostgresContext : DbContext
     {
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
