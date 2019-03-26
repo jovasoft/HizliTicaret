@@ -23,16 +23,28 @@
                 <div class="form-row">
                     <div class="col-md mb-4">
                         <label class="form-label">Ana Kategoriler</label>
-                        <select class="custom-select">
-                            <option>Hepsi</option>
-                            <option>Kadın</option>
-                            <option>Erkek</option>
-                            <option>Çocuk</option>
+                        <select class="custom-select" id="selectCat">
+                            <option value="0">Hepsi</option>
+                            <option value="1">Kadın</option>
+                            <option value="2">Erkek</option>
+                            <option value="3">Çocuk</option>
                         </select>
+
                     </div>
+
+                    <script type="text/javascript">
+                        $('#btnClick').on('Click', function()
+                        {
+                            var e = document.getElementById("ddlViewBy");
+                            var strUser = e.options[e.selectedIndex].value;
+
+                            return strUser;
+                        });
+                    </script>
+
                     <div class="col-md col-xl-2 mb-4">
                         <label class="form-label d-none d-md-block">&nbsp;</label>
-                        <a href="/Admin/UpdateCategory"><button type="button" class="btn btn-secondary btn-block">Listele</button></a>
+                        <a href="@Url.Action("ListCategory", "Admin", new { categoryTypeId = Model })"><button type="button" class="btn btn-secondary btn-block">Listele</button></a>
                     </div>
                 </div>
             </div>
@@ -44,9 +56,12 @@
                         <thead>
                             <tr>
                                 <th>Adı</th>
+                                <th>Kategori Adı</th>
                                 <th>Toplam Ürün</th>
                             </tr>
                         </thead>
+
+    
                     </table>
                 </div>
             </div>
@@ -58,3 +73,9 @@
 
 </div>
 <!-- / Layout container -->
+
+<script>
+    $("document").ready(function () {
+        $('#selectCat').val('@Model.ItemId');
+});
+</script>
