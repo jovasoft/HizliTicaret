@@ -33,12 +33,39 @@ namespace Web.Controllers
 
         public IActionResult ListProduct()
         {
+            //var products = productService.GetList();
+            //ViewData["products"] = products;
             return View();
         }
 
         public IActionResult AddProduct()
         {
+            var getList = categoryService.GetList();
+            if (getList != null)
+            {
+                ViewData["Categories"] = getList;
+            }
+            
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddProduct(ProductViewModel productViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+
+                Product product = new Product
+                {
+                   
+                };
+                
+                productService.Add(product);
+                return View("~/Views/Admin/ListCategory.cshtml");
+            }
+
+            return View(productService);
         }
 
         public IActionResult UpdateProduct()
@@ -46,8 +73,9 @@ namespace Web.Controllers
             return View("~/Views/Admin/AddProduct.cshtml");
         }
 
-        public IActionResult ListCategory()
+        public IActionResult ListCategory(string categoryTypeId)
         {
+            //ViewData["Categories"] = categoryService.GetList();
             return View();
         }
 
@@ -62,8 +90,14 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Category category = new Category { Name = categoryViewModel.Name };
-               
+
+                Category category = new Category {
+                    Name = categoryViewModel.Name,
+                    CategoryType = categoryViewModel.CategoryType
+                };
+
+                categoryService.Add(category);
+                return View("~/Views/Admin/ListCategory.cshtml");
             }
 
             return View(categoryViewModel);

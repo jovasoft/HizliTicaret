@@ -46,12 +46,23 @@
                                 <th>ID</th>
                                 <th>Stok Durumu</th>
                                 <th>Fiyat</th>
-                                <th>Satıcı</th>
+                                @*<th>Satıcı</th>
                                 <th>Görüntüleme</th>
-                                <th>Adet</th>
-                                <th></th>
+                                <th>Adet</th>*@
                             </tr>
                         </thead>
+                        @*<tbody>
+                            @foreach (var product in ViewData["products"] as IEnumerable<Entities.Concrete.Product>)
+                            {
+                                <tr>
+                                    <td>@product.Name</td>
+                                    <td>@product.Id</td>
+                                    <td>@product.Stock</td>
+                                    <td>@product.Price</td>
+
+                                </tr>
+                            }
+                        </tbody>*@
                     </table>
                 </div>
             </div>
