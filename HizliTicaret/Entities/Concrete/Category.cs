@@ -8,6 +8,7 @@ namespace Entities.Concrete
         public Guid Id { get; set; }
         public string Name { get; set; }
         public CategoryTypes CategoryType { get; set; }
+        public string MainCategoryId { get; set; }
     }
 
     public enum CategoryTypes
