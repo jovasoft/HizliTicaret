@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Abstract;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +16,16 @@ namespace Web.Controllers
         private UserManager<User> userManager;
         private RoleManager<Role> roleManager;
         private SignInManager<User> signInManager;
+        private IFavoriteService favoriteService;
+        private ISaleService saleService;
 
-        public AccountController(UserManager<User> _userManager, RoleManager<Role> _roleManager, SignInManager<User> _signInManager)
+        public AccountController(UserManager<User> _userManager, RoleManager<Role> _roleManager, SignInManager<User> _signInManager, IFavoriteService _favoriteService, ISaleService _saleService)
         {
             userManager = _userManager;
             roleManager = _roleManager;
             signInManager = _signInManager;
-
+            favoriteService = _favoriteService;
+            saleService = _saleService;
         }
 
         public IActionResult Register()
@@ -140,20 +145,20 @@ namespace Web.Controllers
 
         #region autherized
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User, Merchant")]
         public IActionResult Orders()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User, Merchant")]
         public IActionResult Manage()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User, Merchant")]
         [ValidateAntiForgeryToken]
         public IActionResult Manage(ManageViewModel manageViewModel)
         {
@@ -165,23 +170,24 @@ namespace Web.Controllers
             return View(manageViewModel);
         }
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User, Merchant")]
         public IActionResult Favorites()
         {
-            return View();
+            List<Favorite> favorites = favoriteService.GetList(User.Identity.Name);
+
+            return View(favorites);
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, User")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Favorites(MyFavoritesViewModel myFavoritesViewModel)
+        [Authorize(Roles = "Admin, User, Merchant")]
+        public IActionResult DeleteFavorites(Guid id)
         {
-            if (ModelState.IsValid)
+            if (id != null)
             {
-
+                favoriteService.Delete(id);
             }
 
-            return View(myFavoritesViewModel);
+            return View();
         }
 
         #endregion

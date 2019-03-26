@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class productsadded : Migration
+    public partial class alldbsetsadded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,11 +25,27 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    CategoryType = table.Column<int>(nullable: false)
+                    CategoryType = table.Column<int>(nullable: false),
+                    MainCategoryId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Favorites",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    ProductName = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,11 +60,27 @@ namespace DataAccess.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Stock = table.Column<int>(nullable: false),
-                    ImageUrl = table.Column<string>(nullable: true)
+                    ImageUrl = table.Column<string>(nullable: true),
+                    IsAvailable = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sales",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    ProductId = table.Column<Guid>(nullable: false),
+                    MerchantUserName = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sales", x => x.Id);
                 });
         }
 
@@ -61,7 +93,13 @@ namespace DataAccess.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
+                name: "Favorites");
+
+            migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Sales");
         }
     }
 }

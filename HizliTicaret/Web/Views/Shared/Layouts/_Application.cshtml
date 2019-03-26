@@ -68,9 +68,10 @@
     @RenderSection("Styles", required: false)
 </head>
 <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
+
     @RenderBody()
     <!-- Core scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
 
     <environment include="Development">
         <script src="~/assets/vendor/libs/popper/popper.js"></script>

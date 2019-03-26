@@ -30,7 +30,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DbContext>(options => options.UseNpgsql("Server=13.94.184.36;Port=5432;Database=hizli_ticaret;User Id=postgres;Password=123456;"));
+            services.AddDbContext<DbContext>(options => options.UseNpgsql("Server=159.89.108.208;Port=5432;Database=hizli_ticaret;User Id=postgres;Password=esas10burda;"));
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -75,10 +75,14 @@ namespace Web
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<IProductService, ProductManager>();
             services.AddScoped<IBrandService, BrandManager>();
+            services.AddScoped<IFavoriteService, FavoriteManager>();
+            services.AddScoped<ISaleService, SaleManager>();
 
             services.AddScoped<ICategoryDal, CategoryDal>();
             services.AddScoped<IProductDal, ProductDal>();
             services.AddScoped<IBrandDal, BrandDal>();
+            services.AddScoped<IFavoriteDal, FavoriteDal>();
+            services.AddScoped<ISaleDal, SaleDal>();
 
             #endregion
 

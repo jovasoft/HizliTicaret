@@ -38,11 +38,31 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("CategoryType");
 
+                    b.Property<string>("MainCategoryId");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Favorite", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CreatedDate");
+
+                    b.Property<Guid>("ProductId");
+
+                    b.Property<string>("ProductName");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Product", b =>
@@ -58,6 +78,8 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("ImageUrl");
 
+                    b.Property<bool>("IsAvailable");
+
                     b.Property<string>("MerchantUserName");
 
                     b.Property<string>("Name");
@@ -69,6 +91,24 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Sale", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("Date");
+
+                    b.Property<string>("MerchantUserName");
+
+                    b.Property<Guid>("ProductId");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sales");
                 });
 #pragma warning restore 612, 618
         }
