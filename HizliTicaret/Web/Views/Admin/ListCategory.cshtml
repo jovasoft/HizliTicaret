@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<CategoryViewModel>
+@{
 
     ViewData["Title"] = "Index";
     Layout = "../Shared/Layouts/_AdminLayout.cshtml";
@@ -23,7 +24,7 @@
                 <div class="form-row">
                     <div class="col-md mb-4">
                         <label class="form-label">Ana Kategoriler</label>
-                        <select class="custom-select" id="selectCat">
+                        <select class="custom-select">
                             <option value="0">Hepsi</option>
                             <option value="1">Kadın</option>
                             <option value="2">Erkek</option>
@@ -34,7 +35,7 @@
 
                     <div class="col-md col-xl-2 mb-4">
                         <label class="form-label d-none d-md-block">&nbsp;</label>
-                        <a href=""><button type="button" class="btn btn-secondary btn-block">Listele</button></a>
+                        <button type="button" class="btn btn-secondary btn-block">Listele</button>
                     </div>
                 </div>
             </div>
@@ -50,8 +51,33 @@
                                 <th>Toplam Ürün</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            @foreach (var category in Model)
+                            {
+                                <tr>
+                                    <td>@category.Name</td>
+                                    <td>  @{
+                                        if (category.CategoryType == 0)
+                                        {
+                                            <span>Kadın</span>
+                                        }
+                                        if (Convert.ToInt32(category.CategoryType) == 1)
+                                        {
+                                            <span>Erkek</span>
+                                        }
+                                        if (Convert.ToInt32(category.CategoryType) == 2)
+                                        {
+                                            <span>Çocuk</span>
+                                        }
+                                        }
+                                    </td>
+                                    <td></td>
 
-    
+                                </tr>
+                            }
+                        </tbody>
+
+
                     </table>
                 </div>
             </div>
@@ -63,3 +89,4 @@
 
 </div>
 <!-- / Layout container -->
+

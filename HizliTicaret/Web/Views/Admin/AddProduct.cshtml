@@ -71,7 +71,7 @@
 
                                 <div class="form-group">
                                     <label class="form-label">Ana Kategori</label>
-                                    <select class="custom-select" asp-for="Category.MainCategoryId">
+                                    <select class="custom-select" asp-for="Category.MainCategoryId" id="AnaKategori">
                                         @{
                                             foreach (var Category in (ViewData["categories"] as IEnumerable<Entities.Concrete.Category>).Where(x => x.MainCategoryId == Guid.Empty))
                                             {
@@ -83,20 +83,15 @@
 
                                 <div class="form-group">
                                     <label class="form-label">Kategori</label>
-                                    <select class="custom-select" asp-for="Category.Id">
-                                        @{
-                                            foreach (var Category in (ViewData["categories"] as IEnumerable<Entities.Concrete.Category>).Where(x => x.MainCategoryId != Guid.Empty))
-                                            {
-                                                <option value="@Category.Id">@Category.Name</option>
-                                            }
-                                        }
+                                    <select class="custom-select" asp-for="Category.Id" id="Kategori">
+
                                     </select>
                                 </div>
 
                                 @*<div class="form-group">
-                                    <label class="form-label">Marka</label>
-                                    <input type="text" class="form-control" asp-for="BrandId">
-                                </div>*@
+                                        <label class="form-label">Marka</label>
+                                        <input type="text" class="form-control" asp-for="BrandId">
+                                    </div>*@
 
                             </div>
                             <hr class="m-0">
@@ -272,7 +267,7 @@
 
             <div class="text-right mt-3">
                 <button type="button" class="btn btn-default">İptal</button> &nbsp;
-                
+
             </div>
 
         </div>
@@ -281,3 +276,34 @@
     </div>
     <!-- / Layout container -->
 </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AnaKategori').change(function () {
+            var KategoriID = $(this).val();
+            alert(KategoriID);
+            if (KategoriID != null && KategoriID != '') {
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("AltKategorileriGetir", "Admin")',
+                    data: { KategoriID: KategoriID },
+                    success: function (altkategoriler) {
+                        $.each(altkategoriler, function (index, kategori) {
+                            $('#Kategori').append($('<option/>', {
+                                value: kategori.id,
+                                text: kategori.name 
+                            }));
+                        });
+                    },
+                    error: function () {
+                        /*Bu metod ile Ajax işlemi başarısız
+                        olursa eğer hata mesajı verebiliyoruz.*/
+                        alert("Hata");
+                    },
+                   
+                });
+            }
+        });
+    });
+</script>

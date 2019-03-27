@@ -36,7 +36,7 @@ namespace Business.Concrete
 
         public List<Product> GetList()
         {
-            return GetList();
+            return productDal.GetList();
         }
 
         public List<Product> GetProductsInCategory(Guid categoryId)

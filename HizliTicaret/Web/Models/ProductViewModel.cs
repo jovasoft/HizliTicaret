@@ -11,6 +11,7 @@ namespace Web.Models
     {
         [Required]
         public Category Category { get; set; }
+        public string MainCategory { get; set; }
         public string MerchantUserName { get; set; }
         public decimal Price { get; set; }
         public string Name { get; set; }

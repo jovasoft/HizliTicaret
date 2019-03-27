@@ -33,13 +33,26 @@ namespace Web.Controllers
 
         public IActionResult ListProduct()
         {
-            var getList = productService.GetList();
-            if (getList != null)
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+            List<Product> Urunler = new List<Product>();
+            Urunler = productService.GetList();
+
+            if (Urunler != null)
             {
-                ViewData["Products"] = getList;
+                foreach (var urun in Urunler)
+                {
+                    ProductViewModel model = new ProductViewModel();
+                    model.Name = urun.Name;
+                    model.Category = categoryService.Get(urun.CategoryId);
+                    model.MainCategory = categoryService.Get(model.Category.MainCategoryId).Name;
+                    model.Price = urun.Price;
+                    model.Stock = urun.Stock;
+
+                    productViewModels.Add(model);
+                }
             }
 
-            return View();
+            return View(productViewModels);
         }
 
         public IActionResult AddProduct()
@@ -85,13 +98,26 @@ namespace Web.Controllers
 
         public IActionResult ListCategory(string categoryTypeId)
         {
-            //var getList = categoryService.GetList();
-            //if (getList != null)
-            //{
-            //    ViewData["Categories"] = getList;
-            //}
+            List<CategoryViewModel> categoryViewModels = new List<CategoryViewModel>();
+            List<Category> Kategoriler = new List<Category>();
+            Kategoriler = categoryService.GetList();
+            
+            if (Kategoriler != null)
+            {
+                foreach (var kategori in Kategoriler)
+                {
+                    if (kategori.MainCategoryId != Guid.Empty )
+                    {
+                        CategoryViewModel model = new CategoryViewModel();
+                        model.Name = kategori.Name;
+                        model.CategoryType = kategori.CategoryType;
+                        categoryViewModels.Add(model);
+                    }
+                   
+                }
+            }
 
-            return View();
+            return View(categoryViewModels);
         }
 
         public IActionResult AddCategory()
@@ -124,5 +150,18 @@ namespace Web.Controllers
         {
             return View("~/Views/Admin/AddCategory.cshtml");
         }
+
+
+        public IActionResult AltKategorileriGetir(Guid KategoriID)
+        {
+
+            List<Category> TumAltKategoriler = new List<Category>();
+
+            TumAltKategoriler = categoryService.GetList();
+
+            List<Category> altkategoriler = TumAltKategoriler.Where(k => k.MainCategoryId == KategoriID).ToList();
+            return Json(altkategoriler);
+        }
     }
+
 }
