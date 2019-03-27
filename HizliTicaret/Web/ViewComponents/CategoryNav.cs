@@ -26,17 +26,17 @@ namespace Web.ViewComponents
             Category category1 = new Category();
             category1.CategoryType = CategoryTypes.Women;
             category1.Name = "Kadın";
-            category1.MainCategoryId = null;
+            category1.MainCategoryId = Guid.Empty;
 
             Category category2 = new Category();
             category2.CategoryType = CategoryTypes.Men;
             category2.Name = "Erkek";
-            category2.MainCategoryId = null;
+            category2.MainCategoryId = Guid.Empty;
 
             Category category3 = new Category();
             category3.CategoryType = CategoryTypes.Kid;
             category3.Name = "Çocuk";
-            category3.MainCategoryId = null;
+            category3.MainCategoryId = Guid.Empty;
 
             categoryService.Add(category1);
             categoryService.Add(category2);

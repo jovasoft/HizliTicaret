@@ -26,7 +26,7 @@ namespace DataAccess.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     CategoryType = table.Column<int>(nullable: false),
-                    MainCategoryId = table.Column<string>(nullable: true)
+                    MainCategoryId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {

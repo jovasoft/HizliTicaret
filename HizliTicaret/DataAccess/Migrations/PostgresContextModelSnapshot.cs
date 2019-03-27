@@ -38,7 +38,7 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("CategoryType");
 
-                    b.Property<string>("MainCategoryId");
+                    b.Property<Guid>("MainCategoryId");
 
                     b.Property<string>("Name");
 
