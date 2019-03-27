@@ -3,6 +3,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -36,6 +37,11 @@ namespace Business.Concrete
         public List<Category> GetList()
         {
             return categoryDal.GetList();
+        }
+
+        public Category GetMainCategory(CategoryTypes categoryTypes)
+        {
+           return categoryDal.GetList(x => x.CategoryType == categoryTypes && x.MainCategoryId == Guid.Empty).First();
         }
     }
 }

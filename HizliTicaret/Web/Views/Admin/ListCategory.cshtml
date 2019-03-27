@@ -32,19 +32,9 @@
 
                     </div>
 
-                    <script type="text/javascript">
-                        $('#btnClick').on('Click', function()
-                        {
-                            var e = document.getElementById("ddlViewBy");
-                            var strUser = e.options[e.selectedIndex].value;
-
-                            return strUser;
-                        });
-                    </script>
-
                     <div class="col-md col-xl-2 mb-4">
                         <label class="form-label d-none d-md-block">&nbsp;</label>
-                        <a href="@Url.Action("ListCategory", "Admin", new { categoryTypeId = Model })"><button type="button" class="btn btn-secondary btn-block">Listele</button></a>
+                        <a href=""><button type="button" class="btn btn-secondary btn-block">Listele</button></a>
                     </div>
                 </div>
             </div>
@@ -73,9 +63,3 @@
 
 </div>
 <!-- / Layout container -->
-
-<script>
-    $("document").ready(function () {
-        $('#selectCat').val('@Model.ItemId');
-});
-</script>

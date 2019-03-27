@@ -5,7 +5,7 @@
     <div class="dropdown-menu p-0 mt-2">
         <div class="row no-gutters row-bordered">
             @{
-                foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Women))
+                foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Women && x.MainCategoryId != Guid.Empty))
                 {
                     <div class="col-6 col-lg-3">
                         <div class="row no-gutters row-bordered">
@@ -28,7 +28,7 @@
     <div class="dropdown-menu p-0 mt-2">
         <div class="row no-gutters row-bordered">
             @{
-                foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Men))
+                foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Men && x.MainCategoryId != Guid.Empty))
                 {
                     <div class="col-6 col-lg-3">
                         <div class="row no-gutters row-bordered">
@@ -51,7 +51,7 @@
     <div class="dropdown-menu p-0 mt-2">
         <div class="row no-gutters row-bordered">
             @{
-                foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Kid))
+                foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Kid && x.MainCategoryId != Guid.Empty))
                 {
                     <div class="col-6 col-lg-3">
                         <div class="row no-gutters row-bordered">

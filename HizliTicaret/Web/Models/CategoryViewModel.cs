@@ -12,5 +12,6 @@ namespace Web.Models
         [Required]
         public string Name { get; set; }
         public CategoryTypes CategoryType { get; set; }
+        public Guid MainCategoryId { get; set; }
     }
 }

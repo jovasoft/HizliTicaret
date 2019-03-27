@@ -73,12 +73,9 @@
                                     <label class="form-label">Ana Kategori</label>
                                     <select class="custom-select" asp-for="Category.MainCategoryId">
                                         @{
-                                            foreach (var Category in ViewData["categories"] as IEnumerable<Entities.Concrete.Category>)
+                                            foreach (var Category in (ViewData["categories"] as IEnumerable<Entities.Concrete.Category>).Where(x => x.MainCategoryId == Guid.Empty))
                                             {
-                                                if (Category.MainCategoryId == null)
-                                                {
-                                                    <option value="@Category.MainCategoryId">@Category.Name</option>
-                                                }
+                                                <option value="@Category.Id">@Category.Name</option>
                                             }
                                         }
                                     </select>
@@ -88,12 +85,9 @@
                                     <label class="form-label">Kategori</label>
                                     <select class="custom-select" asp-for="Category.Id">
                                         @{
-                                            foreach (var Category in ViewData["categories"] as IEnumerable<Entities.Concrete.Category>)
+                                            foreach (var Category in (ViewData["categories"] as IEnumerable<Entities.Concrete.Category>).Where(x => x.MainCategoryId != Guid.Empty))
                                             {
-                                                if (Category.MainCategoryId != null)
-                                                {
-                                                    <option value="@Category.Id">@Category.Name</option>
-                                                }
+                                                <option value="@Category.Id">@Category.Name</option>
                                             }
                                         }
                                     </select>
@@ -106,6 +100,7 @@
 
                             </div>
                             <hr class="m-0">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
                         </form>
 
                     </div>
@@ -277,7 +272,7 @@
 
             <div class="text-right mt-3">
                 <button type="button" class="btn btn-default">İptal</button> &nbsp;
-                <button type="button" class="btn btn-primary">Kaydet</button>
+                
             </div>
 
         </div>

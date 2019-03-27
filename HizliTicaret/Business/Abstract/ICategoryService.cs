@@ -15,5 +15,7 @@ namespace Business.Abstract
         List<Category> GetList();
 
         void Delete(Guid categoryId);
+
+        Category GetMainCategory(CategoryTypes categoryTypes);
     }
 }

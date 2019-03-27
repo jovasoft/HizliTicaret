@@ -33,14 +33,19 @@ namespace Web.Controllers
 
         public IActionResult ListProduct()
         {
-            //var products = productService.GetList();
-            //ViewData["products"] = products;
+            var getList = productService.GetList();
+            if (getList != null)
+            {
+                ViewData["Products"] = getList;
+            }
+
             return View();
         }
 
         public IActionResult AddProduct()
         {
             var getList = categoryService.GetList();
+
             if (getList != null)
             {
                 ViewData["Categories"] = getList;
@@ -58,6 +63,11 @@ namespace Web.Controllers
 
                 Product product = new Product
                 {
+                    Name = productViewModel.Name,
+                    Price = productViewModel.Price,
+                    Stock = productViewModel.Stock,
+                    CategoryId = productViewModel.Category.Id,
+                    IsAvailable = true
                    
                 };
                 
@@ -75,7 +85,12 @@ namespace Web.Controllers
 
         public IActionResult ListCategory(string categoryTypeId)
         {
-            //ViewData["Categories"] = categoryService.GetList();
+            //var getList = categoryService.GetList();
+            //if (getList != null)
+            //{
+            //    ViewData["Categories"] = getList;
+            //}
+
             return View();
         }
 
@@ -90,10 +105,12 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                Category mainCategory = categoryService.GetMainCategory(categoryViewModel.CategoryType);
 
                 Category category = new Category {
                     Name = categoryViewModel.Name,
-                    CategoryType = categoryViewModel.CategoryType
+                    CategoryType = categoryViewModel.CategoryType,
+                    MainCategoryId = mainCategory.Id
                 };
 
                 categoryService.Add(category);
