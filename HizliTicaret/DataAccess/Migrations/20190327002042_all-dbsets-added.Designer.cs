@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20190326233823_all-dbsets-added")]
+    [Migration("20190327002042_all-dbsets-added")]
     partial class alldbsetsadded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,7 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("CategoryType");
 
-                    b.Property<string>("MainCategoryId");
+                    b.Property<Guid>("MainCategoryId");
 
                     b.Property<string>("Name");
 
