@@ -12,16 +12,26 @@ namespace Web.Controllers
     {
         IFavoriteService favoriteService;
         IProductService productService;
+        ICategoryService categoryService;
 
-        public ProductController(IFavoriteService favoriteService, IProductService productService)
+        public ProductController(IFavoriteService favoriteService, IProductService productService, ICategoryService categoryService)
         {
             this.favoriteService = favoriteService;
             this.productService = productService;
+            this.categoryService = categoryService;
         }
 
         public IActionResult Show(Guid id)
         {
             Product product = productService.Get(id);
+            product.MerchantUserName = "tester@gmail.com";
+            Category category = categoryService.Get(product.CategoryId);
+            Category mainCat = categoryService.GetMainCategory(CategoryTypes.Women);
+            bool isFavorited = favoriteService.GetList(User.Identity.Name).Exists(x => x.ProductId == product.Id);
+
+            ViewData["ProductCategoryName"] = category.Name;
+            ViewData["ProductMainCategoryName"] = mainCat.Name;
+            ViewData["IsFavorited"] = isFavorited;
 
             return View(product);
         }
@@ -29,16 +39,24 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult AddFavorite(Guid id)
         {
-            if (id != null)
+            if (id != Guid.Empty)
             {
-                Favorite favorite = new Favorite();
-                favorite.ProductId = id;
-                favorite.UserName = User.Identity.Name;
+                bool isFavorited = favoriteService.GetList(User.Identity.Name).Exists(x => x.ProductId == id);
 
-                favoriteService.Add(favorite);
+                if (!isFavorited)
+                {
+                    Favorite favorite = new Favorite();
+                    favorite.ProductId = id;
+                    favorite.UserName = User.Identity.Name;
+                    favorite.ProductName = productService.Get(id).Name;
+                    favorite.CreatedDate = DateTime.Now.ToString();
+
+                    favoriteService.Add(favorite);
+                }
             }
 
-            return View();
+            Response.StatusCode = 200;
+            return Json(new { status = "success" });
         }
     }
 }
