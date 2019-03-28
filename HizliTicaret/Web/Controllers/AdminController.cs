@@ -151,7 +151,6 @@ namespace Web.Controllers
             return View("~/Views/Admin/AddCategory.cshtml");
         }
 
-
         public IActionResult AltKategorileriGetir(Guid KategoriID)
         {
 

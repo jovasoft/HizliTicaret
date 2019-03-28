@@ -18,7 +18,7 @@
                             @foreach (var favorite in Model)
                             {
                                 <li class="list-group-item py-3" id="@favorite.Id">
-                                    <label class="btn btn-outline-primary btn-sm float-right" id="removeFavorite">Sil</label>
+                                    <label class="btn btn-outline-primary btn-sm float-right removeFav">Sil</label>
                                     <div class="font-weight-semibold">@favorite.ProductName</div>
                                     <small class="text-muted">@favorite.CreatedDate</small>
                                 </li>
@@ -36,16 +36,14 @@
 
 <script type="text/javascript">
 
-    $('#removeFavorite').on('click', function () {
-
-        var productId = $(this).closest("li").prop("id");
+    $('.removeFav').on('click', function () {
+        var productId = $(this).parent("li").attr("id");
 
         $.ajax({
             url: '/Account/DeleteFavorites',
             type: 'POST',
-            contentType: 'application/json; charset=utf-8',
             data: { id: productId }
-        }).done(function (data) { $(this).closest("li").remove(); });
+        }).done(function () { $('#' + productId).remove(); });
 
     });
 

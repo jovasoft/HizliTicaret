@@ -101,6 +101,8 @@ namespace Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseDeveloperExceptionPage();
+
             app.UseStaticFiles();
 
             app.UseCookiePolicy();

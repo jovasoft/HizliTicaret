@@ -178,16 +178,20 @@ namespace Web.Controllers
             return View(favorites);
         }
 
-        [HttpPost]
         [Authorize(Roles = "Admin, User, Merchant")]
         public IActionResult DeleteFavorites(Guid id)
         {
-            if (id != null)
+            if (id != Guid.Empty)
             {
-                favoriteService.Delete(id);
+                try
+                {
+                    favoriteService.Delete(id);
+                }
+                catch (Exception) { }
             }
 
-            return View();
+            Response.StatusCode = 200;
+            return Json( new { status = "success" });
         }
 
         #endregion
