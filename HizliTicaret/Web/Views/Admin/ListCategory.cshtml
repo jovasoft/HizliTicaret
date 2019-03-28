@@ -24,11 +24,11 @@
                 <div class="form-row">
                     <div class="col-md mb-4">
                         <label class="form-label">Ana Kategoriler</label>
-                        <select class="custom-select">
-                            <option value="0">Hepsi</option>
-                            <option value="1">Kadın</option>
-                            <option value="2">Erkek</option>
-                            <option value="3">Çocuk</option>
+                        <select class="custom-select" id="ListCat">
+                            <option value="3">Hepsi</option>
+                            <option value="0">Kadın</option>
+                            <option value="1">Erkek</option>
+                            <option value="2">Çocuk</option>
                         </select>
 
                     </div>
@@ -43,7 +43,7 @@
 
             <div class="card">
                 <div class="card-datatable table-responsive">
-                    <table id="product-list" class="table table-striped table-bordered">
+                    <table id="category-list" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>Adı</th>
@@ -89,4 +89,45 @@
 
 </div>
 <!-- / Layout container -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ListCat').change(function () {
+            var categoryId = $(this).val();
+            if (categoryId != null && categoryId != '') {
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("ListCategoryFilter", "Admin")',
+                    data: { categoryId: categoryId },
+                    success: function (filterCategories) {
+                        var table = $("#category-list tbody");
+                        $(table).find("tr").remove();
+                        $.each(filterCategories, function (index, category) {
+
+                            if (category.categoryType == 0) {
+                                table.append("<tr><td>" + category.name + "</td><td>" + "Kadın" + "</td>   <td>" + + "</td></tr>");
+                            }
+
+                            if (category.categoryType == 1) {
+                                table.append("<tr><td>" + category.name + "</td><td>" + "Erkek" + "</td>   <td>" + + "</td></tr>");
+                            }
+
+                            if (category.categoryType == 2) {
+                                table.append("<tr><td>" + category.name + "</td><td>" + "Çocuk" + "</td>   <td>" + + "</td></tr>");
+                            }
+
+                            
+                        });
+                    },
+                    error: function () {
+                        /*Bu metod ile Ajax işlemi başarısız
+                        olursa eğer hata mesajı verebiliyoruz.*/
+                        alert("Hata");
+                    },
+
+                });
+            }
+        });
+    });
+</script>
 

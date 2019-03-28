@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
@@ -80,12 +81,12 @@ namespace Web.Controllers
                     Price = productViewModel.Price,
                     Stock = productViewModel.Stock,
                     CategoryId = productViewModel.Category.Id,
-                    IsAvailable = true
+                    IsAvailable = productViewModel.IsAvailable
                    
                 };
                 
                 productService.Add(product);
-                return View("~/Views/Admin/ListCategory.cshtml");
+                return RedirectToAction("ListProduct");
             }
 
             return View(productService);
@@ -152,7 +153,7 @@ namespace Web.Controllers
         }
 
 
-        public IActionResult AltKategorileriGetir(Guid KategoriID)
+        public IActionResult AddProductAltKategorileriGetir(Guid KategoriID)
         {
 
             List<Category> TumAltKategoriler = new List<Category>();
@@ -162,6 +163,98 @@ namespace Web.Controllers
             List<Category> altkategoriler = TumAltKategoriler.Where(k => k.MainCategoryId == KategoriID).ToList();
             return Json(altkategoriler);
         }
+
+        public IActionResult ListCategoryFilter(int categoryId)
+        {
+            List<Category> categories = new List<Category>();
+
+            categories = categoryService.GetList();
+
+            List<Category> filterCategories;
+
+            if (Convert.ToInt32(categoryId) == 3)
+            {
+               filterCategories = categories.Where(k => k.MainCategoryId != Guid.Empty).ToList();
+            }
+            else
+            {
+                filterCategories = categories.Where(k => k.CategoryType == (CategoryTypes)categoryId && k.MainCategoryId != Guid.Empty).ToList();
+            }
+
+            return Json(filterCategories);
+        }
+
+        public IActionResult ListProductFilter(int productId)
+        {
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+
+            List<Product> filterProducts = new List<Product>();
+
+            if (filterProducts != null)
+            {
+                if (productId == 0)
+                {
+                    productViewModels = new List<ProductViewModel>();
+                    filterProducts = productService.GetList().Where(k => k.IsAvailable == true).ToList();
+
+                    foreach (var product in filterProducts)
+                    {
+                        ProductViewModel model = new ProductViewModel();
+                        model.Name = product.Name;
+                        model.Category = categoryService.Get(product.CategoryId);
+                        model.MainCategory = categoryService.Get(model.Category.MainCategoryId).Name;
+                        model.Price = product.Price;
+                        model.Stock = product.Stock;
+                        model.IsAvailable = product.IsAvailable;
+
+                        productViewModels.Add(model);
+
+                    }
+
+                }
+                else if (productId == 1)
+                {
+                    productViewModels = new List<ProductViewModel>();
+                    filterProducts = productService.GetList().Where(k => k.IsAvailable == false).ToList();
+
+                    foreach (var product in filterProducts)
+                    {
+                        ProductViewModel model = new ProductViewModel();
+                        model.Name = product.Name;
+                        model.Category = categoryService.Get(product.CategoryId);
+                        model.MainCategory = categoryService.Get(model.Category.MainCategoryId).Name;
+                        model.Price = product.Price;
+                        model.Stock = product.Stock;
+                        model.IsAvailable = product.IsAvailable;
+
+                        productViewModels.Add(model);
+
+                    }
+
+                }
+                else if (productId == 2)
+                {
+                    productViewModels = new List<ProductViewModel>();
+                    foreach (var product in filterProducts)
+                    {
+                        ProductViewModel model = new ProductViewModel();
+                        model.Name = product.Name;
+                        model.Category = categoryService.Get(product.CategoryId);
+                        model.MainCategory = categoryService.Get(model.Category.MainCategoryId).Name;
+                        model.Price = product.Price;
+                        model.Stock = product.Stock;
+                        model.IsAvailable = product.IsAvailable;
+
+                        productViewModels.Add(model);
+
+                    }
+
+                }
+            }
+
+            return Json(productViewModels);
+        }
+
     }
 
 }

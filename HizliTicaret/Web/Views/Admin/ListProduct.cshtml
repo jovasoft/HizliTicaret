@@ -24,10 +24,10 @@
                 <div class="form-row">
                     <div class="col-md mb-4">
                         <label class="form-label">Durum</label>
-                        <select class="custom-select">
-                            <option>Hepsi</option>
-                            <option>Yayında</option>
-                            <option>Stok Tükenenler</option>
+                        <select class="custom-select" id="ListPro">
+                            <option value="2">Hepsi</option>
+                            <option value="0">Yayında</option>
+                            <option value="1">Stok Tükenenler</option>
                         </select>
                     </div>
                     <div class="col-md col-xl-2 mb-4">
@@ -77,3 +77,41 @@
 
 </div>
 <!-- / Layout container -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ListPro').change(function () {
+            var productId = $(this).val();
+            if (productId != null && productId != '') {
+                $.ajax({
+                    type: "post",
+                    url: '@Url.Action("ListProductFilter", "Admin")',
+                    data: { productId: productId },
+                    success: function (filterProducts) {
+                        var table = $("#product-list tbody");
+                        $(table).find("tr").remove();
+                        $.each(filterProducts, function (index, product) {
+
+                            if (product.category.categoryType == 0) {
+                            table.append("<tr><td>" + product.name + "</td><td>" + " Kadın " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td></tr>");
+                            }
+                            if (product.category.categoryType == 1) {
+                                table.append("<tr><td>" + product.name + "</td><td>" + " Erkek " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td></tr>");
+                            }
+                            if (product.category.categoryType == 2) {
+                                table.append("<tr><td>" + product.name + "</td><td>" + " Çocuk " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td></tr>");
+                            }
+
+
+                        });
+                    },
+                    error: function () {
+                        /*Bu metod ile Ajax işlemi başarısız
+                        olursa eğer hata mesajı verebiliyoruz.*/
+                        alert("Hata");
+                    },
+
+                });
+            }
+        });
+    });
+</script>
