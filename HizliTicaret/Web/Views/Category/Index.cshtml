@@ -42,11 +42,6 @@
                                 <div class="ui-product-badge badge badge-outline-danger float-left">STOKTA YOK</div>
                             }
 
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <a href="#" class="shop-tooltip float-right text-lightest" title="Favorilere Ekle" id="addFavorite"><i class="ion ion-ios-heart"></i></a>
-                            }
-
                             <a href="@Url.Action("Show","Product", new { id = product.Id })" class="d-block">
                                 <img src="@product.ImageUrl" class="mb-2" style="max-width: 75%; max-height: 200px">
                             </a>
@@ -87,20 +82,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-
-    $('#addFavorite').on('click', function () {
-
-        var productId = $(this).closest("div").prop("id");
-
-        $.ajax({
-            url: '/Product/AddFavorite',
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            data: { id: productId }
-        }).done(function () { $(this).children("i").addClass("text-danger"); });
-
-    });
-
-</script>
