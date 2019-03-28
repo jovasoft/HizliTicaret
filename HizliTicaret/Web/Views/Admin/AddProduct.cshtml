@@ -104,52 +104,9 @@
                     <div class="tab-pane fade" id="item-description">
                         <div class="card-body">
 
-                            <div id="product-editor-toolbar">
-                                <span class="ql-formats">
-                                    <select class="ql-font"></select>
-                                    <select class="ql-size"></select>
-                                </span>
-                                <span class="ql-formats">
-                                    <button class="ql-bold"></button>
-                                    <button class="ql-italic"></button>
-                                    <button class="ql-underline"></button>
-                                    <button class="ql-strike"></button>
-                                </span>
-                                <span class="ql-formats">
-                                    <select class="ql-color"></select>
-                                    <select class="ql-background"></select>
-                                </span>
-                                <span class="ql-formats">
-                                    <button class="ql-script" value="sub"></button>
-                                    <button class="ql-script" value="super"></button>
-                                </span>
-                                <span class="ql-formats">
-                                    <button class="ql-header" value="1"></button>
-                                    <button class="ql-header" value="2"></button>
-                                    <button class="ql-blockquote"></button>
-                                    <button class="ql-code-block"></button>
-                                </span>
-                                <span class="ql-formats">
-                                    <button class="ql-list" value="ordered"></button>
-                                    <button class="ql-list" value="bullet"></button>
-                                    <button class="ql-indent" value="-1"></button>
-                                    <button class="ql-indent" value="+1"></button>
-                                </span>
-                                <span class="ql-formats">
-                                    <button class="ql-direction" value="rtl"></button>
-                                    <select class="ql-align"></select>
-                                </span>
-                                <span class="ql-formats">
-                                    <button class="ql-link"></button>
-                                    <button class="ql-image"></button>
-                                    <button class="ql-video"></button>
-                                </span>
-                                <span class="ql-formats">
-                                    <button class="ql-clean"></button>
-                                </span>
-                            </div>
-                            <div id="product-editor" style="height: 600px"></div>
-                            <textarea id="product-editor-fallback" class="form-control d-none" style="height: 600px"></textarea>
+                           
+                            <div id="product-editor" style="height: 600px"><textarea style="resize:none; height:600px; width:1550px;"></textarea></div>
+                            
                         </div>
 
                     </div>
@@ -283,13 +240,14 @@
     $(document).ready(function () {
         $('#AnaKategori').change(function () {
             var KategoriID = $(this).val();
-            alert(KategoriID);
             if (KategoriID != null && KategoriID != '') {
                 $.ajax({
                     type: "post",
-                    url: '@Url.Action("AltKategorileriGetir", "Admin")',
+                    url: '@Url.Action("AddProductAltKategorileriGetir", "Admin")',
                     data: { KategoriID: KategoriID },
                     success: function (altkategoriler) {
+                        $("#Kategori").children().remove();
+
                         $.each(altkategoriler, function (index, kategori) {
                             $('#Kategori').append($('<option/>', {
                                 value: kategori.id,
