@@ -32,11 +32,6 @@
                         </select>
 
                     </div>
-
-                    <div class="col-md col-xl-2 mb-4">
-                        <label class="form-label d-none d-md-block">&nbsp;</label>
-                        <button type="button" class="btn btn-secondary btn-block">Listele</button>
-                    </div>
                 </div>
             </div>
             <!-- / Filters -->
@@ -49,14 +44,17 @@
                                 <th>Adı</th>
                                 <th>Kategori Adı</th>
                                 <th>Toplam Ürün</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var category in Model)
                             {
-                                <tr>
-                                    <td>@category.Name</td>
-                                    <td>  @{
+                            <tr>
+                                <td>@category.Name</td>
+                                <td>
+                                    @{
                                         if (category.CategoryType == 0)
                                         {
                                             <span>Kadın</span>
@@ -69,11 +67,17 @@
                                         {
                                             <span>Çocuk</span>
                                         }
-                                        }
-                                    </td>
-                                    <td></td>
+                                    }
+                                </td>
+                                <td></td>
+                                <td>
+                                    <label class="btn btn-outline-secondary btn-sm float-right updateFav">Düzenle</label>
+                                </td>
+                                <td>
+                                    <label class="btn btn-outline-primary btn-sm float-right removeFav">Sil</label>
+                                </td>
 
-                                </tr>
+                            </tr>
                             }
                         </tbody>
 
@@ -105,15 +109,15 @@
                         $.each(filterCategories, function (index, category) {
 
                             if (category.categoryType == 0) {
-                                table.append("<tr><td>" + category.name + "</td><td>" + "Kadın" + "</td>   <td>" + + "</td></tr>");
+                                table.append("<tr><td>" + category.name + "</td><td>" + "Kadın" + "</td><td>" + 1 + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updateFav"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removeFav"' + ">Sil</label>" + "</td></tr>");
                             }
 
                             if (category.categoryType == 1) {
-                                table.append("<tr><td>" + category.name + "</td><td>" + "Erkek" + "</td>   <td>" + + "</td></tr>");
+                                table.append("<tr><td>" + category.name + "</td><td>" + "Erkek" + "</td><td>" + 1 + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updateFav"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removeFav"' + ">Sil</label>" + "</td></tr>");
                             }
 
                             if (category.categoryType == 2) {
-                                table.append("<tr><td>" + category.name + "</td><td>" + "Çocuk" + "</td>   <td>" + + "</td></tr>");
+                                table.append("<tr><td>" + category.name + "</td><td>" + "Çocuk" + "</td><td>" + 1 + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updateFav"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removeFav"' + ">Sil</label>" + "</td></tr>");
                             }
 
                             
@@ -128,6 +132,4 @@
                 });
             }
         });
-    });
 </script>
-

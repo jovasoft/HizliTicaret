@@ -254,6 +254,20 @@ namespace Web.Controllers
             return Json(productViewModels);
         }
 
+        public IActionResult DeleteFavorites(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                try
+                {
+                    categoryService.Delete(id);
+                }
+                catch (Exception) { }
+            }
+
+            Response.StatusCode = 200;
+            return Json(new { status = "success" });
+        }
     }
 
 }
