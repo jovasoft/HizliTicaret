@@ -39,7 +39,7 @@
                         <div class="col-sm-6 col-xl-4 text-center p-4 product clearfix" id="@product.Id">
                             @if (product.Stock == 0)
                             {
-                                <div class="ui-product-badge badge badge-outline-danger float-left">STOKTA YOK</div>
+                                <div class="ui-product-badge badge badge-outline-danger mb-2">STOKTA YOK</div>
                             }
 
                             <a href="@Url.Action("Show","Product", new { id = product.Id })" class="d-block">
