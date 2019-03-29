@@ -45,9 +45,10 @@ namespace Web.Controllers
                     ProductViewModel model = new ProductViewModel();
                     model.Name = urun.Name;
                     model.Category = categoryService.Get(urun.CategoryId);
-                    model.MainCategory = categoryService.Get(model.Category.MainCategoryId).Name;
+                    model.MainCategory = categoryService.GetMainCategory(model.Category.CategoryType).Name;
                     model.Price = urun.Price;
                     model.Stock = urun.Stock;
+                    model.Id = urun.Id;
 
                     productViewModels.Add(model);
                 }
@@ -81,7 +82,8 @@ namespace Web.Controllers
                     Price = productViewModel.Price,
                     Stock = productViewModel.Stock,
                     CategoryId = productViewModel.Category.Id,
-                    IsAvailable = productViewModel.IsAvailable
+                    IsAvailable = productViewModel.IsAvailable,
+                    MerchantUserName = User.Identity.Name
                    
                 };
                 
@@ -90,11 +92,6 @@ namespace Web.Controllers
             }
 
             return View(productService);
-        }
-
-        public IActionResult UpdateProduct()
-        {
-            return View("~/Views/Admin/AddProduct.cshtml");
         }
 
         public IActionResult ListCategory(string categoryTypeId)
@@ -112,6 +109,7 @@ namespace Web.Controllers
                         CategoryViewModel model = new CategoryViewModel();
                         model.Name = kategori.Name;
                         model.CategoryType = kategori.CategoryType;
+                        model.Id = kategori.Id;
                         categoryViewModels.Add(model);
                     }
                    
@@ -141,16 +139,104 @@ namespace Web.Controllers
                 };
 
                 categoryService.Add(category);
-                return View("~/Views/Admin/ListCategory.cshtml");
+                return RedirectToAction("ListCategory");
             }
 
             return View(categoryViewModel);
         }
 
-        public IActionResult UpdateCategory()
+        public IActionResult UpdateCategory(Guid id)
         {
-            return View("~/Views/Admin/AddCategory.cshtml");
+            if (id != Guid.Empty)
+            {
+                Category Kategoriler;
+
+                Kategoriler = categoryService.Get(id);
+
+                CategoryViewModel model = new CategoryViewModel();
+                model.Name = Kategoriler.Name;
+                model.CategoryType = Kategoriler.CategoryType;
+                model.Id = Kategoriler.Id;
+
+                return View(model);
+            }
+            return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateCategory(CategoryViewModel categoryViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Category category = categoryService.Get(categoryViewModel.Id);
+                Category mainCategory = categoryService.GetMainCategory(categoryViewModel.CategoryType);
+
+
+                category.Name = categoryViewModel.Name;
+                category.CategoryType = categoryViewModel.CategoryType;
+                category.MainCategoryId = mainCategory.Id;
+
+                categoryService.Update(category);
+
+                return RedirectToAction("ListCategory");
+            }
+
+            return View(categoryViewModel);
+        }
+
+        public IActionResult UpdateProduct(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                Product product;
+
+                product = productService.Get(id);
+
+                ProductViewModel model = new ProductViewModel();
+                model.Name = product.Name;
+                model.Id = product.Id;
+                model.Category = categoryService.Get(product.CategoryId);
+                model.MainCategory = categoryService.GetMainCategory(model.Category.CategoryType).Name;
+                model.Price = product.Price;
+                model.Stock = product.Stock;
+
+                var getList = categoryService.GetList();
+
+                if (getList != null)
+                {
+                    ViewData["Categories"] = getList;
+                }
+
+                return View(model);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateProduct(ProductViewModel productViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Product product = productService.Get(productViewModel.Id);
+                //Product mainCategory = product.GetMainCategory(productViewModel.Category.CategoryType);
+
+                product.Name = productViewModel.Name;
+                product.Price = productViewModel.Price;
+                product.Stock = productViewModel.Stock;
+                product.IsAvailable = productViewModel.IsAvailable;
+                product.CategoryId = productViewModel.Category.Id;
+                product.Description = productViewModel.Description;
+
+                productService.Update(product);
+
+                return RedirectToAction("ListProduct");
+            }
+
+            return View(productViewModel);
+        }
+
 
         public IActionResult AddProductAltKategorileriGetir(Guid KategoriID)
         {
@@ -205,6 +291,7 @@ namespace Web.Controllers
                         model.Price = product.Price;
                         model.Stock = product.Stock;
                         model.IsAvailable = product.IsAvailable;
+                        model.Id = product.Id;
 
                         productViewModels.Add(model);
 
@@ -225,6 +312,7 @@ namespace Web.Controllers
                         model.Price = product.Price;
                         model.Stock = product.Stock;
                         model.IsAvailable = product.IsAvailable;
+                        model.Id = product.Id;
 
                         productViewModels.Add(model);
 
@@ -243,6 +331,7 @@ namespace Web.Controllers
                         model.Price = product.Price;
                         model.Stock = product.Stock;
                         model.IsAvailable = product.IsAvailable;
+                        model.Id = product.Id;
 
                         productViewModels.Add(model);
 
@@ -254,13 +343,28 @@ namespace Web.Controllers
             return Json(productViewModels);
         }
 
-        public IActionResult DeleteFavorites(Guid id)
+        public IActionResult DeleteCategory(Guid id)
         {
             if (id != Guid.Empty)
             {
                 try
                 {
                     categoryService.Delete(id);
+                }
+                catch (Exception) { }
+            }
+
+            Response.StatusCode = 200;
+            return Json(new { status = "success" });
+        }
+
+        public IActionResult DeleteProduct(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                try
+                {
+                    productService.Delete(id);
                 }
                 catch (Exception) { }
             }
