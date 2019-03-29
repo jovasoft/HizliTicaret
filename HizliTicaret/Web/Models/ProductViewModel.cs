@@ -10,6 +10,7 @@ namespace Web.Models
     public class ProductViewModel
     {
         [Required]
+        public Guid Id { get; set; }
         public Category Category { get; set; }
         public string MainCategory { get; set; }
         public string MerchantUserName { get; set; }

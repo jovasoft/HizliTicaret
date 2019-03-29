@@ -43,5 +43,12 @@ namespace Business.Concrete
         {
            return categoryDal.GetList(x => x.CategoryType == categoryTypes && x.MainCategoryId == Guid.Empty).First();
         }
+
+        public bool Update(Category category)
+        {
+            categoryDal.Update(category);
+
+            return true;
+        }
     }
 }

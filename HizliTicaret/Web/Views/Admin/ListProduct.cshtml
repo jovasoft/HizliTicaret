@@ -30,10 +30,6 @@
                             <option value="1">Stok Tükenenler</option>
                         </select>
                     </div>
-                    <div class="col-md col-xl-2 mb-4">
-                        <label class="form-label d-none d-md-block">&nbsp;</label>
-                        <a href="/Admin/UpdateProduct"><button type="button" class="btn btn-secondary btn-block">Listele</button></a>
-                    </div>
                 </div>
             </div>
             <!-- / Filters -->
@@ -56,14 +52,20 @@
                         <tbody>
                             @foreach (var product in Model)
                             {
-                                <tr>
-                                    <td>@product.Name</td>
-                                    <td>@product.MainCategory</td>
-                                    <td>@product.Category.Name</td>
-                                    <td>@product.Stock</td>
-                                    <td>@product.Price</td>
+                            <tr id=@product.Id>
+                                <td>@product.Name</td>
+                                <td>@product.MainCategory</td>
+                                <td>@product.Category.Name</td>
+                                <td>@product.Stock</td>
+                                <td>@product.Price</td>
+                                <td>
+                                    <a href="@Url.Action("UpdateProduct","Admin", new { id = product.Id })"><label class="btn btn-outline-secondary btn-sm float-right updatePro">Düzenle</label></a>
+                                </td>
+                                <td>
+                                    <label class="btn btn-outline-primary btn-sm float-right removePro">Sil</label>
+                                </td>
 
-                                </tr>
+                            </tr>
                             }
                         </tbody>
                     </table>
@@ -92,13 +94,13 @@
                         $.each(filterProducts, function (index, product) {
 
                             if (product.category.categoryType == 0) {
-                            table.append("<tr><td>" + product.name + "</td><td>" + " Kadın " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td></tr>");
+                                table.append("<tr id=" + product.id + "><td>" + product.name + "</td><td>" + " Kadın " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
                             }
                             if (product.category.categoryType == 1) {
-                                table.append("<tr><td>" + product.name + "</td><td>" + " Erkek " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td></tr>");
+                                table.append("<tr id=" + product.id + "><td>" + product.name + "</td><td>" + " Erkek " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
                             }
                             if (product.category.categoryType == 2) {
-                                table.append("<tr><td>" + product.name + "</td><td>" + " Çocuk " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td></tr>");
+                                table.append("<tr id=" + product.id + "><td>" + product.name + "</td><td>" + " Çocuk " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
                             }
 
 
@@ -113,5 +115,17 @@
                 });
             }
         });
+
+        $('.removePro').on('click', function () {
+            var productId = $(this).parent().parent().attr("id");
+
+            $.ajax({
+                url: '/Admin/DeleteProduct',
+                type: 'POST',
+                data: { id: productId }
+            }).done(function () { $('#' + productId).remove(); });
+
+        });
+
     });
 </script>
