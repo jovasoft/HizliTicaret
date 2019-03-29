@@ -10,6 +10,8 @@ namespace Business.Abstract
     {
         bool Add(Product product);
 
+        bool Update(Product product);
+
         Product Get(Guid productId);
 
         List<Product> GetList();

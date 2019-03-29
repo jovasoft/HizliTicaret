@@ -18,14 +18,16 @@ namespace Web.Controllers
         private SignInManager<User> signInManager;
         private IFavoriteService favoriteService;
         private ISaleService saleService;
+        private IProductService productService;
 
-        public AccountController(UserManager<User> _userManager, RoleManager<Role> _roleManager, SignInManager<User> _signInManager, IFavoriteService _favoriteService, ISaleService _saleService)
+        public AccountController(UserManager<User> _userManager, RoleManager<Role> _roleManager, SignInManager<User> _signInManager, IFavoriteService _favoriteService, ISaleService _saleService, IProductService _productService)
         {
             userManager = _userManager;
             roleManager = _roleManager;
             signInManager = _signInManager;
             favoriteService = _favoriteService;
             saleService = _saleService;
+            productService = _productService;
         }
 
         public IActionResult Register()
@@ -148,7 +150,9 @@ namespace Web.Controllers
         [Authorize(Roles = "Admin, User, Merchant")]
         public IActionResult Orders()
         {
-            return View();
+            List<Sale> sales = saleService.GetList(User.Identity.Name);
+
+            return View(sales);
         }
 
         [Authorize(Roles = "Admin, User, Merchant")]

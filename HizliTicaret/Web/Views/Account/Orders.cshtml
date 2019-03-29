@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Entities.Concrete;
+@model List<Sale>
+@{
     ViewData["Title"] = "Siparişlerim";
     Layout = "../Shared/_Layout.cshtml";
 }
@@ -15,21 +17,16 @@
                 <div class="tab-pane active show" id="user-orders">
                     <div class="card-body pb-2">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item py-3">
-                                <span class="badge badge-outline-success float-right">Kargoya verildi</span>
-                                <div class="font-weight-semibold">System Boot</div>
-                                <small class="text-muted">02/05/2018 11:32:45</small>
-                            </li>
-                            <li class="list-group-item py-3">
-                                <span class="badge badge-outline-warning float-right">İşleniyor</span>
-                                <div class="font-weight-semibold">System Restart</div>
-                                <small class="text-muted">02/05/2018 11:32:15</small>
-                            </li>
-                            <li class="list-group-item py-3">
-                                <span class="badge badge-outline-danger float-right">Ödeme başarısız</span>
-                                <div class="font-weight-semibold">System Restart</div>
-                                <small class="text-muted">02/05/2018 11:32:02</small>
-                            </li>
+                            @{ foreach (var sale in Model)
+                                {
+                                <li class="list-group-item py-3">
+                                    <span class="badge badge-outline-success float-right">Kargoya verildi.</span>
+                                    <div class="font-weight-semibold">@sale.ProductName <small class="text-muted">x @sale.Quantity</small></div>
+                                    <div><small class="text-danger">Sipariş Tarihi: </small><small class="text-muted">@sale.Date</small></div>
+                                    <div><small class="text-danger">Satıcı: </small><small class="text-muted">@sale.MerchantUserName</small></div>
+                                </li>
+                                }
+                            }
                         </ul>
                     </div>
                 </div>

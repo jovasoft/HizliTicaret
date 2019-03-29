@@ -37,5 +37,10 @@ namespace Business.Concrete
         {
             return GetList();
         }
+
+        public List<Sale> GetList(string username)
+        {
+            return saleDal.GetList(x => x.UserName == username);
+        }
     }
 }
