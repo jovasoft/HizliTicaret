@@ -19,7 +19,7 @@
                             {
                                 <li class="list-group-item py-3" id="@favorite.Id">
                                     <label class="btn btn-outline-primary btn-sm float-right removeFav">Sil</label>
-                                    <div class="font-weight-semibold">@favorite.ProductName</div>
+                                    <a href="@Url.Action("Show","Product", new { id = favorite.ProductId })"><div class="font-weight-semibold">@favorite.ProductName</div></a>
                                     <small class="text-muted">@favorite.CreatedDate</small>
                                 </li>
                             }

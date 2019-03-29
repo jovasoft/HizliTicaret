@@ -28,7 +28,7 @@
             <a id="shop-preview-image" href="#" class="img-thumbnail ui-bordered mb-4">
                 <span class="img-thumbnail-overlay bg-white opacity-75"></span>
                 <span class="img-thumbnail-content text-primary text-xlarge"><i class="ion ion-ios-search"></i></span>
-                <img src="@Model.ImageUrl" class="img-fluid">
+                <img src="~/assets/img/uikit/presentation-suit.jpg" class="img-fluid">
             </a>
 
         </div>
@@ -71,14 +71,8 @@
                     <tr>
                         <td class="border-0 text-muted align-middle align-middle">Adet:</td>
                         <td class="border-0">
-                            <div class="input-group input-group-sm" style="width: 90px">
-                                <span class="input-group-prepend">
-                                    <button class="btn btn-default btn-sm icon-btn md-btn-flat px-0" type="button">-</button>
-                                </span>
-                                <input type="text" value="@(Model.Stock == 0 ? "0" : "1")" class="form-control text-center">
-                                <span class="input-group-append">
-                                    <button class="btn btn-default btn-sm icon-btn md-btn-flat px-0" type="button">+</button>
-                                </span>
+                            <div class="input-group input-group-sm" style="width: 70px">
+                                <input type="number" value="@(Model.Stock == 0 ? "0" : "1")" class="form-control text-center" id="quantity" max="@Model.Stock" min="1" required>
                             </div>
                         </td>
                     </tr>
@@ -87,7 +81,7 @@
 
             @if (User.Identity.IsAuthenticated && Model.Stock > 0)
             {
-                <button type="button" class="btn btn-primary btn-lg" id="btnBuy">Satın Al</button>
+                <button type="submit" class="btn btn-primary btn-lg" id="btnBuy">Satın Al</button>
             }
 
             &nbsp;
@@ -97,7 +91,7 @@
             }
             else
             {
-                <button type="button" class="btn btn-default btn-lg md-btn-flat">+ <span class="ion ion-md-cart"></span> &nbsp; Sepete Ekle</button>
+                <button type="submit" class="btn btn-default btn-lg md-btn-flat" id="addToCart">+ <span class="ion ion-md-cart"></span> &nbsp; Sepete Ekle</button>
             }
 
         </div>
@@ -156,18 +150,45 @@
     $('#btnBuy').click(function () {
 
         var modelId = $('#modelId').val();
+        var modelQuantity = $('#quantity').val();
 
         $.ajax({
             url: '/Product/Buy',
             type: 'POST',
-            data: { id: modelId },
+            data: { id: modelId, quantity: modelQuantity },
             success: function () {
                 swal("Başarılı!", "Ürün satın alındı.", "success", setTimeout(function () {
+                    document.location.reload();
+                }, 2000));
+            },
+            error: function () {
+                swal("Hata!", "Üzgünüz, bir hata oluştu.", "error", setTimeout(function () {
                     document.location.reload();
                 }, 2000));
             }
         });
 
+    });
+
+    $('#addToCart').click(function () {
+
+        var modelId = $('#modelId').val();
+        var modelQuantity = $('#quantity').val();
+
+        $.ajax({
+            url: '/Product/AddToCart',
+            type: 'POST',
+            data: { id: modelId, quantity: modelQuantity },
+            success: function () {
+
+                $.get("/Product/GetCartComponent", function (data) {
+                    $("#cartComponent").replaceWith(data);
+                }).then(function () {
+
+                        document.getElementById("cartIcon").click();
+                    });
+            }
+        });
     });
 
 </script>

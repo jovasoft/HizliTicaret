@@ -45,5 +45,12 @@ namespace Business.Concrete
 
             return products.ToList();
         }
+
+        public bool Update(Product product)
+        {
+            productDal.Update(product);
+            return true;
+        }
+
     }
 }

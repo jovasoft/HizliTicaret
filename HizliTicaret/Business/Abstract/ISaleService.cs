@@ -14,6 +14,8 @@ namespace Business.Abstract
 
         List<Sale> GetList();
 
+        List<Sale> GetList(string username);
+
         void Delete(Guid saleId);
     }
 }

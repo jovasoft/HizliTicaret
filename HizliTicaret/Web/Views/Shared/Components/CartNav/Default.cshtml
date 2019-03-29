@@ -1,0 +1,65 @@
+﻿<div id="cartComponent">
+    <div class="nav-item shop-cart-dropdown dropdown">
+        <a class="nav-link dropdown-toggle hide-arrow text-nowrap ml-lg-2" href="#" data-toggle="dropdown">
+            <i class="ion ion-md-basket navbar-icon align-middle" id="cartIcon"></i>
+            <span class="badge badge-danger indicator">@ViewData["CartCount"]</span>
+            <span class="d-lg-none align-middle">&nbsp; Cart</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+
+            @{ foreach (var item in ViewData["Cart"] as List<CartItem>)
+                {
+                    <div class="media align-items-center p-3 cartItem">
+                        <input type="hidden" value="@item.Product.Id" />
+                        <img src="~/assets/img/uikit/presentation-suit.jpg" class="d-block ui-w-40" alt="">
+                        <div class="media-body small mx-3">
+                            <a href="@Url.Action("Show","Product", new { id = item.Product.Id })" class="text-dark font-weight-semibold">@item.Product.Name</a>
+                            <div class="text-muted">@item.Product.Price ₺ &times; @item.Quantity</div>
+                        </div>
+                        <a style="cursor: pointer" class="text-danger text-xlarge font-weight-light removeCartItem">
+                            &times;
+                        </a>
+                    </div>
+                    <hr class="m-0">
+                }
+            }
+
+            <div class="d-flex justify-content-between align-items-center p-3">
+                <div>
+                    <span class="text-muted">Toplam:</span>&nbsp;
+                    <span class="font-weight-bold">@ViewData["CartTotal"] ₺</span>
+                </div>
+                <div>
+                    @if ((int)@ViewData["CartCount"] != 0)
+                    {
+                        <a href="/Cart"> <button type="button" class="btn btn-primary btn-sm md-btn-flat text-expanded ml-1" id="cartBuyAll">SEPETE GIT</button> </a>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('.cartItem .removeCartItem').click(function () {
+
+        var itemId = $(this).parent().children('input').val();
+
+        $.ajax({
+            url: '/Product/RemoveFromCart',
+            type: 'POST',
+            data: { id: itemId },
+            success: function () {
+
+                $.get("/Product/GetCartComponent", function (data) {
+                    $("#cartComponent").replaceWith(data);
+                }).then(function () {
+                    document.getElementById("cartIcon").click();
+                });;
+            }
+        });
+    });
+
+</script>
