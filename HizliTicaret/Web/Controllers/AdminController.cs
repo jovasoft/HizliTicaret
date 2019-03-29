@@ -322,6 +322,8 @@ namespace Web.Controllers
                 else if (productId == 2)
                 {
                     productViewModels = new List<ProductViewModel>();
+                    filterProducts = productService.GetList().ToList();
+
                     foreach (var product in filterProducts)
                     {
                         ProductViewModel model = new ProductViewModel();
