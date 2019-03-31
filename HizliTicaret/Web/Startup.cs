@@ -77,12 +77,14 @@ namespace Web
             services.AddScoped<IBrandService, BrandManager>();
             services.AddScoped<IFavoriteService, FavoriteManager>();
             services.AddScoped<ISaleService, SaleManager>();
+            services.AddScoped<IDiscountService, DiscountManager>();
 
             services.AddScoped<ICategoryDal, CategoryDal>();
             services.AddScoped<IProductDal, ProductDal>();
             services.AddScoped<IBrandDal, BrandDal>();
             services.AddScoped<IFavoriteDal, FavoriteDal>();
             services.AddScoped<ISaleDal, SaleDal>();
+            services.AddScoped<IDiscountDal, DiscountDal>();
 
             #endregion
 

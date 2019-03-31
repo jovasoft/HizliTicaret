@@ -14,6 +14,7 @@ namespace DataAccess.Concrete
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Business.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
@@ -19,12 +21,17 @@ namespace Web.Controllers
         IProductService productService;
         ICategoryService categoryService;
         IBrandService brandService;
+        IDiscountService discountService;
 
-        public AdminController(IProductService productService, ICategoryService categoryService, IBrandService brandService)
+        private readonly IHostingEnvironment _appEnvironment;
+
+        public AdminController(IProductService productService, ICategoryService categoryService, IBrandService brandService, IDiscountService discountService, IHostingEnvironment appEnvironment)
         {
             this.productService = productService;
             this.categoryService = categoryService;
             this.brandService = brandService;
+            this.discountService = discountService;
+            this._appEnvironment = appEnvironment;
         }
 
         public IActionResult Index()
@@ -57,6 +64,32 @@ namespace Web.Controllers
             return View(productViewModels);
         }
 
+        public IActionResult ListDiscount()
+        {
+            //List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+            //List<Product> Urunler = new List<Product>();
+            //Urunler = productService.GetList();
+
+            //if (Urunler != null)
+            //{
+            //    foreach (var urun in Urunler)
+            //    {
+            //        ProductViewModel model = new ProductViewModel();
+            //        model.Name = urun.Name;
+            //        model.Category = categoryService.Get(urun.CategoryId);
+            //        model.MainCategory = categoryService.GetMainCategory(model.Category.CategoryType).Name;
+            //        model.Price = urun.Price;
+            //        model.Stock = urun.Stock;
+            //        model.Id = urun.Id;
+
+            //        productViewModels.Add(model);
+            //    }
+            //}
+
+            //return View(productViewModels);
+            return View();
+        }
+
         public IActionResult AddProduct()
         {
             var getList = categoryService.GetList();
@@ -75,6 +108,13 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (productViewModel.ImageUrl == null || productViewModel.ImageUrl.Length == 0) return Content("file not selected");
+
+                string path_Root = _appEnvironment.WebRootPath;
+
+                string path_to_Images = path_Root + "\\assets\\img\\" + productViewModel.ImageUrl;
+
+                System.IO.File.Copy(productViewModel.ImageUrl, path_to_Images);
 
                 Product product = new Product
                 {
@@ -83,8 +123,9 @@ namespace Web.Controllers
                     Stock = productViewModel.Stock,
                     CategoryId = productViewModel.Category.Id,
                     IsAvailable = productViewModel.IsAvailable,
-                    MerchantUserName = User.Identity.Name
-                   
+                    MerchantUserName = User.Identity.Name,
+                    Description = productViewModel.Description,
+                    ImageUrl = path_to_Images
                 };
                 
                 productService.Add(product);
@@ -200,6 +241,7 @@ namespace Web.Controllers
                 model.MainCategory = categoryService.GetMainCategory(model.Category.CategoryType).Name;
                 model.Price = product.Price;
                 model.Stock = product.Stock;
+                model.Description = product.Description;
 
                 var getList = categoryService.GetList();
 
@@ -246,6 +288,17 @@ namespace Web.Controllers
             TumAltKategoriler = categoryService.GetList();
 
             List<Category> altkategoriler = TumAltKategoriler.Where(k => k.MainCategoryId == KategoriID).ToList();
+            return Json(altkategoriler);
+        }
+
+        public IActionResult AddDiscountAltUrunleriGetir(Guid KategoriID)
+        {
+
+            List<Product> TumAltUrunler = new List<Product>();
+
+            TumAltUrunler = productService.GetList();
+
+            List<Product> altkategoriler = TumAltUrunler.Where(k => k.CategoryId == KategoriID).ToList();
             return Json(altkategoriler);
         }
 
@@ -374,6 +427,87 @@ namespace Web.Controllers
             Response.StatusCode = 200;
             return Json(new { status = "success" });
         }
+
+        public IActionResult AddDiscount()
+        {
+            var getList = categoryService.GetList();
+
+            if (getList != null)
+            {
+                ViewData["Categories"] = getList;
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddDiscount(DiscountViewModel discountViewModel)
+        {
+            Category mainCategory = categoryService.Get(discountViewModel.MainCategoryId);
+            Category category = categoryService.Get(discountViewModel.CategoryId);
+
+            var products = new List<Product>();
+
+            //ana kategoriyse
+            if (category == null && mainCategory == null)
+            {
+                products = productService.GetList();
+            }
+            else
+            {
+                //ana kategoriyse
+                if (category.Id == null)
+                {
+                    var allCategories = categoryService.GetList();
+
+                    //ana kategorinin tüm kategorilerini al
+                    var categoyProducts = new List<Category>();
+                    foreach (var cat in allCategories)
+                    {
+                        if (cat.MainCategoryId == discountViewModel.CategoryId)
+                            categoyProducts.Add(cat);
+                    }
+
+                    var allProducts = productService.GetList();
+
+                    //tüm kategorilere ait ürünleri al
+                    foreach (var product in allProducts)
+                    {
+                        if (categoyProducts.Exists(x => x.Id == product.CategoryId))
+                            products.Add(product);
+                    }
+                }
+                else if(discountViewModel.ProductId == Guid.Empty) //kategoriyse
+                {
+                    products = productService.GetProductsInCategory(discountViewModel.CategoryId);
+                }
+                else
+                {
+                    //product
+                    products.Add(productService.Get(discountViewModel.ProductId));
+                }
+            }
+
+            foreach (var product in products)
+            {
+                product.Discounts += discountViewModel.Percent;
+
+                productService.Update(product);
+
+                Discount discount = new Discount
+                {
+                    ProductId = product.Id,
+                    Percent = discountViewModel.Percent,
+                    MerchantUserName = User.Identity.Name
+                };
+
+                discountService.Add(discount);
+            }
+
+            return RedirectToAction("ListDiscount");
+        }
+
     }
 
 }

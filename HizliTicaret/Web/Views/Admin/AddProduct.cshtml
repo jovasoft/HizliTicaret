@@ -28,9 +28,6 @@
                             <a class="nav-link" data-toggle="tab" href="#item-description">Açıklama</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#item-discounts">İndirimler</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#item-images">Resimler</a>
                         </li>
                     </ul>
@@ -97,74 +94,16 @@
                         <!-- Description -->
                         <div class="tab-pane fade" id="item-description">
                             <div class="card-body">
-
-
-                                <div id="product-editor" style="height: 600px"><textarea style="resize:none; height:600px; width:1550px;"></textarea></div>
-
+                                <div class="form-group">
+                                    <div id="product-editor" style="height: 500px"><textarea style="resize:none; height:500px; width:1150px;" asp-for="Description" class="form-control"></textarea></div>
+                                </div>
                             </div>
-
                         </div>
                         <!-- / Description -->
-                        <!-- Discounts -->
-                        <div class="tab-pane fade" id="item-discounts">
-                            <div class="card-body">
-
-                                <div class="table-responsive">
-                                    <table class="table product-discounts-edit">
-                                        <thead>
-                                            <tr>
-                                                <th>İndirim</th>
-                                                <th>Stok</th>
-                                                <th>Tarih</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" value="5">
-                                                        <div class="input-group-append">
-                                                            <div class="input-group-text">%</div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td><input type="text" class="form-control" value="100"></td>
-                                                <td><input type="text" class="product-discount-period form-control" value=""></td>
-                                                <td>
-                                                    <a href="javascript:void(0)" class="btn btn-default md-btn-flat icon-btn btn-sm"><i class="ion ion-md-close"></i></a>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" value="10">
-                                                        <div class="input-group-append">
-                                                            <div class="input-group-text">%</div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td><input type="text" class="form-control" value=""></td>
-                                                <td><input type="text" class="product-discount-period form-control" value="02/01/2018 - 03/01/2018"></td>
-                                                <td>
-                                                    <a href="javascript:void(0)" class="btn btn-default md-btn-flat icon-btn btn-sm"><i class="ion ion-md-close"></i></a>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <button type="button" class="btn btn-outline-primary"><i class="ion ion-md-add"></i>&nbsp; İndirim Ekle</button>
-
-                            </div>
-                        </div>
-                        <!-- / Discounts -->
                         <!-- Images -->
                         <div class="tab-pane fade" id="item-images">
                             <div class="card-body">
-
+                                
                                 <div id="product-images">
 
                                     <div class="media align-items-center bg-white ui-bordered py-3 mb-2">
@@ -173,42 +112,12 @@
                                             <img src="assets/img/uikit/s7edge-1.jpg" class="img-fluid" alt="">
                                         </a>
                                         <div class="media-body">
-                                            <input type="text" value="example.com/assets/img/products/s7edge-1.jpg" class="form-control form-control-sm bg-transparent border-light mb-2" readonly>
-                                            <label class="switcher switcher-sm">
-                                                <input type="radio" name="product-primary-image" class="switcher-input" checked>
-                                                <span class="switcher-indicator">
-                                                    <span class="switcher-yes"></span>
-                                                    <span class="switcher-no"></span>
-                                                </span>
-                                                <span class="switcher-label">Ana Resim</span>
-                                            </label>
+                                            <input type="text" value=@ViewData["fileLocation"] class="form-control form-control-sm bg-transparent border-light mb-2" readonly>
                                         </div>
                                         <button type="button" class="btn btn-outline-danger borderless icon-btn d-block mx-4"><i class="ion ion-md-close"></i></button>
                                     </div>
-
-                                    <div class="media align-items-center bg-white ui-bordered py-3 mb-2">
-                                        <div class="product-image-move ion ion-ios-move text-muted text-big p-4"></div>
-                                        <a href="javascript:void(0)" class="d-block ui-w-100 mr-4">
-                                            <img src="assets/img/uikit/s7edge-2.jpg" class="img-fluid" alt="">
-                                        </a>
-                                        <div class="media-body">
-                                            <input type="text" value="example.com/assets/img/products/s7edge-2.jpg" class="form-control form-control-sm bg-transparent border-light mb-2" readonly>
-                                            <label class="switcher switcher-sm">
-                                                <input type="radio" name="product-primary-image" class="switcher-input">
-                                                <span class="switcher-indicator">
-                                                    <span class="switcher-yes"></span>
-                                                    <span class="switcher-no"></span>
-                                                </span>
-                                                <span class="switcher-label">Primary image</span>
-                                            </label>
-                                        </div>
-                                        <button type="button" class="btn btn-outline-danger borderless icon-btn d-block mx-4"><i class="ion ion-md-close"></i></button>
-                                    </div>
-
                                 </div>
-
-                                <button type="button" class="btn btn-outline-primary mt-3"><i class="ion ion-md-cloud-upload"></i>&nbsp; Resim Yükle</button>
-
+                                <input type="file" class="btn btn-outline-primary mt-3" asp-for="Image"></input>
                             </div>
                         </div>
                         <!-- / Images -->
