@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <h3 class="m-0"><strong>@(Model.Price - (Model.Price * Model.Discounts) / 100) ₺</strong></h3>
+            @if (Model.Discounts != 0) {<h4 class="m-0"><del class="pr-3" style="color: #fc5a5c;">@Model.Price ₺</del></h4>}<h3 class="m-0"><strong>@(Model.Price - (Model.Price * Model.Discounts) / 100) ₺</strong></h3>
 
             <table class="table my-4">
                 <tbody>

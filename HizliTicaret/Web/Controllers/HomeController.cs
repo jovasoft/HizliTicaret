@@ -20,7 +20,7 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            var products = productService.GetList();
+            var products = productService.GetList().Take(20).ToList();
             return View(products);
         }
     }
