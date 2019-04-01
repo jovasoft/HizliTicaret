@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center align-items-center">
-                                <div class="font-weight-semibold">@product.Price ₺</div>
+                                <div class="font-weight-semibold">@(product.Price - (product.Price * product.Discounts)) ₺</div>
                             </div>
                         </div>
                     }

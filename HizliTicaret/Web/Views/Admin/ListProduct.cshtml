@@ -59,7 +59,7 @@
                                 <td>@product.MainCategory</td>
                                 <td>@product.Category.Name</td>
                                 <td>@product.Stock</td>
-                                <td>@product.Price</td>
+                                <td>@(product.Price - (product.Price * product.Discounts) / 100) ₺</td>
                                 <td>
                                     <a href="@Url.Action("UpdateProduct","Admin", new { id = product.Id })"><label class="btn btn-outline-secondary btn-sm float-right updatePro">Düzenle</label></a>
                                 </td>
@@ -97,13 +97,13 @@
                             var urlString = '@Url.Action("Show", "Product", new { id ="product.id"})';
                             urlString = urlString.replace("product.id", product.id);
                             if (product.category.categoryType == 0) {
-                                table.append("<tr id=" + product.id + "><td><a href=" + urlString + " class=" + '"d-block"' + ">" + product.name + "</a></td><td>" + " Kadın " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
+                                table.append("<tr id=" + product.id + "><td><a href=" + urlString + " class=" + '"d-block"' + ">" + product.name + "</a></td><td>" + " Kadın " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + (product.Price - (product.Price * product.Discounts) / 100) + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
                             }
                             if (product.category.categoryType == 1) {
-                                table.append("<tr id=" + product.id + "><td><a href=" + urlString + " class=" + '"d-block"' + ">" + product.name + "</a></td><td>" + " Erkek " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
+                                table.append("<tr id=" + product.id + "><td><a href=" + urlString + " class=" + '"d-block"' + ">" + product.name + "</a></td><td>" + " Erkek " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + (product.Price - (product.Price * product.Discounts) / 100) + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
                             }
                             if (product.category.categoryType == 2) {
-                                table.append("<tr id=" + product.id + "><td><a href=" + urlString + " class=" + '"d-block"' + ">" + product.name + "</a></td><td>" + " Çocuk " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + product.price + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
+                                table.append("<tr id=" + product.id + "><td><a href=" + urlString + " class=" + '"d-block"' + ">" + product.name + "</a></td><td>" + " Çocuk " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + (product.Price - (product.Price * product.Discounts) / 100) + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
                             }
 
 

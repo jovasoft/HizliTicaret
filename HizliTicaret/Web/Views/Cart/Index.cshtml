@@ -47,15 +47,15 @@
                                 </div>
                             </td>
                             <td class="text-right font-weight-semibold align-middle p-4 price">
-                                <input type="hidden" value="@item.Product.Price" />
-                                @item.Product.Price ₺
+                                <input type="hidden" value="@(item.Product.Price - (item.Product.Price * item.Product.Discounts))" />
+                                @(item.Product.Price - (item.Product.Price * item.Product.Discounts) ) ₺
                             </td>
                             <td class="align-middle p-4">
                             <input type="number" class="form-control text-center quantity" value="@item.Quantity" max="@item.Product.Stock" min="1">
                             </td>
                             <td class="text-right font-weight-semibold align-middle p-4 total">
-                                <input type="hidden" value="@(item.Product.Price * item.Quantity)" />
-                                <div> @(item.Product.Price * item.Quantity) ₺ </div>
+                                <input type="hidden" value="@((item.Product.Price - (item.Product.Price * item.Product.Discounts) / 100) * item.Quantity)" />
+                                <div> @((item.Product.Price - (item.Product.Price * item.Product.Discounts) / 100) * item.Quantity) ₺ </div>
                             </td>
                             <td class="text-center align-middle px-0 removeCartItem"><a href="#" class="shop-tooltip close float-none text-danger" title="Sil">×</a></td>
                         </tr>

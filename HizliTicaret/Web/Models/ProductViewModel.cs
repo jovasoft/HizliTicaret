@@ -21,6 +21,7 @@ namespace Web.Models
         public string Description { get; set; }
         public int Stock { get; set; }
         public bool IsAvailable { get; set; }
+        public int Discounts { get; set; }
         public IFormFile File { get; set; }
     }
 }

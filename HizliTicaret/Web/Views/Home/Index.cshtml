@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <strong>@item.Price ₺</strong>
+            <strong>@(item.Price - (item.Price * item.Discounts)) ₺</strong>
         </div>
         }
 

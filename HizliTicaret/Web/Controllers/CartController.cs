@@ -22,7 +22,7 @@ namespace Web.Controllers
             else
             {
                 ViewData["Cart"] = cart;
-                ViewData["CartTotal"] = cart.Sum(item => item.Product.Price * item.Quantity);
+                ViewData["CartTotal"] = cart.Sum(item => (item.Product.Price - (item.Product.Price * item.Product.Discounts) / 100) * item.Quantity);
                 ViewData["CartCount"] = cart.Count;
             }
             return View();
