@@ -263,15 +263,25 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Product product = productService.Get(productViewModel.Id);
-                //Product mainCategory = product.GetMainCategory(productViewModel.Category.CategoryType);
+                if (productViewModel.File == null || productViewModel.File.Length == 0) return Content("Lütfen ürün resmi seçin.");
+                if (productViewModel.Category == null) return Content("Lütfen geri dönün ve kategori seçin.");
 
+                string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    productViewModel.File.CopyTo(stream);
+                }
+
+                Product product = productService.Get(productViewModel.Id);
                 product.Name = productViewModel.Name;
                 product.Price = productViewModel.Price;
                 product.Stock = productViewModel.Stock;
                 product.IsAvailable = productViewModel.IsAvailable;
                 product.CategoryId = productViewModel.Category.Id;
                 product.Description = productViewModel.Description;
+                product.ImageUrl = "/" + fileName;
 
                 productService.Update(product);
 
