@@ -1,4 +1,6 @@
 ﻿using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +20,10 @@ namespace Web.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public int Stock { get; set; }
-        public string ImageUrl { get; set; }
         public bool IsAvailable { get; set; }
+
+        [Required]
+        [Display(Name = "Public Schedule")]
+        public IFormFile Image { get; set; }
     }
 }
