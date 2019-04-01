@@ -35,7 +35,7 @@
                             <input type="hidden" value="@item.Product.Id" />
                             <td class="p-4">
                                 <div class="media align-items-center">
-                                    <img src="~/assets/img/uikit/presentation-suit.jpg" class="d-block ui-w-40 ui-bordered mr-4">
+                                    <img src="@item.Product.ImageUrl" class="d-block ui-w-40 ui-bordered mr-4">
                                     <div class="media-body">
                                         <a href="@Url.Action("Show","Product", new { id = item.Product.Id })" class="d-block text-dark">@item.Product.Name</a>
                                         <small>

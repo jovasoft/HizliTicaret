@@ -11,7 +11,7 @@
                 {
                     <div class="media align-items-center p-3 cartItem">
                         <input type="hidden" value="@item.Product.Id" />
-                        <img src="~/assets/img/uikit/presentation-suit.jpg" class="d-block ui-w-40" alt="">
+                        <img src="@item.Product.ImageUrl" class="d-block ui-w-40" alt="">
                         <div class="media-body small mx-3">
                             <a href="@Url.Action("Show","Product", new { id = item.Product.Id })" class="text-dark font-weight-semibold">@item.Product.Name</a>
                             <div class="text-muted">@item.Product.Price ₺ &times; @item.Quantity</div>

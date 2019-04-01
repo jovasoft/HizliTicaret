@@ -17,7 +17,6 @@ namespace Web.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-
         IProductService productService;
         ICategoryService categoryService;
         IBrandService brandService;
@@ -108,13 +107,16 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (productViewModel.ImageUrl == null || productViewModel.ImageUrl.Length == 0) return Content("file not selected");
+                if (productViewModel.File == null || productViewModel.File.Length == 0) return Content("Lütfen ürün resmi seçin.");
+                if (productViewModel.Category == null) return Content("Lütfen geri dönün ve kategori seçin.");
 
-                string path_Root = _appEnvironment.WebRootPath;
+                string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
 
-                string path_to_Images = path_Root + "\\assets\\img\\" + productViewModel.ImageUrl;
-
-                System.IO.File.Copy(productViewModel.ImageUrl, path_to_Images);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    productViewModel.File.CopyTo(stream);
+                }
 
                 Product product = new Product
                 {
@@ -125,7 +127,7 @@ namespace Web.Controllers
                     IsAvailable = productViewModel.IsAvailable,
                     MerchantUserName = User.Identity.Name,
                     Description = productViewModel.Description,
-                    ImageUrl = path_to_Images
+                    ImageUrl = "/" + fileName
                 };
                 
                 productService.Add(product);
@@ -278,7 +280,6 @@ namespace Web.Controllers
 
             return View(productViewModel);
         }
-
 
         public IActionResult AddProductAltKategorileriGetir(Guid KategoriID)
         {

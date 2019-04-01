@@ -43,7 +43,7 @@
                             }
 
                             <a href="@Url.Action("Show","Product", new { id = product.Id })" class="d-block">
-                                <img src="~/assets/img/uikit/presentation-suit.jpg" class="mb-2" style="max-width: 75%; max-height: 200px">
+                                <img src="@product.ImageUrl" class="mb-2" style="max-width: 75%; max-height: 200px">
                             </a>
                             <h6 class="font-weight-normal">
                                 <a href="@Url.Action("Show","Product", new { id = product.Id })" class="text-dark">@product.Name</a>

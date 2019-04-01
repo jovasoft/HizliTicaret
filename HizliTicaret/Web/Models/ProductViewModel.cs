@@ -21,9 +21,6 @@ namespace Web.Models
         public string Description { get; set; }
         public int Stock { get; set; }
         public bool IsAvailable { get; set; }
-
-        [Required]
-        [Display(Name = "Public Schedule")]
-        public IFormFile Image { get; set; }
+        public IFormFile File { get; set; }
     }
 }
