@@ -96,6 +96,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         $('#ListCat').change(function () {
             var categoryId = $(this).val();
             if (categoryId != null && categoryId != '') {
@@ -122,27 +123,25 @@
 
                             
                         });
-                    },
-                    error: function () {
-                        /*Bu metod ile Ajax işlemi başarısız
-                        olursa eğer hata mesajı verebiliyoruz.*/
-                        alert("Hata");
-                    },
-
+                    }
                 });
             }
         });
 
-
-        $('.removeCat').on('click', function () {
+        $(document).on('click', ".removeCat", function () {
             var categoryId = $(this).parent().parent().attr("id");
 
             $.ajax({
                 url: '/Admin/DeleteCategory',
-                type: 'POST',
+                type: 'GET',
                 data: { id: categoryId }
             }).done(function () { $('#' + categoryId).remove(); });
 
+        });
+
+        $(document).on('click', ".updateCat", function () {
+            var categoryId = $(this).parent().parent().attr("id");
+            document.location.href = "/Admin/UpdateCategory?id=" + categoryId;
         });
 
     });
