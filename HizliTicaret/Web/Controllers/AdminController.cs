@@ -536,24 +536,51 @@ namespace Web.Controllers
         [Authorize(Roles = "Admin, Merchant")]
         public IActionResult ListCategoryFilter(int categoryId)
         {
+
+            List<CategoryViewModel> categoryViewModels = new List<CategoryViewModel>();
             List<Category> categories = new List<Category>();
             List<Product> products = new List<Product>();
-
             categories = categoryService.GetList();
 
-            List<Category> filterCategories;
+            if (categories != null)
+            {
+                if(Convert.ToInt32(categoryId) == 3)
+                {
+                    categories = categoryService.GetList().Where(x => x.MainCategoryId != Guid.Empty).ToList();
 
-            if (Convert.ToInt32(categoryId) == 3)
-            {
-                filterCategories = categories.Where(k => k.MainCategoryId != Guid.Empty).ToList();
-            }
-            else
-            {
-                filterCategories = categories.Where(k => k.CategoryType == (CategoryTypes)categoryId && k.MainCategoryId != Guid.Empty).ToList();
+                    foreach (var category in categories)
+                    {
+                       
+                        CategoryViewModel model = new CategoryViewModel();
+                        products = productService.GetList().Where(x => x.CategoryId == category.Id).ToList();
+                        model.Name = category.Name;
+                        model.CategoryType = category.CategoryType;
+                        model.Id = category.Id;
+                        model.ProductCount = products.Count();
+                        model.MainCategoryId = category.MainCategoryId;
+                        categoryViewModels.Add(model);
+                    }
+                }
+                else
+                {
+                    categories = categoryService.GetList().Where(x => x.MainCategoryId != Guid.Empty && x.CategoryType == (CategoryTypes)categoryId).ToList();
+                    foreach (var category in categories)
+                    {
+                        CategoryViewModel model = new CategoryViewModel();
+                        products = productService.GetList().Where(x => x.CategoryId == category.Id).ToList();
+                        model.Name = category.Name;
+                        model.CategoryType = category.CategoryType;
+                        model.Id = category.Id;
+                        model.ProductCount = products.Count();
+                        model.MainCategoryId = category.MainCategoryId;
+                        categoryViewModels.Add(model);
+                    }
+   
+                }
                 
             }
 
-            return Json(filterCategories);
+            return Json(categoryViewModels);
         }
 
         [Authorize(Roles = "Admin, Merchant")]
