@@ -35,36 +35,6 @@ namespace Web.Controllers
             this.roleManager = _roleManager;
         }
 
-        [Authorize(Roles = "Admin, Merchant")]
-        public IActionResult ListRoleFilter(int ListId)
-        {
-            if (ListId == 0)
-            {
-                return Json(userManager.GetUsersInRoleAsync("User").Result.ToList());
-            }
-            else if (ListId == 1)
-            {
-                return Json(userManager.GetUsersInRoleAsync("Merchant").Result.ToList());
-            }
-            else if (ListId == 2)
-            {
-                return Json(userManager.GetUsersInRoleAsync("Admin").Result.ToList());
-            }
-            else if (ListId == 3)
-            {
-                object obj = new
-                {
-                    admins = userManager.GetUsersInRoleAsync("Admin").Result.ToList(),
-                    users = userManager.GetUsersInRoleAsync("User").Result.ToList(),
-                    merchants = userManager.GetUsersInRoleAsync("Merchant").Result.ToList()
-                };
-
-                return Json(obj);
-            }
-
-            return View();
-        }
-
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteMerchant(string userName)
         {
@@ -233,6 +203,11 @@ namespace Web.Controllers
             {
                 try
                 {
+                    var products = productService.GetList().Where(x => x.CategoryId == id);
+                    foreach (var product in products)
+                    {
+                        productService.Delete(product.Id);
+                    }
                     categoryService.Delete(id);
                 }
                 catch (Exception) { }
@@ -666,6 +641,36 @@ namespace Web.Controllers
 
             List<Product> altkategoriler = TumAltUrunler.Where(k => k.CategoryId == KategoriID).ToList();
             return Json(altkategoriler);
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
+        public IActionResult ListRoleFilter(int ListId)
+        {
+            if (ListId == 0)
+            {
+                return Json(userManager.GetUsersInRoleAsync("User").Result.ToList());
+            }
+            else if (ListId == 1)
+            {
+                return Json(userManager.GetUsersInRoleAsync("Merchant").Result.ToList());
+            }
+            else if (ListId == 2)
+            {
+                return Json(userManager.GetUsersInRoleAsync("Admin").Result.ToList());
+            }
+            else if (ListId == 3)
+            {
+                object obj = new
+                {
+                    admins = userManager.GetUsersInRoleAsync("Admin").Result.ToList(),
+                    users = userManager.GetUsersInRoleAsync("User").Result.ToList(),
+                    merchants = userManager.GetUsersInRoleAsync("Merchant").Result.ToList()
+                };
+
+                return Json(obj);
+            }
+
+            return View();
         }
         #endregion
     }
