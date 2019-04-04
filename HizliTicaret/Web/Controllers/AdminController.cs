@@ -416,11 +416,16 @@ namespace Web.Controllers
         [Authorize(Roles = "Admin, Merchant")]
         public IActionResult AddDiscount()
         {
+            
             var getList = categoryService.GetList();
 
             if (getList != null)
             {
-                ViewData["Categories"] = getList;
+                if (User.IsInRole("Admin"))
+                {
+                    ViewData["Categories"] = getList;
+                }
+                else ViewData["MerchantProducts"] = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
             }
 
             return View();
