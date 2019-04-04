@@ -14,7 +14,7 @@
                         <img src="@item.Product.ImageUrl" class="d-block ui-w-40" alt="">
                         <div class="media-body small mx-3">
                             <a href="@Url.Action("Show","Product", new { id = item.Product.Id })" class="text-dark font-weight-semibold">@item.Product.Name</a>
-                            <div class="text-muted">@(item.Product.Price - (item.Product.Price * item.Product.Discounts)) ₺ &times; @item.Quantity</div>
+                            <div class="text-muted">@(item.Product.Price - (item.Product.PriceWithDiscounts * item.Product.Category.Discounts) / 100) ₺ &times; @item.Quantity</div>
                         </div>
                         <a style="cursor: pointer" class="text-danger text-xlarge font-weight-light removeCartItem">
                             &times;

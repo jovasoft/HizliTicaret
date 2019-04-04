@@ -1,4 +1,4 @@
-﻿@model List<Entities.Concrete.Product>
+﻿@model List<ProductViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -28,7 +28,6 @@
 </div>
 <!-- Hero slider -->
 
-
 <!-- Product list -->
 <div class="container px-3">
     <ul class="nav nav-tabs tabs-alt container justify-content-center border-0 px-3 my-5">
@@ -45,7 +44,7 @@
                 <div class="ui-product-badge badge badge-outline-danger mb-2">STOKTA YOK</div>
             }
             <a href="@Url.Action("Show","Product", new { id = item.Id })" class="d-block">
-                <img src="@item.ImageUrl" class="mb-2" alt style="max-width: 75%; max-height: 200px">
+                <img src="@item.ImageUrl" class="mb-2" style="max-width: 75%; max-height: 200px">
             </a>
 
             <h6>
@@ -76,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            <strong>@(item.Price - (item.Price * item.Discounts) / 100) ₺</strong>
+            <strong>@(item.PriceWithDiscounts - (item.PriceWithDiscounts * item.Discounts) / 100) ₺</strong>
         </div>
         }
 

@@ -17,6 +17,6 @@ namespace Entities.Concrete
         public int Stock { get; set; }
         public string ImageUrl { get; set; }
         public bool IsAvailable { get; set; }
-        public decimal PriceWithDiscounts { get { return Price - ((Price * Discounts) / 100); } }
+        public decimal PriceWithDiscounts { get { return Price - (Price * Discounts) / 100; } }
     }
 }

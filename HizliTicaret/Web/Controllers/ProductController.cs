@@ -35,7 +35,7 @@ namespace Web.Controllers
                 Category mainCat = categoryService.GetMainCategory(CategoryTypes.Women);
                 bool isFavorited = favoriteService.GetList(User.Identity.Name).Exists(x => x.ProductId == product.Id);
 
-                ViewData["ProductCategoryName"] = category.Name;
+                ViewData["ProductCategory"] = category;
                 ViewData["ProductMainCategoryName"] = mainCat.Name;
                 ViewData["IsFavorited"] = isFavorited;
 
@@ -110,13 +110,27 @@ namespace Web.Controllers
         {
             if (id != Guid.Empty && quantity > 0)
             {
-                var products = productService.GetList();
+                var categories = categoryService.GetList();
 
                 if (SessionHelper.GetObjectFromJson<List<CartItemViewModel>>(HttpContext.Session, "cart") == null)
                 {
                     List<CartItemViewModel> cart = new List<CartItemViewModel>();
 
-                    cart.Add(new CartItemViewModel { Product = productService.Get(id), Quantity = quantity });
+                    Product item = productService.Get(id);
+
+                    ProductViewModel viewModel = new ProductViewModel();
+                    viewModel.Id = item.Id;
+                    viewModel.Category = categories.SingleOrDefault(x => x.Id == item.CategoryId);
+                    viewModel.Description = item.Description;
+                    viewModel.Discounts = item.Discounts;
+                    viewModel.Stock = item.Stock;
+                    viewModel.Price = item.Price;
+                    viewModel.PriceWithDiscounts = item.PriceWithDiscounts;
+                    viewModel.Name = item.Name;
+                    viewModel.MerchantUserName = item.MerchantUserName;
+                    viewModel.ImageUrl = item.ImageUrl;
+
+                    cart.Add(new CartItemViewModel { Product = viewModel, Quantity = quantity });
 
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 }
@@ -131,7 +145,21 @@ namespace Web.Controllers
                     }
                     else
                     {
-                        cart.Add(new CartItemViewModel { Product = productService.Get(id), Quantity = quantity });
+                        Product item = productService.Get(id);
+
+                        ProductViewModel viewModel = new ProductViewModel();
+                        viewModel.Id = item.Id;
+                        viewModel.Category = categories.SingleOrDefault(x => x.Id == item.CategoryId);
+                        viewModel.Description = item.Description;
+                        viewModel.Discounts = item.Discounts;
+                        viewModel.Stock = item.Stock;
+                        viewModel.Price = item.Price;
+                        viewModel.PriceWithDiscounts = item.PriceWithDiscounts;
+                        viewModel.Name = item.Name;
+                        viewModel.MerchantUserName = item.MerchantUserName;
+                        viewModel.ImageUrl = item.ImageUrl;
+
+                        cart.Add(new CartItemViewModel { Product = viewModel, Quantity = quantity });
                     }
 
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);

@@ -21,8 +21,11 @@ namespace Web.Models
         public string Description { get; set; }
         public int Stock { get; set; }
         public bool IsAvailable { get; set; }
+        public string ImageUrl { get; set; }
         public int Discounts { get; set; }
         public IFormFile File { get; set; }
         public decimal PriceWithDiscounts { get; set; }
+        public decimal LastPrice { get { return PriceWithDiscounts - ((PriceWithDiscounts * Category.Discounts) / 100); } }
+        public decimal DiscountTotal { get { return LastPrice - Price; } }
     }
 }
