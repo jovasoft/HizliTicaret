@@ -25,38 +25,29 @@
                     <table id="discount-list" class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Kategori/Ürün</th>
+                                <th>Kategori/Ürün</th> @*kategori yada ürün gibi*@
+                                <th>İsim</th>
                                 <th>İndirim Oranı</th>
+                                <th>İndirim Uygulayan Satıcı</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @*@foreach (var discount in Model)
+                            @foreach (var discount in Model)
                             {
-                                <tr id="@discount.CategoryId">
-                                    <td>
+                            <tr id="@discount.Id">
+                                <td></td>
+                                <td></td>
+                                <td>@discount.Percent</td>
+                                <td>@discount.MerchantUserName</td>
+                                <td></td>
+                                <td>
+                                    <label class="btn btn-outline-primary btn-sm float-right removeDis">Sil</label>
+                                </td>
 
-                                        
-                                        @{
-                                            if (category.CategoryType == 0)
-                                            {
-                                                <span>Kadın</span>
-                                            }
-                                            if (Convert.ToInt32(category.CategoryType) == 1)
-                                            {
-                                                <span>Erkek</span>
-                                            }
-                                            if (Convert.ToInt32(category.CategoryType) == 2)
-                                            {
-                                                <span>Çocuk</span>
-                                            }
-                                        }
-                                    </td>
-                                    <td>
-                                        <label class="btn btn-outline-primary btn-sm float-right removeDis">Sil</label>
-                                    </td>
-
-                                </tr>
-                            }*@
+                            </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
