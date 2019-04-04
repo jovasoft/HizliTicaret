@@ -31,11 +31,9 @@
             </div>
 
             <!-- Presentation block -->
-            <div class="d-flex col-lg-4 align-items-stretch p-0">
-                <div class="d-flex flex-column justify-content-center align-items-center w-100 ui-bg-cover text-center text-white py-5 navCategoryImage" style="background-image: url('assets/img/uikit/presentation-jeans.jpg');">
-                    <div class="text-big font-weight-bold mt-5 mb-2 navCategoryName">
-                        KATEGORI ADI
-                    </div>
+            <div class="d-flex col-lg-4 p-0">
+                <div class="d-flex flex-column justify-content-center align-items-stretch w-100 ui-bg-cover text-center text-white py-5 navCategoryImage" style="background-image: url('assets/img/uikit/presentation-shirt.jpg');">
+                    <div class="text-big font-weight-bold mt-5 mb-2 navCategoryName"></div>
                     <a href="#" class="btn btn-outline-white btn-lg d-block text-expanded navCategoryUrl">
                         ALIŞVERİŞE BAŞLA <i class="ion ion-ios-arrow-forward"></i>
                     </a>
@@ -46,6 +44,96 @@
     </div>
 </li>
 <!-- / Women categories -->
+<!-- Men categories -->
+<li class="nav-item mega-dropdown">
+    <a class="nav-link dropdown-toggle small text-expanded pr-lg-3 pl-lg-0" href="#" data-toggle="mega-dropdown" data-trigger="hover" aria-expanded="false">ERKEK</a>
+    <div class="dropdown-menu p-0 mt-2 overflow-hidden NavCatMen">
+        <div class="row no-gutters row-bordered">
+            <div class="col-6 col-lg-4 p-4">
+                <h6 class="small font-weight-bold text-expanded">ÖNE ÇIKANLAR</h6>
+                <div class="row">
+                    <div class="col navCategory">
+                        @foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Men && x.MainCategoryId != Guid.Empty).Take(5))
+                        {
+                            <a href="@Url.Action("Index", "Category", new { id = category.Id } )" class="mega-link d-block text-dark small mb-2">@category.Name</a>
+                            <input type="hidden" class="navCategoryImageUrl" value="@category.ImageUrl" />
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-4 p-4">
+                <h6 class="small font-weight-bold text-expanded">KATEGORILER</h6>
+                <div class="row">
+                    <div class="col navCategory">
+                        @foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Men && x.MainCategoryId != Guid.Empty))
+                        {
+                            <a href="@Url.Action("Index", "Category", new { id = category.Id } )" class="mega-link d-block text-dark small mb-2">@category.Name</a>
+                            <input type="hidden" class="navCategoryImageUrl" value="@category.ImageUrl" />
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Presentation block -->
+            <div class="d-flex col-lg-4 p-0">
+                <div class="d-flex flex-column justify-content-center align-items-stretch w-100 text-center text-white py-5 ui-bg-cover navCategoryImage" style="background-image: url('assets/img/uikit/presentation-costume.jpg');">
+                    <div class="text-big font-weight-bold mt-5 mb-2 navCategoryName"></div>
+                    <a href="#" class="btn btn-outline-white btn-lg d-block text-expanded navCategoryUrl">
+                        ALIŞVERİŞE BAŞLA <i class="ion ion-ios-arrow-forward"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- / Presentation block -->
+        </div>
+    </div>
+</li>
+<!-- / Men categories -->
+<!-- Kid categories -->
+<li class="nav-item mega-dropdown">
+    <a class="nav-link dropdown-toggle small text-expanded pr-lg-3 pl-lg-0" href="#" data-toggle="mega-dropdown" data-trigger="hover" aria-expanded="false">ÇOCUK</a>
+    <div class="dropdown-menu p-0 mt-2 overflow-hidden NavCatKid">
+        <div class="row no-gutters row-bordered">
+            <div class="col-6 col-lg-4 p-4">
+                <h6 class="small font-weight-bold text-expanded">ÖNE ÇIKANLAR</h6>
+                <div class="row">
+                    <div class="col navCategory">
+                        @foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Kid && x.MainCategoryId != Guid.Empty).Take(5))
+                        {
+                            <a href="@Url.Action("Index", "Category", new { id = category.Id } )" class="mega-link d-block text-dark small mb-2">@category.Name</a>
+                            <input type="hidden" class="navCategoryImageUrl" value="@category.ImageUrl" />
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-4 p-4">
+                <h6 class="small font-weight-bold text-expanded">KATEGORILER</h6>
+                <div class="row">
+                    <div class="col navCategory">
+                        @foreach (var category in Model.Where(x => x.CategoryType == Entities.Concrete.CategoryTypes.Kid && x.MainCategoryId != Guid.Empty))
+                        {
+                            <a href="@Url.Action("Index", "Category", new { id = category.Id } )" class="mega-link d-block text-dark small mb-2">@category.Name</a>
+                            <input type="hidden" class="navCategoryImageUrl" value="@category.ImageUrl" />
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Presentation block -->
+            <div class="d-flex col-lg-4 p-0">
+                <div class="d-flex flex-column justify-content-center align-items-stretch w-100 text-center text-white py-5 ui-bg-cover navCategoryImage" style="background-image: url('assets/img/uikit/presentation-kid.jpg');">
+                    <div class="text-big font-weight-bold mt-5 mb-2 navCategoryName"></div>
+                    <a href="#" class="btn btn-outline-white btn-lg d-block text-expanded navCategoryUrl">
+                        ALIŞVERİŞE BAŞLA <i class="ion ion-ios-arrow-forward"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- / Presentation block -->
+        </div>
+    </div>
+</li>
+<!-- / Kid categories -->
 
 <script>
 
@@ -53,23 +141,26 @@
 
         var url = $(this).attr("href");
         var text = $(this).text();
-        var imageUrl = $(this).parent().children('.navCategoryImageUrl').val();
+        var imageUrl = $(this).next().val();
 
-        $('.NavCatWomen .navCategoryImage').css("background-image", "url(" + imageUrl + ")");
-        $('.NavCatWomen .navCategoryUrl').attr("href", url);
-        $('.NavCatWomen .navCategoryUrl').text(text);
-
+        if (imageUrl) {
+            $('.NavCatWomen .navCategoryImage').css("background-image", "url(" + imageUrl + ")");
+            $('.NavCatWomen .navCategoryUrl').attr("href", url);
+            $('.NavCatWomen .navCategoryName').text(text);
+        }
     });
 
     $('.NavCatMen .navCategory a').hover(function () {
 
         var url = $(this).attr("href");
         var text = $(this).text();
-        var imageUrl = $(this).parent().children('.navCategoryImageUrl').val();
+        var imageUrl = $(this).next().val();
 
-        $('.NavCatMen .navCategoryImage').css("background-image", "url(" + imageUrl + ")");
-        $('.NavCatMen .navCategoryUrl').attr("href", url);
-        $('.NavCatMen .navCategoryUrl').text(text);
+        if (imageUrl) {
+            $('.NavCatMen .navCategoryImage').css("background-image", "url(" + imageUrl + ")");
+            $('.NavCatMen .navCategoryUrl').attr("href", url);
+            $('.NavCatMen .navCategoryName').text(text);
+        }
 
     });
 
@@ -77,13 +168,14 @@
 
         var url = $(this).attr("href");
         var text = $(this).text();
-        var imageUrl = $(this).parent().children('.navCategoryImageUrl').val();
+        var imageUrl = $(this).next().val();
 
-        $('.NavCatKid .navCategoryImage').css("background-image", "url(" + imageUrl + ")");
-        $('.NavCatKid .navCategoryUrl').attr("href", url);
-        $('.NavCatKid .navCategoryUrl').text(text);
+        if (imageUrl) {
+            $('.NavCatKid .navCategoryImage').css("background-image", "url(" + imageUrl + ")");
+            $('.NavCatKid .navCategoryUrl').attr("href", url);
+            $('.NavCatKid .navCategoryName').text(text);
+        }
 
     });
-    
 
 </script>
