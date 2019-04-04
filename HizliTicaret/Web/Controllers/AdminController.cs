@@ -386,6 +386,34 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin, Merchant")]
+        public IActionResult DeleteDiscount(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                try
+                {
+                    var getDiscount = discountService.Get(id);
+                    if (getDiscount.CategoryId != Guid.Empty)
+                    {
+                        var getCategory = categoryService.Get(getDiscount.CategoryId);
+                        getCategory.Discounts -= getDiscount.Percent;
+                        categoryService.Update(getCategory);
+                    }
+                    else if (getDiscount.ProductId != Guid.Empty)
+                    {
+                        var getProduct = productService.Get(getDiscount.ProductId);
+                        getProduct.Discounts -= getDiscount.Percent;
+                        productService.Update(getProduct);
+                    }
+                }
+                catch (Exception){ }
+            }
+
+            Response.StatusCode = 200;
+            return Json(new { status = "success" });
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
         public IActionResult AddDiscount()
         {
             var getList = categoryService.GetList();

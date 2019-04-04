@@ -29,24 +29,22 @@
                                 <th>İsim</th>
                                 <th>İndirim Oranı</th>
                                 <th>İndirim Uygulayan Satıcı</th>
-                                <th></th>
-                                <th></th>
+                                <th>İndirim Sil</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var discount in Model)
                             {
-                            <tr id="@discount.Id">
-                                <td></td>
-                                <td></td>
-                                <td>@discount.Percent</td>
-                                <td>@discount.MerchantUserName</td>
-                                <td></td>
-                                <td>
-                                    <label class="btn btn-outline-primary btn-sm float-right removeDis">Sil</label>
-                                </td>
+                                <tr id="@discount.Id">
+                                    <td></td>
+                                    <td></td>
+                                    <td>@discount.Percent</td>
+                                    <td>@discount.MerchantUserName</td>
+                                    <td>
+                                        <label class="btn btn-outline-primary btn-sm float-left removeDis">Sil</label>
+                                    </td>
 
-                            </tr>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -61,16 +59,19 @@
 </div>
 <!-- / Layout container -->
 
-@*<script type="text/javascript">
 
-    $('.removeDis').on('click', function () {
-        var categoryId = $(this).parent().parent().attr("id");
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('click', ".removeDis", function () {
+            var discountId = $(this).parent().parent().attr("id");
 
-        $.ajax({
-            url: '/Admin/DeleteCategory',
-            type: 'POST',
-            data: { id: categoryId }
-        }).done(function () { $('#' + categoryId).remove(); });
+            $.ajax({
+                url: '/Admin/DeleteDiscount',
+                type: 'GET',
+                data: { id: discountId }
+            }).done(function () { $('#' + discountId).remove(); });
 
+        });
     });
-</script>*@
+
+ </script>
