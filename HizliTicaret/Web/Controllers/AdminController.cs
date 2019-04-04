@@ -430,31 +430,31 @@ namespace Web.Controllers
         [Authorize(Roles = "Admin, Merchant")]
         public IActionResult ListDiscount()
         {
-            //List<ProductViewModel> productViewModels = new List<ProductViewModel>();
-            //List<Product> Urunler = new List<Product>();
-            //Urunler = productService.GetList();
+            List<DiscountViewModel> discountViewModels = new List<DiscountViewModel>();
+            List<Discount> discounts = new List<Discount>();
+            discounts = discountService.GetList();
 
-            //if (Urunler != null)
-            //{
-            //   if (User.IsInRole("Merchant"))
-            //      Urunler = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
+            if (discounts != null)
+            {
+                if (User.IsInRole("Merchant"))
+                    discounts = discountService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
 
-            //    foreach (var urun in Urunler)
-            //    {
-            //        ProductViewModel model = new ProductViewModel();
-            //        model.Name = urun.Name;
-            //        model.Category = categoryService.Get(urun.CategoryId);
-            //        model.MainCategory = categoryService.GetMainCategory(model.Category.CategoryType).Name;
-            //        model.Price = urun.Price;
-            //        model.Stock = urun.Stock;
-            //        model.Id = urun.Id;
+                foreach (var discount in discounts)
+                {
+                    DiscountViewModel model = new DiscountViewModel();
+                    model.Id = discount.Id;
+                    model.Percent = discount.Percent;
+                    model.MerchantUserName = discount.MerchantUserName;
+                    model.ProductId = discount.ProductId;
 
-            //        productViewModels.Add(model);
-            //    }
-            //}
+                    discountViewModels.Add(model);
+                }
 
-            //return View(productViewModels);
+                return View(discountViewModels);
+            }
+
             return View();
+            
         }
 
         [Authorize(Roles = "Admin, Merchant")]
