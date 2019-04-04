@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AccountManageViewModel
+@{
     ViewData["Title"] = "Hesabım";
     Layout = "../Shared/_Layout.cshtml";
 }
@@ -11,37 +12,30 @@
         <h4 class="font-weight-bold py-3 mb-4"> Profilim <span class="text-muted">@User.Identity.Name</span></h4>
 
         <div class="nav-tabs-top">
+            <form asp-controller="Account" asp-action="Manage" method="post" role="form">
 
-            <div class="tab-content">
-                <div class="tab-pane active show" id="user-profile">
-                    <div class="card-body pb-2">
-                        <div class="form-group">
-                            <label class="form-label">Adınız</label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">E-mail Adresiniz</label>
-                            <input type="text" class="form-control mb-1" value="nmaxwell@mail.com" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Mevcut Şifre</label>
-                            <input type="password" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Yeni Şifre</label>
-                            <input type="password" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Yeni Şifre (Tekrar)</label>
-                            <input type="password" class="form-control">
+                <div class="tab-content">
+                    <div class="tab-pane active show" id="user-profile">
+                        <div class="card-body pb-2">
+                            <div class="form-group">
+                                <label class="form-label">Adınız</label>
+                                <input type="text" class="form-control" value="@ViewData["Name"]" asp-for="Name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">E-mail Adresiniz</label>
+                                <input type="text" class="form-control mb-1" value="@User.Identity.Name" disabled>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="text-right mt-3">
-                <button type="button" class="btn btn-primary">Değişiklikleri Kaydet</button>&nbsp;
-            </div>
+
+                <div class="text-right mt-3">
+                    <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>&nbsp;
+                </div>
+
+            </form>
         </div>
     </div>
     <!-- / Content -->
+
 </div>

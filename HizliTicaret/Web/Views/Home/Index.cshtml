@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Entities.Concrete.Product>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -10,9 +11,9 @@
             <div class="container px-3">
                 <div class="shop-hero-container">
                     <div class="flex-shrink-1 text-center py-5">
-                        <div class="shop-hero-slider-animated shop-hero-slider-delay-1 display-1 font-weight-semibold mb-2">SAVE 50%</div>
-                        <div class="shop-hero-slider-animated shop-hero-slider-delay-2 display-4">FOR FIRST PURCHASE</div>
-                        <button type="button" class="shop-hero-slider-animated shop-hero-slider-delay-3 btn btn-primary btn-lg text-expanded mt-5">SHOP NOW</button>
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-1 display-1 font-weight-semibold mb-2">50% INDIRIMLI</div>
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-2 display-4">ILK ALAN SEN OL</div>
+                        <button type="button" class="shop-hero-slider-animated shop-hero-slider-delay-3 btn btn-primary btn-lg text-expanded mt-5">ALIŞVERIŞE BAŞLA</button>
                     </div>
                 </div>
             </div>
@@ -27,104 +28,58 @@
 </div>
 <!-- Hero slider -->
 
-<!-- Popular categories -->
-<div class="container px-3">
-    <h6 class="text-center text-muted font-weight-normal text-expanded my-5">POPÜLER KATEGORİLER</h6>
 
-    <div class="shop-popular-categories form-row">
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="img-thumbnail img-thumbnail-shadow ui-rect-75 ui-bg-cover ui-bg-overlay-container" style="background-image: url('assets/img/uikit/presentation-suit.jpg');">
-          <div class="ui-bg-overlay bg-white opacity-50"></div>
-          <div class="justify-content-stretch d-flex align-items-end ui-rect-content">
-            <div class="d-block w-100 bg-white text-center text-dark py-2 px-3">Suits</div>
-          </div>
-        </a>
-      </div>
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="img-thumbnail img-thumbnail-shadow ui-rect-75 ui-bg-cover ui-bg-overlay-container" style="background-image: url('assets/img/uikit/presentation-shirt.jpg');">
-          <div class="ui-bg-overlay bg-white opacity-50"></div>
-          <div class="justify-content-stretch d-flex align-items-end ui-rect-content">
-            <div class="d-block w-100 bg-white text-center text-dark py-2 px-3">T-Shirts</div>
-          </div>
-        </a>
-      </div>
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="img-thumbnail img-thumbnail-shadow ui-rect-75 ui-bg-cover ui-bg-overlay-container" style="background-image: url('assets/img/uikit/presentation-jeans.jpg');">
-          <div class="ui-bg-overlay bg-white opacity-50"></div>
-          <div class="justify-content-stretch d-flex align-items-end ui-rect-content">
-            <div class="d-block w-100 bg-white text-center text-dark py-2 px-3">Jeans</div>
-          </div>
-        </a>
-      </div>
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <a href="#" class="img-thumbnail img-thumbnail-shadow ui-rect-75 ui-bg-cover ui-bg-overlay-container" style="background-image: url('assets/img/uikit/presentation-costume.jpg');">
-          <div class="ui-bg-overlay bg-white opacity-50"></div>
-          <div class="justify-content-stretch d-flex align-items-end ui-rect-content">
-            <div class="d-block w-100 bg-white text-center text-dark py-2 px-3">Sweaters</div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-<!-- Popular categories -->
-<!-- Featured products -->
-<hr class="mt-5 mb-0">
-<div class="container px-3">
-    <h6 class="text-center text-muted font-weight-normal text-expanded my-5">YENİ EKLENENLER</h6>
-
-    <div class="row row-bordered no-gutters ui-bordered">
-        <div class="col-sm-6 col-lg-3 text-center p-4">
-            <a href="#" class="d-block">
-                <img src="assets/img/uikit/iwatch.jpg" class="mb-2" alt style="max-width: 75%; max-height: 200px">
-            </a>
-            <h6>
-                <a href="#" class="text-dark">Apple iWatch (black)</a>
-            </h6>
-            <div class="text-muted small mb-3">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </div>
-            <strong>$399.00</strong>
-            <div class="mt-4 mb-3">
-                <button type="button" class="btn btn-outline-primary text-expanded">SATIN AL</button> &nbsp;
-            </div>
-        </div>
-    </div>
-</div>
-<!-- / Featured products -->
-<!-- Presentation block -->
-<div class="ui-bg-cover ui-bg-overlay-container py-5 mt-5" style="background-image: url('assets/img/bg/29.png');">
-    <div class="ui-bg-overlay bg-dark opacity-50"></div>
-    <div class="d-flex flex-column justify-content-center align-items-center">
-        <div>
-            <div class="text-white text-large font-weight-light text-expanded px-2">&mdash; YENİ GELENLER &mdash;</div>
-        </div>
-        <div class="display-3 text-white font-weight-bolder mt-2">%30 İNDİRİM</div>
-        <button type="button" class="btn btn-outline-white btn-lg text-expanded mt-4">FIRSATLARI KEŞFET</button>
-    </div>
-</div>
-<!-- / Presentation block -->
 <!-- Product list -->
 <div class="container px-3">
     <ul class="nav nav-tabs tabs-alt container justify-content-center border-0 px-3 my-5">
-        <a class="nav-item nav-link font-weight-normal text-expanded active" href="#">EN ÇOK SATILANLAR</a>
+        <a class="nav-item nav-link font-weight-normal text-expanded active" href="#">SON EKLENENLER</a>
     </ul>
 
     <div class="row row-bordered no-gutters">
+
+        @foreach (var item in Model)
+        {
         <div class="col-sm-6 col-lg-3 text-center p-4">
-            <a href="#" class="d-block">
-                <img src="assets/img/uikit/iwatch.jpg" class="mb-2" alt style="max-width: 75%; max-height: 200px">
+            @if (item.Stock == 0)
+            {
+                <div class="ui-product-badge badge badge-outline-danger mb-2">STOKTA YOK</div>
+            }
+            <a href="@Url.Action("Show","Product", new { id = item.Id })" class="d-block">
+                <img src="@item.ImageUrl" class="mb-2" alt style="max-width: 75%; max-height: 200px">
             </a>
+
             <h6>
-                <a href="#" class="text-dark">Apple iWatch (black)</a>
+                <a href="@Url.Action("Show","Product", new { id = item.Id })" class="text-dark">@item.Name</a>
             </h6>
-            <div class="text-muted small mb-3">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+            <div class="mb-3">
+                <div class="ui-stars">
+                    <div class="ui-star filled">
+                        <i class="ion ion-md-star"></i>
+                        <i class="ion ion-md-star"></i>
+                    </div>
+                    <div class="ui-star filled">
+                        <i class="ion ion-md-star"></i>
+                        <i class="ion ion-md-star"></i>
+                    </div>
+                    <div class="ui-star filled">
+                        <i class="ion ion-md-star"></i>
+                        <i class="ion ion-md-star"></i>
+                    </div>
+                    <div class="ui-star filled">
+                        <i class="ion ion-md-star"></i>
+                        <i class="ion ion-md-star"></i>
+                    </div>
+                    <div class="ui-star half-filled">
+                        <i class="ion ion-md-star"></i>
+                        <i class="ion ion-md-star"></i>
+                    </div>
+                </div>
             </div>
-            <strong>$399.00</strong>
-            <div class="mt-4 mb-3">
-                <button type="button" class="btn btn-outline-primary text-expanded">SATIN AL</button> &nbsp;
-            </div>
+            <strong>@(item.Price - (item.Price * item.Discounts) / 100) ₺</strong>
         </div>
+        }
+
     </div>
 </div>
 <!-- / Product list -->

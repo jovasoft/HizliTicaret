@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace Web
 {
@@ -74,19 +76,19 @@ namespace Web
 
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<IProductService, ProductManager>();
-            services.AddScoped<IBrandService, BrandManager>();
             services.AddScoped<IFavoriteService, FavoriteManager>();
             services.AddScoped<ISaleService, SaleManager>();
             services.AddScoped<IDiscountService, DiscountManager>();
 
             services.AddScoped<ICategoryDal, CategoryDal>();
             services.AddScoped<IProductDal, ProductDal>();
-            services.AddScoped<IBrandDal, BrandDal>();
             services.AddScoped<IFavoriteDal, FavoriteDal>();
             services.AddScoped<ISaleDal, SaleDal>();
             services.AddScoped<IDiscountDal, DiscountDal>();
 
             #endregion
+
+            services.AddSingleton<IFileProvider>(new PhysicalFileProvider( Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSession(options =>

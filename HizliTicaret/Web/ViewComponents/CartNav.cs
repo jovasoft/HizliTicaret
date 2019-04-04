@@ -16,17 +16,17 @@ namespace Web.ViewComponents
     {
         public IViewComponentResult Invoke()
         {
-            var cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            var cart = SessionHelper.GetObjectFromJson<List<CartItemViewModel>>(HttpContext.Session, "cart");
             if (cart == null)
             {
-                ViewData["Cart"] = new List<CartItem>();
+                ViewData["Cart"] = new List<CartItemViewModel>();
                 ViewData["CartTotal"] = 0;
                 ViewData["CartCount"] = 0;
             }
             else
             {
                 ViewData["Cart"] = cart;
-                ViewData["CartTotal"] = cart.Sum(item => item.Product.Price * item.Quantity);
+                ViewData["CartTotal"] = cart.Sum(item => (item.Product.Price - (item.Product.Price * item.Product.Discounts) / 100) * item.Quantity);
                 ViewData["CartCount"] = cart.Count;
             }
 

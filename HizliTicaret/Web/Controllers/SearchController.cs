@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Microsoft.AspNetCore.Mvc;
-using Web.Models;
 
 namespace Web.Controllers
 {
-    public class HomeController : Controller
+    public class SearchController : Controller
     {
         IProductService productService;
 
-        public HomeController(IProductService _productService)
+        public SearchController(IProductService _productService)
         {
             productService = _productService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string query)
         {
-            var products = productService.GetList().Take(20).ToList();
+            var products = productService.GetList().Where(x => x.Name.ToLower().Contains(query.ToLower())).ToList();
+
+            ViewData["query"] = query;
             return View(products);
         }
     }

@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Sepetim";
 }
-@if((ViewData["Cart"] as List<CartItem>).Count <= 0)
+@if((ViewData["Cart"] as List<CartItemViewModel>).Count <= 0)
 {
     Context.Response.Redirect("/");
 }
@@ -29,13 +29,13 @@
                 </tr>
             </thead>
             <tbody>
-                @{ foreach (var item in ViewData["Cart"] as List<CartItem>)
+                @{ foreach (var item in ViewData["Cart"] as List<CartItemViewModel>)
                     {
                         <tr class="cartItem">
                             <input type="hidden" value="@item.Product.Id" />
                             <td class="p-4">
                                 <div class="media align-items-center">
-                                    <img src="~/assets/img/uikit/presentation-suit.jpg" class="d-block ui-w-40 ui-bordered mr-4">
+                                    <img src="@item.Product.ImageUrl" class="d-block ui-w-40 ui-bordered mr-4">
                                     <div class="media-body">
                                         <a href="@Url.Action("Show","Product", new { id = item.Product.Id })" class="d-block text-dark">@item.Product.Name</a>
                                         <small>
@@ -47,15 +47,15 @@
                                 </div>
                             </td>
                             <td class="text-right font-weight-semibold align-middle p-4 price">
-                                <input type="hidden" value="@item.Product.Price" />
-                                @item.Product.Price ₺
+                                <input type="hidden" value="@(item.Product.Price - (item.Product.Price * item.Product.Discounts))" />
+                                @(item.Product.Price - (item.Product.Price * item.Product.Discounts) ) ₺
                             </td>
                             <td class="align-middle p-4">
                             <input type="number" class="form-control text-center quantity" value="@item.Quantity" max="@item.Product.Stock" min="1">
                             </td>
                             <td class="text-right font-weight-semibold align-middle p-4 total">
-                                <input type="hidden" value="@(item.Product.Price * item.Quantity)" />
-                                <div> @(item.Product.Price * item.Quantity) ₺ </div>
+                                <input type="hidden" value="@((item.Product.Price - (item.Product.Price * item.Product.Discounts) / 100) * item.Quantity)" />
+                                <div> @((item.Product.Price - (item.Product.Price * item.Product.Discounts) / 100) * item.Quantity) ₺ </div>
                             </td>
                             <td class="text-center align-middle px-0 removeCartItem"><a href="#" class="shop-tooltip close float-none text-danger" title="Sil">×</a></td>
                         </tr>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,24 +14,21 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-   
+
     public class AdminController : Controller
     {
-
         IProductService productService;
         ICategoryService categoryService;
-        IBrandService brandService;
         IDiscountService discountService;
         private UserManager<User> userManager;
         private RoleManager<Role> roleManager;
 
         private readonly IHostingEnvironment _appEnvironment;
 
-        public AdminController(IProductService productService, ICategoryService categoryService, IBrandService brandService, IDiscountService discountService, IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager)
+        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager)
         {
             this.productService = productService;
             this.categoryService = categoryService;
-            this.brandService = brandService;
             this.discountService = discountService;
             this._appEnvironment = appEnvironment;
             this.userManager = _userManager;
@@ -104,12 +101,12 @@ namespace Web.Controllers
             List<CategoryViewModel> categoryViewModels = new List<CategoryViewModel>();
             List<Category> Kategoriler = new List<Category>();
             Kategoriler = categoryService.GetList();
-            
+
             if (Kategoriler != null)
             {
                 foreach (var kategori in Kategoriler)
                 {
-                    if (kategori.MainCategoryId != Guid.Empty )
+                    if (kategori.MainCategoryId != Guid.Empty)
                     {
                         CategoryViewModel model = new CategoryViewModel();
                         model.Name = kategori.Name;
@@ -117,7 +114,7 @@ namespace Web.Controllers
                         model.Id = kategori.Id;
                         categoryViewModels.Add(model);
                     }
-                   
+
                 }
             }
 
@@ -142,7 +139,7 @@ namespace Web.Controllers
         {
 
             ViewData["Users"] = userManager.GetUsersInRoleAsync("User").Result.ToList();
-          
+
             return View();
         }
 
@@ -173,7 +170,8 @@ namespace Web.Controllers
             {
                 Category mainCategory = categoryService.GetMainCategory(categoryViewModel.CategoryType);
 
-                Category category = new Category {
+                Category category = new Category
+                {
                     Name = categoryViewModel.Name,
                     CategoryType = categoryViewModel.CategoryType,
                     MainCategoryId = mainCategory.Id
@@ -261,13 +259,16 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                //if (productViewModel.ImageUrl == null || productViewModel.ImageUrl.Length == 0) return Content("file not selected");
+                if (productViewModel.File == null || productViewModel.File.Length == 0) return Content("Lütfen ürün resmi seçin.");
+                if (productViewModel.Category == null) return Content("Lütfen geri dönün ve kategori seçin.");
 
-                //string path_Root = _appEnvironment.WebRootPath;
+                string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
 
-                //string path_to_Images = path_Root + "\\assets\\img\\" + productViewModel.ImageUrl;
-
-                //System.IO.File.Copy(productViewModel.ImageUrl, path_to_Images);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    productViewModel.File.CopyTo(stream);
+                }
 
                 Product product = new Product
                 {
@@ -278,7 +279,7 @@ namespace Web.Controllers
                     IsAvailable = productViewModel.IsAvailable,
                     MerchantUserName = User.Identity.Name,
                     Description = productViewModel.Description,
-                    //ImageUrl = path_to_Images
+                    ImageUrl = "/" + fileName
                 };
 
                 productService.Add(product);
@@ -304,7 +305,7 @@ namespace Web.Controllers
                 if (User.IsInRole("Merchant"))
                     products = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
                 else
-                products = productService.GetList();
+                    products = productService.GetList();
             }
             else
             {
@@ -612,15 +613,25 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Product product = productService.Get(productViewModel.Id);
-                //Product mainCategory = product.GetMainCategory(productViewModel.Category.CategoryType);
+                if (productViewModel.File == null || productViewModel.File.Length == 0) return Content("Lütfen ürün resmi seçin.");
+                if (productViewModel.Category == null) return Content("Lütfen geri dönün ve kategori seçin.");
 
+                string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    productViewModel.File.CopyTo(stream);
+                }
+
+                Product product = productService.Get(productViewModel.Id);
                 product.Name = productViewModel.Name;
                 product.Price = productViewModel.Price;
                 product.Stock = productViewModel.Stock;
                 product.IsAvailable = productViewModel.IsAvailable;
                 product.CategoryId = productViewModel.Category.Id;
                 product.Description = productViewModel.Description;
+                product.ImageUrl = "/" + fileName;
 
                 productService.Update(product);
 

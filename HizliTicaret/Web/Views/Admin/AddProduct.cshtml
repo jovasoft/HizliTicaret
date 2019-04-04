@@ -5,8 +5,6 @@
     ViewData["Title"] = "Index";
     Layout = "../Shared/Layouts/_AdminLayout.cshtml";
 }
-
-
 <!-- Layout container -->
 <div class="layout-container">
     <!-- Layout content -->
@@ -15,10 +13,8 @@
         <!-- Content -->
         <div class="container-fluid flex-grow-1 container-p-y">
 
-            <h4 class="font-weight-bold py-3 mb-4">
-                Ürün Ekle <span class="text-muted">&nbsp;&nbsp;   #ÜrünId</span>
-            </h4>
-            <form asp-controller="Admin" asp-action="AddProduct" method="post" role="form">
+            <h4 class="font-weight-bold py-3 mb-4">Ürün Ekle</h4>
+            <form asp-controller="Admin" asp-action="AddProduct" method="post" role="form" enctype="multipart/form-data">
                 <div class="nav-tabs-top nav-responsive-sm">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
@@ -27,19 +23,19 @@
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#item-description">Açıklama</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#item-images">Resimler</a>
-                        </li>
                     </ul>
-
 
                     <div class="tab-content">
 
                         <!-- Basic info -->
                         <div class="tab-pane fade show active" id="item-info">
 
-
                             <div class="card-body">
+
+                                <div class="form-group">
+                                    <label class="form-label">Resim</label>
+                                    <input type="file"  class="form-control" style="padding-bottom: 2rem;" asp-for="File" />
+                                </div>
 
                                 <div class="form-group">
                                     <label class="form-label">Başlık</label>
@@ -91,6 +87,7 @@
 
                         </div>
                         <!-- / Basic info -->
+
                         <!-- Description -->
                         <div class="tab-pane fade" id="item-description">
                             <div class="card-body">
@@ -100,33 +97,11 @@
                             </div>
                         </div>
                         <!-- / Description -->
-                        <!-- Images -->
-                        <div class="tab-pane fade" id="item-images">
-                            <div class="card-body">
-                                
-                                <div id="product-images">
-
-                                    <div class="media align-items-center bg-white ui-bordered py-3 mb-2">
-                                        <div class="product-image-move ion ion-ios-move text-muted text-big p-4"></div>
-                                        <a href="javascript:void(0)" class="d-block ui-w-100 mr-4">
-                                            <img src="assets/img/uikit/s7edge-1.jpg" class="img-fluid" alt="">
-                                        </a>
-                                        <div class="media-body">
-                                            <input type="text" value=@ViewData["fileLocation"] class="form-control form-control-sm bg-transparent border-light mb-2" readonly>
-                                        </div>
-                                        <button type="button" class="btn btn-outline-danger borderless icon-btn d-block mx-4"><i class="ion ion-md-close"></i></button>
-                                    </div>
-                                </div>
-                                <input type="file" class="btn btn-outline-primary mt-3" asp-for="Image"></input>
-                            </div>
-                        </div>
-                        <!-- / Images -->
 
                     </div>
                 </div>
 
                 <div class="text-right mt-3">
-                    <button type="button" class="btn btn-default">İptal</button> &nbsp;
                     <button type="submit" class="btn btn-primary">Kaydet</button>
                 </div>
             </form>
@@ -139,6 +114,7 @@
 
 
 <script type="text/javascript">
+    $('#AnaKategori').trigger('change');
 
     $(document).ready(function () {
         $('#AnaKategori').change(function () {
@@ -157,16 +133,14 @@
                                 text: kategori.name 
                             }));
                         });
-                    },
-                    error: function () {
-                        /*Bu metod ile Ajax işlemi başarısız
-                        olursa eğer hata mesajı verebiliyoruz.*/
-                        alert("Hata");
-                    },
-                   
+                    },                   
                 });
             }
         });
     });
 
 </script>
+
+<style>
+    
+</style>

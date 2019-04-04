@@ -26,8 +26,7 @@
 
             @await Component.InvokeAsync("CategoryNav")
 
-            <li class="nav-item"><a class="nav-link small text-expanded px-lg-3" href="#">İLETİŞİM</a></li>
-            <li class="nav-item"><a class="nav-link small text-expanded px-lg-3" href="#">BLOG</a></li>
+            <li class="nav-item"><a class="nav-link small text-expanded px-lg-3" href="/Contact">İLETİŞİM</a></li>
         </ul>
       </div>
       <!-- / Menu -->
@@ -40,7 +39,8 @@
                   <label class="nav-link navbar-search-box">
                       <i class="ion ion-ios-search navbar-icon align-middle"></i>
                       <span class="navbar-search-input">
-                          <input type="text" class="form-control mx-2" placeholder="Ara..." style="width:140px">
+                          <input type="text" class="form-control mx-2" placeholder="Adidas Superstar" style="width: 140px" id="querySearch">
+                          <button class="btn btn-primary mr-2 btn-sm"  id="btnSearch">Ara</button>
                           <a href="#" class="navbar-search-cancel">×</a>
                       </span>
                   </label>
@@ -59,3 +59,12 @@
     </div>
   </nav>
   <!-- / Navbar -->
+
+<script>
+    $('#btnSearch').click(function () {
+
+        var query = $('#querySearch').val();
+        if (query) { document.location.href = "/Search/Index?query=" + query };
+
+    });
+</script>

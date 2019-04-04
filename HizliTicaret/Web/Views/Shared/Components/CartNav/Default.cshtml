@@ -7,14 +7,14 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right">
 
-            @{ foreach (var item in ViewData["Cart"] as List<CartItem>)
+            @{ foreach (var item in ViewData["Cart"] as List<CartItemViewModel>)
                 {
                     <div class="media align-items-center p-3 cartItem">
                         <input type="hidden" value="@item.Product.Id" />
-                        <img src="~/assets/img/uikit/presentation-suit.jpg" class="d-block ui-w-40" alt="">
+                        <img src="@item.Product.ImageUrl" class="d-block ui-w-40" alt="">
                         <div class="media-body small mx-3">
                             <a href="@Url.Action("Show","Product", new { id = item.Product.Id })" class="text-dark font-weight-semibold">@item.Product.Name</a>
-                            <div class="text-muted">@item.Product.Price ₺ &times; @item.Quantity</div>
+                            <div class="text-muted">@(item.Product.Price - (item.Product.Price * item.Product.Discounts)) ₺ &times; @item.Quantity</div>
                         </div>
                         <a style="cursor: pointer" class="text-danger text-xlarge font-weight-light removeCartItem">
                             &times;
