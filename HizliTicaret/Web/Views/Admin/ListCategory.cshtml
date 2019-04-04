@@ -69,7 +69,7 @@
                                         }
                                     }
                                 </td>
-                                <td></td>
+                                <td>@category.ProductCount</td>
                                 <td>
                                    <a href="@Url.Action("UpdateCategory","Admin", new { id = category.Id })"><label class="btn btn-outline-secondary btn-sm float-right updateCat">Düzenle</label></a> 
                                 </td>
@@ -107,7 +107,7 @@
                         var table = $("#category-list tbody");
                         $(table).find("tr").remove();
                         $.each(filterCategories, function (index, category) {
-
+                            
                             if (category.categoryType == 0) {
                                 table.append("<tr id=" + category.id + "><td>" + category.name + "</td><td>" + "Kadın" + "</td><td>" + 1 + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updateCat"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removeCat"' + ">Sil</label>" + "</td></tr>");
                             }

@@ -16,5 +16,6 @@ namespace Web.Models
         public Guid MainCategoryId { get; set; }
         public IFormFile File { get; set; }
         public Guid Id { get; set; }
+        public int ProductCount { get; set; }
     }
 }

@@ -66,32 +66,6 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult ListCategory(string categoryTypeId)
-        {
-            List<CategoryViewModel> categoryViewModels = new List<CategoryViewModel>();
-            List<Category> Kategoriler = new List<Category>();
-            Kategoriler = categoryService.GetList();
-
-            if (Kategoriler != null)
-            {
-                foreach (var kategori in Kategoriler)
-                {
-                    if (kategori.MainCategoryId != Guid.Empty)
-                    {
-                        CategoryViewModel model = new CategoryViewModel();
-                        model.Name = kategori.Name;
-                        model.CategoryType = kategori.CategoryType;
-                        model.Id = kategori.Id;
-                        categoryViewModels.Add(model);
-                    }
-
-                }
-            }
-
-            return View(categoryViewModels);
-        }
-
-        [Authorize(Roles = "Admin")]
         public IActionResult AddCategory()
         {
             return View();
@@ -225,6 +199,35 @@ namespace Web.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
+        public IActionResult ListCategory(string categoryTypeId)
+        {
+            List<CategoryViewModel> categoryViewModels = new List<CategoryViewModel>();
+            List<Category> categories = new List<Category>();
+            List<Product> products = new List<Product>();
+            categories = categoryService.GetList();
+
+            if (categories != null)
+            {
+                foreach (var category in categories)
+                {
+                    if (category.MainCategoryId != Guid.Empty)
+                    {
+                        CategoryViewModel model = new CategoryViewModel();
+                        products = productService.GetList().Where(x => x.CategoryId == category.Id).ToList();
+                        model.Name = category.Name;
+                        model.CategoryType = category.CategoryType;
+                        model.Id = category.Id;
+                        model.ProductCount = products.Count();
+                        categoryViewModels.Add(model);
+                    }
+
+                }
+            }
+
+            return View(categoryViewModels);
         }
 
         [Authorize(Roles = "Admin, Merchant")]
@@ -534,6 +537,7 @@ namespace Web.Controllers
         public IActionResult ListCategoryFilter(int categoryId)
         {
             List<Category> categories = new List<Category>();
+            List<Product> products = new List<Product>();
 
             categories = categoryService.GetList();
 
@@ -546,6 +550,7 @@ namespace Web.Controllers
             else
             {
                 filterCategories = categories.Where(k => k.CategoryType == (CategoryTypes)categoryId && k.MainCategoryId != Guid.Empty).ToList();
+                
             }
 
             return Json(filterCategories);
