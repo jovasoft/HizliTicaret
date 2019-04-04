@@ -296,76 +296,36 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddDiscount(DiscountViewModel discountViewModel)
         {
-            Category mainCategory = categoryService.Get(discountViewModel.MainCategoryId);
-            Category category = categoryService.Get(discountViewModel.CategoryId);
+            Discount discount = new Discount();
 
-            var products = new List<Product>();
-
-            //tüm kategorilerse
-            if (category == null && mainCategory == null)
+            //üründe indirim var
+            if (discountViewModel.ProductId != null)
             {
-                if (User.IsInRole("Merchant"))
-                    products = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
-                else
-                    products = productService.GetList();
-            }
-            else
-            {
-                //ana kategoriyse
-                if (category.Id == null)
-                {
-                    var allCategories = categoryService.GetList();
-
-                    //ana kategorinin tüm kategorilerini al
-                    var categoyProducts = new List<Category>();
-                    foreach (var cat in allCategories)
-                    {
-                        if (cat.MainCategoryId == discountViewModel.CategoryId)
-                            categoyProducts.Add(cat);
-                    }
-
-                    var allProducts = productService.GetList();
-
-                    if (User.IsInRole("Merchant"))
-                        allProducts = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
-
-                    //tüm kategorilere ait ürünleri al
-                    foreach (var product in allProducts)
-                    {
-                        if (categoyProducts.Exists(x => x.Id == product.CategoryId))
-                            products.Add(product);
-                    }
-                }
-                else if (discountViewModel.ProductId == Guid.Empty) //kategoriyse
-                {
-                    if (User.IsInRole("Merchant"))
-                        products = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name && x.CategoryId == discountViewModel.CategoryId).ToList();
-                    else
-                        products = productService.GetProductsInCategory(discountViewModel.CategoryId);
-                }
-                else
-                {
-                    //product
-                    products.Add(productService.Get(discountViewModel.ProductId));
-                }
-            }
-
-            foreach (var product in products)
-            {
+                Product product = productService.Get(discountViewModel.ProductId);
                 product.Discounts += discountViewModel.Percent;
 
-                productService.Update(product);
-
-                Discount discount = new Discount
-                {
-                    ProductId = product.Id,
-                    Percent = discountViewModel.Percent,
-                    MerchantUserName = User.Identity.Name
-                };
+                discount.ProductId = discountViewModel.ProductId;
+                discount.Percent = discountViewModel.Percent;
+                discount.Name = product.Name;
+                discount.MerchantUserName = User.Identity.Name;
 
                 discountService.Add(discount);
+                productService.Update(product);
             }
+            else if (discountViewModel.CategoryId != null || discountViewModel.MainCategoryId != null) //kategoride indirim var
+            {
+                Category category = categoryService.Get(discountViewModel.CategoryId);
+                category.Discounts += discountViewModel.Percent;
 
+                discount.CategoryId = discountViewModel.ProductId;
+                discount.Percent = discountViewModel.Percent;
+                discount.Name = category.Name;
+                discount.MerchantUserName = User.Identity.Name;
+
+                discountService.Add(discount);
+                categoryService.Update(category);
+            }
+            
             return RedirectToAction("ListDiscount");
         }
 
@@ -482,6 +442,8 @@ namespace Web.Controllers
                     model.Percent = discount.Percent;
                     model.MerchantUserName = discount.MerchantUserName;
                     model.ProductId = discount.ProductId;
+                    model.CategoryId = discount.CategoryId;
+                    model.Name = discount.Name;
 
                     discountViewModels.Add(model);
                 }

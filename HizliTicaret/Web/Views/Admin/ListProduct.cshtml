@@ -61,7 +61,7 @@
                                 <td>@product.Stock</td>
                                 <td>@(product.PriceWithDiscounts - (product.PriceWithDiscounts * product.Category.Discounts) / 100) ₺</td>
                                 <td>
-                                    <a href="@Url.Action("UpdateProduct","Admin", new { id = product.Id })"><label class="btn btn-outline-secondary btn-sm float-right updatePro">Düzenle</label></a>
+                                    <a href="@Url.Action("UpdateProduct","Admin", new { id = product.Id })" ><label class="btn btn-outline-secondary btn-sm float-right updatePro">Düzenle</label></a>
                                 </td>
                                 <td>
                                     <label class="btn btn-outline-primary btn-sm float-right removePro">Sil</label>
