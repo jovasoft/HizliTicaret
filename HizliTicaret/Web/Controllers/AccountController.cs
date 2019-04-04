@@ -101,7 +101,10 @@ namespace Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (userManager.IsInRoleAsync(userManager.Users.ToList().SingleOrDefault(x => x.Email == loginViewModel.Mail), "User").Result)
+                        return RedirectToAction("Index", "Home");
+                    else
+                        return RedirectToAction("Index", "Admin");
                 }
 
                 ModelState.AddModelError("loginError", "Hatalı kullanıcı adı veya parola.");

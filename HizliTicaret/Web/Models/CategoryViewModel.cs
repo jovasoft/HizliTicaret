@@ -14,5 +14,6 @@ namespace Web.Models
         public CategoryTypes CategoryType { get; set; }
         public Guid MainCategoryId { get; set; }
         public Guid Id { get; set; }
+        public int ProductCount { get; set; }
     }
 }
