@@ -11,7 +11,6 @@ namespace DataAccess.Concrete
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Brand> Brands { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<Discount> Discounts { get; set; }

@@ -19,16 +19,14 @@ namespace Web.Controllers
     {
         IProductService productService;
         ICategoryService categoryService;
-        IBrandService brandService;
         IDiscountService discountService;
 
         private readonly IHostingEnvironment _appEnvironment;
 
-        public AdminController(IProductService productService, ICategoryService categoryService, IBrandService brandService, IDiscountService discountService, IHostingEnvironment appEnvironment)
+        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, IHostingEnvironment appEnvironment)
         {
             this.productService = productService;
             this.categoryService = categoryService;
-            this.brandService = brandService;
             this.discountService = discountService;
             this._appEnvironment = appEnvironment;
         }

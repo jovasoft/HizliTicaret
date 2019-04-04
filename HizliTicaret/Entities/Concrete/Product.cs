@@ -9,7 +9,6 @@ namespace Entities.Concrete
     {
         public Guid Id { get; set; }
         public Guid CategoryId { get; set; }
-        public Guid BrandId { get; set; }
         public string MerchantUserName { get; set; }
         public decimal Price { get; set; }
         public int Discounts { get; set; }
