@@ -1,0 +1,90 @@
+﻿@model ContactViewModel
+@{
+    ViewData["Title"] = "İletişim";
+}
+
+<h1 class="display-4 text-center pb-4 mb-5">İletişim</h1>
+
+<div class="row">
+    <div class="col-lg-6">
+
+        <div class="media align-items-center">
+            <div class="ui-icon border-0 text-large">&nbsp;</div>
+            <div class="media-body ml-2">
+                <h5 class="m-0">Bilgilerimiz</h5>
+            </div>
+        </div>
+
+        <div class="media">
+            <div class="ion ion-ios-call ui-icon border-0 text-lightest text-large"></div>
+            <div class="media-body pt-2 ml-2">
+
+                <div class="ui-company-text mb-2">+90 (537) 456 7891</div>
+                <div class="ui-company-text mb-2">+90 (850) 543 2198</div>
+            </div>
+        </div>
+
+        <div class="media align-items-center">
+            <div class="ion ion-ios-mail ui-icon border-0 text-lightest text-large"></div>
+            <div class="media-body ml-2">
+                <a href="support@hizliticaret.com" class="ui-company-text text-dark">support@hizliticaret.com</a>
+            </div>
+        </div>
+
+        <div class="media align-items-center mt-3">
+            <div class="ui-icon border-0 text-lightest text-large">&nbsp;</div>
+            <div class="media-body ml-2">
+                <h5 class="m-0">Adresimiz</h5>
+            </div>
+        </div>
+
+        <div class="media">
+            <div class="ion ion-ios-navigate ui-icon border-0 text-lightest text-large"></div>
+            <div class="media-body pt-2 ml-2">
+
+                <div class="ui-company-text">
+                    Selvilitepe mahallesi<br>
+                    Turgutlu, Manisa
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="d-lg-none w-100 my-5">
+
+    <form class="col-lg-6" asp-controller="Contact" asp-action="Index" method="post" role="form">
+        <div class="form-row">
+            @if (ViewData["success"] != null && (bool)ViewData["success"] == true)
+            {
+                <div class="form-group col-md-12 text-success">Mesajınız iletildi.</div>
+            }
+            else if (ViewData["success"] != null && (bool)ViewData["success"] == false)
+            {
+                <div class="form-group col-md-12 text-danger">Mesajınız iletilemedi.</div>
+            }
+            <div class="form-group col-md-6">
+                <label class="form-label">Adınız</label>
+                <input type="text" class="form-control" asp-for="Name">
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label">Mail Adresiniz</label>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <input type="email" class="form-control" value="@User.Identity.Name" asp-for="Mail">
+                }
+                else
+                {
+                    <input type="email" class="form-control" asp-for="Mail">
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Mesajınız</label>
+            <textarea rows="6" class="form-control" asp-for="Message"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Gönder</button>
+    </form>
+
+    <img class="mt-5" src="~/assets/img/map.jpg" style="height: 400px; width: 100%;" />
+</div>
