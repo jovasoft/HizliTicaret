@@ -10,6 +10,7 @@ namespace Entities.Concrete
         public CategoryTypes CategoryType { get; set; }
         public Guid MainCategoryId { get; set; }
         public string ImageUrl { get; set; }
+        public int Discounts { get; set; }
     }
 
     public enum CategoryTypes

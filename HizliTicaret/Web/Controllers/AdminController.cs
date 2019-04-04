@@ -419,6 +419,7 @@ namespace Web.Controllers
                     model.Price = urun.Price;
                     model.Stock = urun.Stock;
                     model.Id = urun.Id;
+                    model.Discounts = urun.Discounts;
 
                     productViewModels.Add(model);
                 }

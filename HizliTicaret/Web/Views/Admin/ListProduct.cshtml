@@ -59,7 +59,7 @@
                                 <td>@product.MainCategory</td>
                                 <td>@product.Category.Name</td>
                                 <td>@product.Stock</td>
-                                <td>@(product.Price - (product.Price * product.Discounts) / 100) ₺</td>
+                                <td>@(product.PriceWithDiscounts - (product.PriceWithDiscounts * product.Category.Discounts) / 100) ₺</td>
                                 <td>
                                     <a href="@Url.Action("UpdateProduct","Admin", new { id = product.Id })"><label class="btn btn-outline-secondary btn-sm float-right updatePro">Düzenle</label></a>
                                 </td>
@@ -78,7 +78,6 @@
         <!-- / Content -->
     </div>
     <!-- Layout content -->
-
 </div>
 <!-- / Layout container -->
 <script type="text/javascript">

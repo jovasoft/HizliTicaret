@@ -68,6 +68,7 @@
                                 <div class="form-group">
                                     <label class="form-label">Ana Kategori</label>
                                     <select class="custom-select" asp-for="Category.MainCategoryId" id="AnaKategori">
+                                        <option value="0">-- Kategori Seçiniz --</option>
                                         @{
                                             foreach (var Category in (ViewData["categories"] as IEnumerable<Entities.Concrete.Category>).Where(x => x.MainCategoryId == Guid.Empty))
                                             {

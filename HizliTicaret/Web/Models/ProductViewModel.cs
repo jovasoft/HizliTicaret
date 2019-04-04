@@ -23,5 +23,6 @@ namespace Web.Models
         public bool IsAvailable { get; set; }
         public int Discounts { get; set; }
         public IFormFile File { get; set; }
+        public decimal PriceWithDiscounts { get; set; }
     }
 }
