@@ -9,6 +9,7 @@ namespace Entities.Concrete
         public string Name { get; set; }
         public CategoryTypes CategoryType { get; set; }
         public Guid MainCategoryId { get; set; }
+        public string ImageUrl { get; set; }
     }
 
     public enum CategoryTypes

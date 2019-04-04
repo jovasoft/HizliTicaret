@@ -118,8 +118,21 @@ namespace Web.Controllers
                 {
                     Name = categoryViewModel.Name,
                     CategoryType = categoryViewModel.CategoryType,
-                    MainCategoryId = mainCategory.Id
+                    MainCategoryId = mainCategory.Id,
                 };
+
+                if (categoryViewModel.File != null && categoryViewModel.File.Length > 0)
+                {
+                    string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + categoryViewModel.File.FileName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        categoryViewModel.File.CopyTo(stream);
+                    }
+
+                    category.ImageUrl = "/" + fileName;
+                }
 
                 categoryService.Add(category);
                 return RedirectToAction("ListCategory");
@@ -157,10 +170,22 @@ namespace Web.Controllers
                 Category category = categoryService.Get(categoryViewModel.Id);
                 Category mainCategory = categoryService.GetMainCategory(categoryViewModel.CategoryType);
 
-
                 category.Name = categoryViewModel.Name;
                 category.CategoryType = categoryViewModel.CategoryType;
                 category.MainCategoryId = mainCategory.Id;
+
+                if (categoryViewModel.File != null && categoryViewModel.File.Length > 0)
+                {
+                    string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + categoryViewModel.File.FileName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        categoryViewModel.File.CopyTo(stream);
+                    }
+
+                    category.ImageUrl = "/" + fileName;
+                }
 
                 categoryService.Update(category);
 
@@ -190,8 +215,6 @@ namespace Web.Controllers
             Response.StatusCode = 200;
             return Json(new { status = "success" });
         }
-
-        //satıcı ekle - satıcı sil - satıcı listele
 
         #region merchant
 
@@ -237,17 +260,6 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (productViewModel.File == null || productViewModel.File.Length == 0) return Content("Lütfen ürün resmi seçin.");
-                if (productViewModel.Category == null) return Content("Lütfen geri dönün ve kategori seçin.");
-
-                string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
-
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    productViewModel.File.CopyTo(stream);
-                }
-
                 Product product = new Product
                 {
                     Name = productViewModel.Name,
@@ -256,9 +268,21 @@ namespace Web.Controllers
                     CategoryId = productViewModel.Category.Id,
                     IsAvailable = productViewModel.IsAvailable,
                     MerchantUserName = User.Identity.Name,
-                    Description = productViewModel.Description,
-                    ImageUrl = "/" + fileName
+                    Description = productViewModel.Description
                 };
+
+                if (productViewModel.File != null && productViewModel.File.Length > 0)
+                {
+                    string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        productViewModel.File.CopyTo(stream);
+                    }
+
+                    product.ImageUrl = "/" + fileName;
+                }
 
                 productService.Add(product);
                 return RedirectToAction("ListProduct");
@@ -620,17 +644,6 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (productViewModel.File == null || productViewModel.File.Length == 0) return Content("Lütfen ürün resmi seçin.");
-                if (productViewModel.Category == null) return Content("Lütfen geri dönün ve kategori seçin.");
-
-                string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
-
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    productViewModel.File.CopyTo(stream);
-                }
-
                 Product product = productService.Get(productViewModel.Id);
                 product.Name = productViewModel.Name;
                 product.Price = productViewModel.Price;
@@ -638,7 +651,19 @@ namespace Web.Controllers
                 product.IsAvailable = productViewModel.IsAvailable;
                 product.CategoryId = productViewModel.Category.Id;
                 product.Description = productViewModel.Description;
-                product.ImageUrl = "/" + fileName;
+
+                if (productViewModel.File != null || productViewModel.File.Length > 0)
+                {
+                    string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        productViewModel.File.CopyTo(stream);
+                    }
+
+                    product.ImageUrl = "/" + fileName;
+                }
 
                 productService.Update(product);
 

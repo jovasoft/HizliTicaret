@@ -1,4 +1,5 @@
 ﻿using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,7 @@ namespace Web.Models
         public string Name { get; set; }
         public CategoryTypes CategoryType { get; set; }
         public Guid MainCategoryId { get; set; }
+        public IFormFile File { get; set; }
         public Guid Id { get; set; }
         public int ProductCount { get; set; }
     }
