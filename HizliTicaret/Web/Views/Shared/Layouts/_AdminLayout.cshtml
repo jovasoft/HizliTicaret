@@ -76,12 +76,14 @@
                         </a>
                     </li>
                 }
-                <li class="sidenav-item">
-                    <a href="/Admin/AddDiscount" class="sidenav-link">
-                        <div>Kategori İndirim Ekle</div>
-                    </a>
-                </li>
-
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="sidenav-item">
+                        <a href="/Admin/AddDiscount" class="sidenav-link">
+                            <div>Kategori İndirim Ekle</div>
+                        </a>
+                    </li>
+                }
                 <li class="sidenav-item">
                     <a href="/Admin/ListDiscount" class="sidenav-link">
                         <div>İndirimleri Listele</div>
