@@ -16,10 +16,10 @@ namespace Web.ViewComponents
     {
         public IViewComponentResult Invoke()
         {
-            var cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            var cart = SessionHelper.GetObjectFromJson<List<CartItemViewModel>>(HttpContext.Session, "cart");
             if (cart == null)
             {
-                ViewData["Cart"] = new List<CartItem>();
+                ViewData["Cart"] = new List<CartItemViewModel>();
                 ViewData["CartTotal"] = 0;
                 ViewData["CartCount"] = 0;
             }

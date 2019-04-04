@@ -7,7 +7,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right">
 
-            @{ foreach (var item in ViewData["Cart"] as List<CartItem>)
+            @{ foreach (var item in ViewData["Cart"] as List<CartItemViewModel>)
                 {
                     <div class="media align-items-center p-3 cartItem">
                         <input type="hidden" value="@item.Product.Id" />
