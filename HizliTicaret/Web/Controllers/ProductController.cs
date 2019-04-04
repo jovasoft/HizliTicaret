@@ -112,17 +112,17 @@ namespace Web.Controllers
             {
                 var products = productService.GetList();
 
-                if (SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart") == null)
+                if (SessionHelper.GetObjectFromJson<List<CartItemViewModel>>(HttpContext.Session, "cart") == null)
                 {
-                    List<CartItem> cart = new List<CartItem>();
+                    List<CartItemViewModel> cart = new List<CartItemViewModel>();
 
-                    cart.Add(new CartItem { Product = productService.Get(id), Quantity = quantity });
+                    cart.Add(new CartItemViewModel { Product = productService.Get(id), Quantity = quantity });
 
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 }
                 else
                 {
-                    List<CartItem> cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+                    List<CartItemViewModel> cart = SessionHelper.GetObjectFromJson<List<CartItemViewModel>>(HttpContext.Session, "cart");
 
                     int index = isExist(id);
                     if (index != -1)
@@ -131,7 +131,7 @@ namespace Web.Controllers
                     }
                     else
                     {
-                        cart.Add(new CartItem { Product = productService.Get(id), Quantity = quantity });
+                        cart.Add(new CartItemViewModel { Product = productService.Get(id), Quantity = quantity });
                     }
 
                     SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
@@ -147,7 +147,7 @@ namespace Web.Controllers
         {
             if (id != Guid.Empty)
             {
-                List<CartItem> cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+                List<CartItemViewModel> cart = SessionHelper.GetObjectFromJson<List<CartItemViewModel>>(HttpContext.Session, "cart");
                 int index = isExist(id);
                 cart.RemoveAt(index);
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
@@ -160,7 +160,7 @@ namespace Web.Controllers
 
         private int isExist(Guid id)
         {
-            List<CartItem> cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            List<CartItemViewModel> cart = SessionHelper.GetObjectFromJson<List<CartItemViewModel>>(HttpContext.Session, "cart");
             for (int i = 0; i < cart.Count; i++)
             {
                 if (cart[i].Product.Id.Equals(id))

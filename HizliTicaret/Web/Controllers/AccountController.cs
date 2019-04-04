@@ -110,12 +110,6 @@ namespace Web.Controllers
             return View(loginViewModel);
         }
 
-        public IActionResult Logout()
-        {
-            signInManager.SignOutAsync().Wait();
-            return RedirectToAction("Index", "Home");
-        }
-
         public IActionResult AccessDenied()
         {
             return View();
@@ -158,20 +152,26 @@ namespace Web.Controllers
         [Authorize(Roles = "Admin, User, Merchant")]
         public IActionResult Manage()
         {
+            ViewData["Name"] = userManager.GetUserAsync(User).Result.Name;
+
             return View();
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin, User, Merchant")]
         [ValidateAntiForgeryToken]
-        public IActionResult Manage(ManageViewModel manageViewModel)
+        public IActionResult Manage(AccountManageViewModel accountManageViewModel)
         {
             if (ModelState.IsValid)
             {
+                var user = userManager.GetUserAsync(User).Result;
+                user.Name = accountManageViewModel.Name;
 
+                userManager.UpdateAsync(user);
             }
 
-            return View(manageViewModel);
+            ViewData["Name"] = userManager.GetUserAsync(User).Result.Name;
+            return View();
         }
 
         [Authorize(Roles = "Admin, User, Merchant")]
@@ -198,6 +198,12 @@ namespace Web.Controllers
             return Json( new { status = "success" });
         }
 
+        [Authorize(Roles = "Admin, User, Merchant")]
+        public IActionResult Logout()
+        {
+            signInManager.SignOutAsync().Wait();
+            return RedirectToAction("Index", "Home");
+        }
         #endregion
     }
 }
