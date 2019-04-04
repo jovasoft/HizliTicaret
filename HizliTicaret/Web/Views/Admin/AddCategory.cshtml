@@ -34,7 +34,13 @@
 
                         <div class="card-body">
 
-                            <form asp-controller="Admin" asp-action="AddCategory" method="post" role="form">
+                            <form asp-controller="Admin" asp-action="AddCategory" method="post" role="form" enctype="multipart/form-data">
+
+                                <div class="form-group">
+                                    <label class="form-label">Resim</label>
+                                    <input type="file" class="form-control" style="padding-bottom: 2rem;" asp-for="File" />
+                                </div>
+
                                 <div class="form-group">
                                     <label class="form-label">Kategori Adı</label>
                                     <input type="text" class="form-control" asp-for="Name">
