@@ -98,7 +98,6 @@
     <!-- / Layout container -->
 </div>
 
-
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -135,10 +134,9 @@
             }
         });
 
-
         $('#Kategori').change(function () {
             var KategoriID = $(this).val();
-            alert(KategoriID);
+
             if (KategoriID != null && KategoriID != '') {
                 $.ajax({
                     type: "post",
