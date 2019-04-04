@@ -392,6 +392,7 @@ namespace Web.Controllers
             {
                 try
                 {
+                    
                     var getDiscount = discountService.Get(id);
                     if (getDiscount.CategoryId != Guid.Empty)
                     {
@@ -405,6 +406,7 @@ namespace Web.Controllers
                         getProduct.Discounts -= getDiscount.Percent;
                         productService.Update(getProduct);
                     }
+                    discountService.Delete(id);
                 }
                 catch (Exception){ }
             }
