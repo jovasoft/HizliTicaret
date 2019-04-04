@@ -36,11 +36,14 @@
                         <div>Ürünleri Listele</div>
                     </a>
                 </li>
-                <li class="sidenav-item">
-                    <a href="/Admin/ListCategory" class="sidenav-link">
-                        <div>Kategori Listele</div>
-                    </a>
-                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="sidenav-item">
+                        <a href="/Admin/ListCategory" class="sidenav-link">
+                            <div>Kategori Listele</div>
+                        </a>
+                    </li>
+                }
                 <li class="sidenav-item">
                     <a href="/Admin/ListDiscount" class="sidenav-link">
                         <div>İndirimleri Listele</div>
@@ -49,7 +52,9 @@
             </ul>
         </li>
 
-        <!-- UI elements -->
+        @if (User.IsInRole("Admin"))
+        {
+            <!-- UI elements -->
         <li class="sidenav-item">
             <a href="javascript:void(0)" class="sidenav-link sidenav-toggle">
                 <i class="sidenav-icon ion ion-md-cube"></i>
@@ -58,13 +63,13 @@
 
             <ul class="sidenav-menu">
                 <li class="sidenav-item">
-                    <a href="ui_buttons.html" class="sidenav-link">
-                        <div>Satıcı Listele</div>
+                    <a href="/Admin/ListRole" class="sidenav-link">
+                        <div>Tüm Kullanıcıları Listele</div>
                     </a>
                 </li>
                 <li class="sidenav-item">
-                    <a href="ui_badges.html" class="sidenav-link">
-                        <div>Satıcı Yetkilendir</div>
+                    <a href="/Admin/AddMerchant" class="sidenav-link">
+                        <div>Satıcı Ekle</div>
                     </a>
                 </li>
                 <li class="sidenav-item">
@@ -102,7 +107,7 @@
         </li>
 
         <!-- Pages -->
-
+        }
     </ul>
 </div>
 <!-- / Layout sidenav -->
