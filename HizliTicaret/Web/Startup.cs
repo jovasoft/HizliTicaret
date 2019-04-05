@@ -79,6 +79,7 @@ namespace Web
             services.AddScoped<IFavoriteService, FavoriteManager>();
             services.AddScoped<ISaleService, SaleManager>();
             services.AddScoped<IDiscountService, DiscountManager>();
+            services.AddScoped<IVisitService, VisitManager>();
             services.AddScoped<IPopupService, PopupManager>();
 
             services.AddScoped<ICategoryDal, CategoryDal>();
@@ -86,6 +87,7 @@ namespace Web
             services.AddScoped<IFavoriteDal, FavoriteDal>();
             services.AddScoped<ISaleDal, SaleDal>();
             services.AddScoped<IDiscountDal, DiscountDal>();
+            services.AddScoped<IVisitDal, VisitDal>();
             services.AddScoped<IPopupDal, PopupDal>();
 
             #endregion

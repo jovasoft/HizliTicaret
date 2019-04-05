@@ -89,9 +89,15 @@ namespace Web.Controllers
 
                     saleService.Add(sale);
                     product.Stock -= quantity;
+                    product.SoldCount++;
 
                     if (product.Stock <= 0) product.IsAvailable = false;
                     productService.Update(product);
+
+                    Category category = categoryService.Get(product.CategoryId);
+                    category.SoldCount++;
+
+                    categoryService.Update(category);
 
                     Response.StatusCode = 200;
                     return Json(new { status = "success" });
@@ -117,6 +123,8 @@ namespace Web.Controllers
                     List<CartItemViewModel> cart = new List<CartItemViewModel>();
 
                     Product item = productService.Get(id);
+                    item.AddedToCartCount++;
+                    productService.Update(item);
 
                     ProductViewModel viewModel = new ProductViewModel();
                     viewModel.Id = item.Id;
@@ -146,6 +154,8 @@ namespace Web.Controllers
                     else
                     {
                         Product item = productService.Get(id);
+                        item.AddedToCartCount++;
+                        productService.Update(item);
 
                         ProductViewModel viewModel = new ProductViewModel();
                         viewModel.Id = item.Id;

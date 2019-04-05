@@ -35,7 +35,7 @@ namespace Business.Concrete
 
         public List<Sale> GetList()
         {
-            return GetList();
+            return saleDal.GetList();
         }
 
         public List<Sale> GetList(string username)

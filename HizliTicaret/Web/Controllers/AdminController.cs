@@ -20,21 +20,25 @@ namespace Web.Controllers
         IProductService productService;
         ICategoryService categoryService;
         IDiscountService discountService;
+        ISaleService saleService;
+        IVisitService visitService;
         IPopupService popupService;
         private UserManager<User> userManager;
         private RoleManager<Role> roleManager;
 
         private readonly IHostingEnvironment _appEnvironment;
 
-        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager, IPopupService popupService)
+        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, ISaleService saleService, IVisitService visitService, IPopupService popupService IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager)
         {
             this.productService = productService;
             this.categoryService = categoryService;
             this.discountService = discountService;
+            this.saleService = saleService;
+            this.visitService = visitService;
+            this.popupService = popupService;
             this._appEnvironment = appEnvironment;
             this.userManager = _userManager;
             this.roleManager = _roleManager;
-            this.popupService = popupService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -321,7 +325,43 @@ namespace Web.Controllers
         [Authorize(Roles = "Admin, Merchant")]
         public IActionResult Index()
         {
-            return View();
+            DashboardViewModel dashboardViewModel = new DashboardViewModel();
+
+            dashboardViewModel.MostSales = productService.GetList().OrderBy(x => x.SoldCount).Take(5).ToList();
+            dashboardViewModel.MostAddsToCart = productService.GetList().OrderBy(x => x.AddedToCartCount).Take(5).ToList();
+            dashboardViewModel.MostSalesCategories = categoryService.GetList().Where(x => x.MainCategoryId != Guid.Empty).OrderBy(x => x.SoldCount).Take(3).ToList();
+            dashboardViewModel.MostSalesMainCategories = categoryService.GetList().Where(x => x.MainCategoryId == Guid.Empty).OrderBy(x => x.SoldCount).ToList();
+
+            dashboardViewModel.DailyMembers = userManager.Users.Where(x => x.RegisteredDate.Value.Day == DateTime.Now.Day).Count();
+            dashboardViewModel.MonthlyMembers = userManager.Users.Where(x => x.RegisteredDate.Value.Month == DateTime.Now.Month).Count();
+            dashboardViewModel.TotalMembers = userManager.Users.Count();
+
+            dashboardViewModel.DailyVisitor = visitService.GetList().Where(x => x.Date.Value.Day == DateTime.Now.Day).Count();
+            dashboardViewModel.MonthlyVisitor = visitService.GetList().Where(x => x.Date.Value.Month == DateTime.Now.Month).Count();
+            dashboardViewModel.TotalVisitor = visitService.GetList().Count;
+
+            var totalSales = saleService.GetList();
+            foreach (var sale in totalSales)
+            {
+                Product product = productService.Get(sale.ProductId);
+                dashboardViewModel.TotalSales += product.SoldCount;
+            }
+
+            var dailySales = totalSales.Where(x => x.Date.Value.Day == DateTime.Now.Day);
+            foreach (var sale in dailySales)
+            {
+                Product product = productService.Get(sale.ProductId);
+                dashboardViewModel.DailySales += product.SoldCount;
+            }
+
+            var weeklySales = totalSales.Where(x => x.Date.Value.Month == DateTime.Now.Month);
+            foreach (var sale in weeklySales)
+            {
+                Product product = productService.Get(sale.ProductId);
+                dashboardViewModel.MonthlySales += product.SoldCount;
+            }
+
+            return View(dashboardViewModel);
         }
 
         [Authorize(Roles = "Admin, Merchant")]

@@ -6,5 +6,6 @@ namespace Web
     public class User : IdentityUser<Guid>
     {
         public string Name { get; set; }
+        public DateTime? RegisteredDate { get; set; }
     }
 }
