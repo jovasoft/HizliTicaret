@@ -28,7 +28,7 @@ namespace Web.Controllers
 
         private readonly IHostingEnvironment _appEnvironment;
 
-        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, ISaleService saleService, IVisitService visitService, IPopupService popupService IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager)
+        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, ISaleService saleService, IVisitService visitService, IPopupService popupService, IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager)
         {
             this.productService = productService;
             this.categoryService = categoryService;

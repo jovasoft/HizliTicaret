@@ -3,6 +3,8 @@
     ViewData["Title"] = "Home Page";
 }
 
+<input type="hidden" value="@ViewData["PopupMessage"]" id="popupMessage" />
+
 <!-- Hero slider -->
 <div class="swiper-container" id="shop-hero-slider">
     <div class="swiper-wrapper">
@@ -84,5 +86,11 @@
 <!-- / Product list -->
 
 <script>
-    swal("Başarılı!", "Ürün satın alındı.", "success");
+    $(document).ready(function () {
+        var value = $('#popupMessage').val();
+        if (value) {
+            swal(value, "Bu mesaj Admin tarafından gönderildi.", "info");
+        }
+
+    });
 </script>
