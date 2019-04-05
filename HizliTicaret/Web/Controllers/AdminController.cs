@@ -20,12 +20,13 @@ namespace Web.Controllers
         IProductService productService;
         ICategoryService categoryService;
         IDiscountService discountService;
+        IPopupService popupService;
         private UserManager<User> userManager;
         private RoleManager<Role> roleManager;
 
         private readonly IHostingEnvironment _appEnvironment;
 
-        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager)
+        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager, IPopupService popupService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
@@ -33,6 +34,7 @@ namespace Web.Controllers
             this._appEnvironment = appEnvironment;
             this.userManager = _userManager;
             this.roleManager = _roleManager;
+            this.popupService = popupService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -66,6 +68,61 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        public IActionResult DeletePopup(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                try
+                {
+                    var getPopup = popupService.Get(id);
+                    popupService.Delete(id);
+                }
+                catch (Exception) { }
+
+                Response.StatusCode = 200;
+                return Json(new { status = "success" });
+            }
+
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult UpdatePopup(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                try
+                {
+                    var getPopup = popupService.Get(id);
+                    if (getPopup.Status == true)
+                    {
+                        getPopup.Status = false;
+                        popupService.Update(getPopup);
+                    }
+                    else if (getPopup.Status == false)
+                    {
+                        var changeStatus = popupService.GetList().Where(x => x.Status == true).ToList();
+                        foreach (var change in changeStatus)
+                        {
+                            change.Status = false;
+                            popupService.Update(change);
+                        }
+                        getPopup.Status = true;
+                        popupService.Update(getPopup);
+                    }
+
+                }
+                catch (Exception) { }
+            
+                Response.StatusCode = 200;
+                return RedirectToAction("ListPopup");
+            }
+
+            return View();
+
+        }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult AddCategory()
         {
             return View();
@@ -75,6 +132,51 @@ namespace Web.Controllers
         public IActionResult ListRole()
         {
             ViewData["userManager"] = userManager;
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AddPopup()
+        {
+
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddPopup(PopupViewModel popupViewModel)
+        {
+            bool status = false;
+            var radioValue = popupViewModel.Status;
+            if(radioValue == 0)
+            {
+                var getTruestatus = popupService.GetList().Where(x => x.Status == true);
+                if (getTruestatus != null)
+                {
+                    foreach (var getTrue in getTruestatus)
+                    {
+                        getTrue.Status = false;
+                        popupService.Update(getTrue);
+                    }
+                }
+                status = true;
+            }
+            
+            Popup popup = new Popup
+            {
+                Message = popupViewModel.Message,
+                Status = status
+            };
+
+            popupService.Add(popup);
+            return RedirectToAction("ListPopup");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult ListPopup()
+        {
+            ViewData["Messages"] = popupService.GetList();
             return View();
         }
 
@@ -212,10 +314,8 @@ namespace Web.Controllers
                 catch (Exception) { }
             }
 
-            Response.StatusCode = 200;
-            return Json(new { status = "success" });
+            return RedirectToAction("ListPopup");
         }
-
         #region merchant
 
         [Authorize(Roles = "Admin, Merchant")]
