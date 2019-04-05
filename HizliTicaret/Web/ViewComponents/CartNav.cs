@@ -26,7 +26,7 @@ namespace Web.ViewComponents
             else
             {
                 ViewData["Cart"] = cart;
-                ViewData["CartTotal"] = cart.Sum(item => (item.Product.Price - (item.Product.Price * item.Product.Discounts) / 100) * item.Quantity);
+                ViewData["CartTotal"] = cart.Sum(item => (item.Product.PriceWithDiscounts - (item.Product.PriceWithDiscounts * item.Product.Category.Discounts) / 100) * item.Quantity).ToString("0.##");
                 ViewData["CartCount"] = cart.Count;
             }
 

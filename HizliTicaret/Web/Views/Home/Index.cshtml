@@ -6,27 +6,51 @@
 <input type="hidden" value="@ViewData["PopupMessage"]" id="popupMessage" />
 
 <!-- Hero slider -->
-<div class="swiper-container" id="shop-hero-slider">
-    <div class="swiper-wrapper">
-        <!-- Animate first slide on page load -->
-        <div class="swiper-slide shop-hero-slider-animating ui-bg-cover" style="background-image: url(assets/img/bg/16.jpg)">
-            <div class="container px-3">
+<div class="swiper-container swiper-container-horizontal" id="shop-hero-slider">
+    <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-1903px, 0px, 0px);">
+        <div class="swiper-slide ui-bg-cover swiper-slide-duplicate swiper-slide-prev" style="background-image: url(&quot;assets/img/bg/28.png&quot;); width: 1903px;" data-swiper-slide-index="2">
+            <div class="container px-3 px-3">
                 <div class="shop-hero-container">
                     <div class="flex-shrink-1 text-center py-5">
-                        <div class="shop-hero-slider-animated shop-hero-slider-delay-1 display-1 font-weight-semibold mb-2">50% INDIRIMLI</div>
-                        <div class="shop-hero-slider-animated shop-hero-slider-delay-2 display-4">ILK ALAN SEN OL</div>
-                        <button type="button" class="shop-hero-slider-animated shop-hero-slider-delay-3 btn btn-primary btn-lg text-expanded mt-5">ALIŞVERIŞE BAŞLA</button>
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-1 display-4 text-white text-expanded mb-4">EXCLUSIVE</div>
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-2 display-3 bg-white text-center text-dark font-weight-bold text-expanded py-1 px-3 mx-auto">SUITS COLLECTION</div>
+                        <button type="button" class="shop-hero-slider-animated shop-hero-slider-delay-3 btn btn-primary btn-lg text-expanded mt-5">SHOP NOW</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Animate first slide on page load -->
+        <div class="swiper-slide ui-bg-cover swiper-slide-duplicate-prev" style="background-image: url(&quot;assets/img/bg/28.png&quot;); width: 1903px;" data-swiper-slide-index="2">
+            <div class="container px-3 px-3">
+                <div class="shop-hero-container">
+                    <div class="flex-shrink-1 text-center py-5">
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-1 display-4 text-white text-expanded mb-4">ERKEK</div>
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-2 display-3 bg-white text-center text-dark font-weight-bold text-expanded py-1 px-3 mx-auto">GÖMLEK KATEGORİSİNDE</div>
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-3 display-4 text-white text-expanded mt-4">%25 İNDİRİM</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide ui-bg-cover swiper-slide-next" style="background-image: url(&quot;assets/img/bg/27.png&quot;); width: 1903px;" data-swiper-slide-index="1">
+            <div class="container px-3">
+                <div class="shop-hero-container">
+                    <div class="flex-shrink-1 col-12 py-5">
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-1 display-2 text-primary text-expanded">BAYAN TÜM</div>
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-2 display-2 text-primary text-expanded">ÜRÜNLERDE</div>
+                        <div class="shop-hero-slider-animated shop-hero-slider-delay-3 display-2 text-primary text-expanded">%15 İNDİRİM</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="swiper-button-next custom-icon">
+    <div class="swiper-button-next custom-icon" tabindex="0" role="button" aria-label="Next slide">
         <i class="lnr lnr-chevron-right text-dark"></i>
     </div>
-    <div class="swiper-button-prev custom-icon">
+    <div class="swiper-button-prev custom-icon" tabindex="0" role="button" aria-label="Previous slide">
         <i class="lnr lnr-chevron-left text-dark"></i>
     </div>
+    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
 </div>
 <!-- Hero slider -->
 
@@ -77,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <strong>@(item.PriceWithDiscounts - (item.PriceWithDiscounts * item.Discounts) / 100) ₺</strong>
+            <strong>@((item.PriceWithDiscounts - (item.PriceWithDiscounts * item.Category.Discounts) / 100).ToString("0.##")) ₺</strong>
         </div>
         }
 

@@ -801,11 +801,11 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddDiscount(DiscountViewModel discountViewModel)
         {
-            Discount discount = new Discount();
-
             //üründe indirim var
-            if (discountViewModel.ProductId != null)
+            if (discountViewModel.ProductId != Guid.Empty)
             {
+                Discount discount = new Discount();
+
                 Product product = productService.Get(discountViewModel.ProductId);
                 product.Discounts += discountViewModel.Percent;
 
@@ -817,18 +817,64 @@ namespace Web.Controllers
                 discountService.Add(discount);
                 productService.Update(product);
             }
-            else if (discountViewModel.CategoryId != null || discountViewModel.MainCategoryId != null) //kategoride indirim var
+            else if (discountViewModel.CategoryId != Guid.Empty) //kategoride indirim var
             {
+
+                Discount discount = new Discount();
+
                 Category category = categoryService.Get(discountViewModel.CategoryId);
                 category.Discounts += discountViewModel.Percent;
 
-                discount.CategoryId = discountViewModel.ProductId;
+                string mainCategoryName = categoryService.Get(category.MainCategoryId).Name;
+
+                discount.CategoryId = discountViewModel.CategoryId;
                 discount.Percent = discountViewModel.Percent;
-                discount.Name = category.Name;
+                discount.Name = mainCategoryName + " - " + category.Name;
                 discount.MerchantUserName = User.Identity.Name;
 
                 discountService.Add(discount);
                 categoryService.Update(category);
+            }
+            else if (discountViewModel.MainCategoryId != Guid.Empty)//ana kategoride indirim var
+            {
+                List<Category> categories = categoryService.GetList().Where(x => x.MainCategoryId == discountViewModel.MainCategoryId).ToList();
+
+                foreach (Category category in categories)
+                {
+                    string mainCategoryName = categoryService.Get(category.MainCategoryId).Name;
+
+                    Discount discount = new Discount();
+
+                    category.Discounts += discountViewModel.Percent;
+
+                    discount.CategoryId = category.Id;
+                    discount.Percent = discountViewModel.Percent;
+                    discount.Name = mainCategoryName + " - " + category.Name;
+                    discount.MerchantUserName = User.Identity.Name;
+
+                    discountService.Add(discount);
+                    categoryService.Update(category);
+                }
+            }
+            else if(User.IsInRole("Admin"))//tüm ürünlerde indirim var
+            {
+                List<Category> categories = categoryService.GetList().Where(x => x.MainCategoryId != Guid.Empty).ToList();
+
+                foreach (Category category in categories)
+                {
+                    string mainCategoryName = categoryService.Get(category.MainCategoryId).Name;
+
+                    Discount discount = new Discount();
+                    category.Discounts += discountViewModel.Percent;
+
+                    discount.CategoryId = category.Id;
+                    discount.Percent = discountViewModel.Percent;
+                    discount.Name = mainCategoryName + " - " + category.Name;
+                    discount.MerchantUserName = User.Identity.Name;
+
+                    discountService.Add(discount);
+                    categoryService.Update(category);
+                }
             }
 
             return RedirectToAction("ListDiscount");
