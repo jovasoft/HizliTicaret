@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
@@ -13,15 +14,28 @@ namespace Web.Controllers
     {
         IProductService productService;
         ICategoryService categoryService;
+        IVisitService visitService;
 
-        public HomeController(IProductService _productService, ICategoryService _categoryService)
+        public HomeController(IProductService _productService, ICategoryService _categoryService, IVisitService _visitService)
         {
             productService = _productService;
             categoryService = _categoryService;
+            visitService = _visitService;
         }
 
         public IActionResult Index()
         {
+            string ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+
+            if (!visitService.IsVisitedToday(ipAddress))
+            {
+                Visit visit = new Visit();
+                visit.IPAddress = ipAddress;
+                visit.Date = DateTime.Now;
+
+                visitService.Add(visit);
+            }
+
             var products = productService.GetList().Take(20).ToList();
             var categories = categoryService.GetList();
 

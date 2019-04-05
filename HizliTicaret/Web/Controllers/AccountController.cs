@@ -45,7 +45,8 @@ namespace Web.Controllers
                 User user = new User {
                     UserName = registerViewModel.Mail,
                     Email = registerViewModel.Mail,
-                    Name = registerViewModel.Name
+                    Name = registerViewModel.Name,
+                    RegisteredDate = DateTime.Now
                 };
 
                 IdentityResult userResult = new IdentityResult();

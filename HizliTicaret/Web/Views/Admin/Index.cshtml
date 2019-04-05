@@ -1,10 +1,9 @@
-﻿
+﻿@model DashboardViewModel
 @{
 
     ViewData["Title"] = "Index";
     Layout = "../Shared/Layouts/_AdminLayout.cshtml";
 }
-
 
 <!-- Layout container -->
 <div class="layout-container">
@@ -15,7 +14,7 @@
         <div class="container-fluid flex-grow-1 container-p-y">
 
             <h4 class="d-flex justify-content-between align-items-center py-2 mb-4">
-                <div class="font-weight-bold">Shop Overview</div>
+                <div class="font-weight-bold">İstatistikler</div>
             </h4>
 
             <hr class="border-light container-m--x my-0">
@@ -24,39 +23,30 @@
             <div class="row no-gutters row-bordered row-border-light container-m--x">
 
                 <!-- Counters -->
-                <div class="col-sm-6 col-md-3 col-lg-6 col-xl-3">
+                <div class="col-sm-6 col-md-4 col-lg-6 col-xl-4">
                     <div class="d-flex align-items-center container-p-x py-4">
                         <div class="lnr lnr-cart display-4 text-primary"></div>
                         <div class="ml-3">
                             <div class="text-muted small">Toplam Ürün Satışı</div>
-                            <div class="text-large">2362</div>
+                            <div class="text-large">@Model.TotalSales</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3 col-lg-6 col-xl-3">
+                <div class="col-sm-6 col-md-4 col-lg-6 col-xl-4">
                     <div class="d-flex align-items-center container-p-x py-4">
                         <div class="lnr lnr-earth display-4 text-primary"></div>
                         <div class="ml-3">
-                            <div class="text-muted small">Aylık Ziyaretçi</div>
-                            <div class="text-large">687,123</div>
+                            <div class="text-muted small">Toplam Ziyaretçi</div>
+                            <div class="text-large">@Model.TotalVisitor</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3 col-lg-6 col-xl-3">
-                    <div class="d-flex align-items-center container-p-x py-4">
-                        <div class="lnr lnr-gift display-4 text-primary"></div>
-                        <div class="ml-3">
-                            <div class="text-muted small">Toplam Ürün Adedi</div>
-                            <div class="text-large">985</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3 col-lg-6 col-xl-3">
+                <div class="col-sm-6 col-md-4 col-lg-6 col-xl-4">
                     <div class="d-flex align-items-center container-p-x py-4">
                         <div class="lnr lnr-users display-4 text-primary"></div>
                         <div class="ml-3">
-                            <div class="text-muted small">Kayıtlı Kullanıcı</div>
-                            <div class="text-large">105,652</div>
+                            <div class="text-muted small">Toplam Kayıtlı Kullanıcı</div>
+                            <div class="text-large">@Model.TotalMembers</div>
                         </div>
                     </div>
                 </div>
@@ -68,7 +58,7 @@
 
             <div class="row">
                 <!-- Popular products -->
-                <div class="col-md-6 col-lg-12 col-xl-6">
+                <div class="col-md-6 col-lg-6 col-xl-6">
 
                     <div class="card mb-4">
                         <h6 class="card-header">En Çok Satılan Ürünler</h6>
@@ -79,21 +69,23 @@
                                         <th colspan="2">Ürün</th>
                                         <th>Fiyat</th>
                                         <th>Satış</th>
-                                        <th>Görüntüleme</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="align-middle" style="width: 75px">
-                                            <img class="ui-w-40" src="assets/img/uikit/ps4.jpg" alt>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="javascript:void(0)" class="text-dark">PlayStation 4 1TB (Jet Black)</a>
-                                        </td>
-                                        <td class="align-middle">$480.00</td>
-                                        <td class="align-middle">123</td>
-                                        <td class="align-middle">3,432</td>
-                                    </tr>
+                                    @foreach (var item in Model.MostSales)
+                                    {
+                                        <tr>
+                                            <td class="align-middle" style="width: 75px">
+                                                <img class="ui-w-40" src="@item.ImageUrl">
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="@Url.Action("Show","Product", new { id = item.Id })" class="text-dark">@item.Name</a>
+                                            </td>
+                                            <td class="align-middle">@item.Price ₺</td>
+                                            <td class="align-middle">@item.SoldCount</td>
+                                        </tr>
+                                    }
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -101,9 +93,7 @@
                 </div>
                 <!-- / Popular products -->
                 <!-- Popular cart -->
-                <div class="col-md-6 col-lg-12 col-xl-6">
-
-
+                <div class="col-md-6 col-lg-6 col-xl-6">
                     <div class="card mb-4">
                         <h6 class="card-header">En Çok Sepete Eklenen Ürünler</h6>
                         <div class="table-responsive">
@@ -115,20 +105,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="align-middle" style="width: 75px">
-                                            <img class="ui-w-40" src="assets/img/uikit/ps4.jpg" alt>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="javascript:void(0)" class="text-dark">PlayStation 4 1TB (Jet Black)</a>
-                                        </td>
-                                        <td class="align-middle">3,432</td>
-                                    </tr>
+                                    @foreach (var item in Model.MostAddsToCart)
+                                    {
+                                        <tr>
+                                            <td class="align-middle" style="width: 75px">
+                                                <img class="ui-w-40" src="@item.ImageUrl">
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="@Url.Action("Show","Product", new { id = item.Id })" class="text-dark">@item.Name</a>
+                                            </td>
+                                            <td class="align-middle">@item.AddedToCartCount</td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
                 </div>
                 <!-- / Popular cart -->
             </div>
@@ -136,109 +128,133 @@
             <hr class="border-light container-m--x mt-0 mb-4">
 
             <div class="row">
-
-                <!-- Traffic chart + sources -->
+                <!-- Popular main category -->
                 <div class="col-md-6 col-lg-12 col-xl-6">
-
+                    <div class="card mb-4">
+                        <h6 class="card-header">En Çok Ürün Satılan Kategoriler</h6>
+                        <div class="table-responsive">
+                            <table class="table card-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Ana Kategori</th>
+                                        <th>Satış</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.MostSalesMainCategories)
+                                    {
+                                    <tr>
+                                        <td class="align-middle"> @item.Name </td>
+                                        <td></td>
+                                        <td class="align-middle">@item.SoldCount</td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Popular main category -->
+                <!-- Popular category -->
+                <div class="col-md-6 col-lg-12 col-xl-6">
+                    <div class="card mb-4">
+                        <h6 class="card-header">En Çok Ürün Satılan Kategoriler</h6>
+                        <div class="table-responsive">
+                            <table class="table card-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Kategori</th>
+                                        <th>Satış</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.MostSalesCategories)
+                                    {
+                                    <tr>
+                                        <td class="align-middle"><a href="@Url.Action("Index", "Category", new { id = item.Id } )" class="text-dark">@item.Name</a></td>
+                                        <td></td>
+                                        <td class="align-middle">@item.SoldCount</td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Popular category -->
+            </div>
+            <!-- Traffic chart + sources -->
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xl-12">
                     <div class="card mb-4">
                         <h5 class="card-header with-elements border-0 pt-3 pb-0">
                             <span class="card-header-title"><i class="ion ion-md-stats text-primary"></i>&nbsp; Trafik</span>
-
                             <div class="card-header-elements ml-auto">
                                 <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-default md-btn-flat">
+                                    <label class="btn btn-default md-btn-flat focus active" id="dashGunluk">
                                         <input type="radio" name="btn-radio"> Günlük
                                     </label>
-                                    <label class="btn btn-default md-btn-flat">
-                                        <input type="radio" name="btn-radio"> Haftalık
+                                    <label class="btn btn-default md-btn-flat" id="dashAylik">
+                                        <input type="radio" name="btn-radio"> Aylık
                                     </label>
                                 </div>
                             </div>
                         </h5>
                         <hr class="border-light mb-0">
                         <div class="row no-gutters row-bordered row-border-light">
-
                             <!-- Sources -->
                             <div class="col-md-12 col-lg-12 col-xl-12 px-4 pt-4">
                                 <div class="pb-4">
                                     Ziyaretçi
-                                    <div class="float-right small mt-1">
-                                        11,963 &nbsp;&nbsp;
-                                        <span class="text-muted">29.77%</span>
-                                    </div>
+                                    <div class="float-right small mt-1" id="dashVisitor">@Model.DailyVisitor</div>
                                     <div class="progress mt-1" style="height:3px;">
-                                        <div class="progress-bar bg-twitter" style="width: 29.77%;"></div>
+                                        <div class="progress-bar bg-twitter" style="width: 100%;"></div>
                                     </div>
                                 </div>
                                 <div class="pb-4">
                                     Ürün Satışı
-                                    <div class="float-right small mt-1">
-                                        11,963 &nbsp;&nbsp;
-                                        <span class="text-muted">28.39%</span>
-                                    </div>
+                                    <div class="float-right small mt-1" id="dashSales">@Model.DailySales</div>
                                     <div class="progress mt-1" style="height:3px;">
-                                        <div class="progress-bar bg-google" style="width: 28.39%;"></div>
+                                        <div class="progress-bar bg-google" style="width: 100%;"></div>
                                     </div>
                                 </div>
                                 <div class="pb-4">
                                     Üye Kaydı
-                                    <div class="float-right small mt-1">
-                                        9,965 &nbsp;&nbsp;
-                                        <span class="text-muted">23.65%</span>
-                                    </div>
+                                    <div class="float-right small mt-1" id="dashMembers">@Model.DailyMembers</div>
                                     <div class="progress mt-1" style="height:3px;">
-                                        <div class="progress-bar bg-facebook" style="width: 23.65%;"></div>
+                                        <div class="progress-bar bg-facebook" style="width: 100%;"></div>
                                     </div>
                                 </div>
                             </div>
                             <!-- / Sources -->
-
                         </div>
                     </div>
-
                 </div>
-                <!-- / Traffic chart + sources -->
-                <!-- Popular category -->
-                <div class="col-md-6 col-lg-12 col-xl-6">
-
-
-                    <div class="card mb-4">
-                        <h6 class="card-header">En Çok Tıklanan Kategoriler</h6>
-                        <div class="table-responsive">
-                            <table class="table card-table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Adı</th>
-                                        <th>Görüntüleme</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="align-middle" style="width: 75px">
-                                            <img class="ui-w-40" src="assets/img/uikit/ps4.jpg" alt>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="javascript:void(0)" class="text-dark">PlayStation 4 1TB (Jet Black)</a>
-                                        </td>
-                                        <td class="align-middle">3,432</td>
-                                    </tr>
-                            </table>
-                        </div>
-                    </div>
-
-
-                </div>
-                <!-- / Popular category -->
-
             </div>
-
-
+            <!-- / Traffic chart + sources -->
         </div>
-
         <!-- / Content -->
-
     </div>
     <!-- Layout content -->
-
 </div>
 <!-- / Layout container -->
+
+<script>
+
+    $('#dashGunluk').on('click', function () {
+
+        $('#dashVisitor').text(@Model.DailyVisitor);
+        $('#dashSales').text(@Model.DailySales);
+        $('#dashMembers').text(@Model.DailyMembers);
+
+    });
+
+    $('#dashAylik').on('click', function () {
+
+        $('#dashVisitor').text(@Model.MonthlyVisitor);
+        $('#dashSales').text(@Model.MonthlySales);
+        $('#dashMembers').text(@Model.MonthlyMembers);
+
+    });
+
+</script>

@@ -18,5 +18,7 @@ namespace Entities.Concrete
         public string ImageUrl { get; set; }
         public bool IsAvailable { get; set; }
         public decimal PriceWithDiscounts { get { return Price - (Price * Discounts) / 100; } }
+        public int SoldCount { get; set; }
+        public int AddedToCartCount { get; set; }
     }
 }
