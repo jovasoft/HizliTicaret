@@ -876,6 +876,25 @@ namespace Web.Controllers
                     categoryService.Update(category);
                 }
             }
+            else if (User.IsInRole("Merchant") && discountViewModel.ProductId == Guid.Empty)
+            {
+                var products = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
+
+                foreach (var item in products)
+                {
+                    Discount discount = new Discount();
+
+                    item.Discounts += discountViewModel.Percent;
+
+                    discount.ProductId = discountViewModel.ProductId;
+                    discount.Percent = discountViewModel.Percent;
+                    discount.Name = item.Name;
+                    discount.MerchantUserName = User.Identity.Name;
+
+                    discountService.Add(discount);
+                    productService.Update(item);
+                }
+            }
 
             return RedirectToAction("ListDiscount");
         }
