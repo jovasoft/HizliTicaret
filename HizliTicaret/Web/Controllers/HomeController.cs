@@ -15,12 +15,14 @@ namespace Web.Controllers
         IProductService productService;
         ICategoryService categoryService;
         IVisitService visitService;
+        IPopupService popupService;
 
-        public HomeController(IProductService _productService, ICategoryService _categoryService, IVisitService _visitService)
+        public HomeController(IProductService _productService, ICategoryService _categoryService, IVisitService _visitService, IPopupService _popupService)
         {
             productService = _productService;
             categoryService = _categoryService;
             visitService = _visitService;
+            popupService = _popupService;
         }
 
         public IActionResult Index()
@@ -34,6 +36,16 @@ namespace Web.Controllers
                 visit.Date = DateTime.Now;
 
                 visitService.Add(visit);
+            }
+
+            var getPopups = popupService.GetList();
+            foreach (var popup in getPopups)
+            {
+                if (popup.Status == true)
+                {
+                    ViewData["PopupMessage"] = popup.Message;
+                    ViewData["PopupStatus"] = true;
+                }
             }
 
             var products = productService.GetList().Take(20).ToList();
