@@ -14,7 +14,6 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-
     public class AdminController : Controller
     {
         IProductService productService;
@@ -42,33 +41,10 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult DeleteMerchant(string userName)
+        public IActionResult AddPopup()
         {
-            try
-            {
-                var user = userManager.Users.ToList().SingleOrDefault(x => x.UserName == userName);
-                userManager.RemoveFromRoleAsync(user, "Merchant").Wait();
-                userManager.AddToRoleAsync(user, "User").Wait();
 
-                var products = productService.GetList().Where(x => x.MerchantUserName == userName);
-                foreach (var product in products)
-                {
-                    productService.Delete(product.Id);
-                }
-
-            }
-            catch (Exception) { }
-
-            Response.StatusCode = 200;
-            object obj = new
-            {
-                admins = userManager.GetUsersInRoleAsync("Admin").Result.ToList(),
-                users = userManager.GetUsersInRoleAsync("User").Result.ToList(),
-                merchants = userManager.GetUsersInRoleAsync("Merchant").Result.ToList()
-            };
-
-            return Json(obj);
-
+            return View();
         }
 
         [Authorize(Roles = "Admin")]
@@ -127,22 +103,100 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        public IActionResult ListPopup()
+        {
+            ViewData["Messages"] = popupService.GetList();
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult AddCategory()
         {
             return View();
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult ListRole()
+        public IActionResult DeleteCategory(Guid id)
         {
-            ViewData["userManager"] = userManager;
+            if (id != Guid.Empty)
+            {
+                try
+                {
+                    var products = productService.GetList().Where(x => x.CategoryId == id);
+                    foreach (var product in products)
+                    {
+                        productService.Delete(product.Id);
+                    }
+                    categoryService.Delete(id);
+                }
+                catch (Exception) { }
+            }
+
+            return RedirectToAction("ListPopup");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult UpdateCategory(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                Category Kategoriler;
+
+                Kategoriler = categoryService.Get(id);
+
+                CategoryViewModel model = new CategoryViewModel();
+                model.Name = Kategoriler.Name;
+                model.CategoryType = Kategoriler.CategoryType;
+                model.Id = Kategoriler.Id;
+
+                return View(model);
+            }
             return View();
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult AddPopup()
+        public IActionResult AddMerchant()
         {
 
+            ViewData["Users"] = userManager.GetUsersInRoleAsync("User").Result.ToList();
+
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteMerchant(string userName)
+        {
+            try
+            {
+                var user = userManager.Users.ToList().SingleOrDefault(x => x.UserName == userName);
+                userManager.RemoveFromRoleAsync(user, "Merchant").Wait();
+                userManager.AddToRoleAsync(user, "User").Wait();
+
+                var products = productService.GetList().Where(x => x.MerchantUserName == userName);
+                foreach (var product in products)
+                {
+                    productService.Delete(product.Id);
+                }
+
+            }
+            catch (Exception) { }
+
+            Response.StatusCode = 200;
+            object obj = new
+            {
+                admins = userManager.GetUsersInRoleAsync("Admin").Result.ToList(),
+                users = userManager.GetUsersInRoleAsync("User").Result.ToList(),
+                merchants = userManager.GetUsersInRoleAsync("Merchant").Result.ToList()
+            };
+
+            return Json(obj);
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult ListRole()
+        {
+            ViewData["userManager"] = userManager;
             return View();
         }
 
@@ -175,22 +229,6 @@ namespace Web.Controllers
 
             popupService.Add(popup);
             return RedirectToAction("ListPopup");
-        }
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult ListPopup()
-        {
-            ViewData["Messages"] = popupService.GetList();
-            return View();
-        }
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult AddMerchant()
-        {
-
-            ViewData["Users"] = userManager.GetUsersInRoleAsync("User").Result.ToList();
-
-            return View();
         }
 
         [Authorize(Roles = "Admin")]
@@ -248,25 +286,6 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult UpdateCategory(Guid id)
-        {
-            if (id != Guid.Empty)
-            {
-                Category Kategoriler;
-
-                Kategoriler = categoryService.Get(id);
-
-                CategoryViewModel model = new CategoryViewModel();
-                model.Name = Kategoriler.Name;
-                model.CategoryType = Kategoriler.CategoryType;
-                model.Id = Kategoriler.Id;
-
-                return View(model);
-            }
-            return View();
-        }
-
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateCategory(CategoryViewModel categoryViewModel)
@@ -299,26 +318,6 @@ namespace Web.Controllers
             }
 
             return View(categoryViewModel);
-        }
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult DeleteCategory(Guid id)
-        {
-            if (id != Guid.Empty)
-            {
-                try
-                {
-                    var products = productService.GetList().Where(x => x.CategoryId == id);
-                    foreach (var product in products)
-                    {
-                        productService.Delete(product.Id);
-                    }
-                    categoryService.Delete(id);
-                }
-                catch (Exception) { }
-            }
-
-            return RedirectToAction("ListPopup");
         }
 
         #region merchant
@@ -365,157 +364,6 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin, Merchant")]
-        public IActionResult ListCategory(string categoryTypeId)
-        {
-            List<CategoryViewModel> categoryViewModels = new List<CategoryViewModel>();
-            List<Category> categories = new List<Category>();
-            List<Product> products = new List<Product>();
-            categories = categoryService.GetList();
-
-            if (categories != null)
-            {
-                foreach (var category in categories)
-                {
-                    if (category.MainCategoryId != Guid.Empty)
-                    {
-                        CategoryViewModel model = new CategoryViewModel();
-                        products = productService.GetList().Where(x => x.CategoryId == category.Id).ToList();
-                        model.Name = category.Name;
-                        model.CategoryType = category.CategoryType;
-                        model.Id = category.Id;
-                        model.ProductCount = products.Count();
-                        categoryViewModels.Add(model);
-                    }
-
-                }
-            }
-
-            return View(categoryViewModels);
-        }
-
-        [Authorize(Roles = "Admin, Merchant")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddProduct(ProductViewModel productViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                Product product = new Product
-                {
-                    Name = productViewModel.Name,
-                    Price = productViewModel.Price,
-                    Stock = productViewModel.Stock,
-                    CategoryId = productViewModel.Category.Id,
-                    IsAvailable = productViewModel.IsAvailable,
-                    MerchantUserName = User.Identity.Name,
-                    Description = productViewModel.Description
-                };
-
-                if (productViewModel.File != null && productViewModel.File.Length > 0)
-                {
-                    string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        productViewModel.File.CopyTo(stream);
-                    }
-
-                    product.ImageUrl = "/" + fileName;
-                }
-
-                productService.Add(product);
-                return RedirectToAction("ListProduct");
-            }
-
-            return View(productService);
-        }
-
-        [Authorize(Roles = "Admin, Merchant")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddDiscount(DiscountViewModel discountViewModel)
-        {
-            Discount discount = new Discount();
-
-            //üründe indirim var
-            if (discountViewModel.ProductId != null)
-            {
-                Product product = productService.Get(discountViewModel.ProductId);
-                product.Discounts += discountViewModel.Percent;
-
-                discount.ProductId = discountViewModel.ProductId;
-                discount.Percent = discountViewModel.Percent;
-                discount.Name = product.Name;
-                discount.MerchantUserName = User.Identity.Name;
-
-                discountService.Add(discount);
-                productService.Update(product);
-            }
-            else if (discountViewModel.CategoryId != null || discountViewModel.MainCategoryId != null) //kategoride indirim var
-            {
-                Category category = categoryService.Get(discountViewModel.CategoryId);
-                category.Discounts += discountViewModel.Percent;
-
-                discount.CategoryId = discountViewModel.ProductId;
-                discount.Percent = discountViewModel.Percent;
-                discount.Name = category.Name;
-                discount.MerchantUserName = User.Identity.Name;
-
-                discountService.Add(discount);
-                categoryService.Update(category);
-            }
-            
-            return RedirectToAction("ListDiscount");
-        }
-
-        [Authorize(Roles = "Admin, Merchant")]
-        public IActionResult DeleteProduct(Guid id)
-        {
-            if (id != Guid.Empty)
-            {
-                try
-                {
-                    productService.Delete(id);
-                }
-                catch (Exception) { }
-            }
-
-            Response.StatusCode = 200;
-            return Json(new { status = "success" });
-        }
-
-        [Authorize(Roles = "Admin, Merchant")]
-        public IActionResult DeleteDiscount(Guid id)
-        {
-            if (id != Guid.Empty)
-            {
-                try
-                {
-                    
-                    var getDiscount = discountService.Get(id);
-                    if (getDiscount.CategoryId != Guid.Empty)
-                    {
-                        var getCategory = categoryService.Get(getDiscount.CategoryId);
-                        getCategory.Discounts -= getDiscount.Percent;
-                        categoryService.Update(getCategory);
-                    }
-                    else if (getDiscount.ProductId != Guid.Empty)
-                    {
-                        var getProduct = productService.Get(getDiscount.ProductId);
-                        getProduct.Discounts -= getDiscount.Percent;
-                        productService.Update(getProduct);
-                    }
-                    discountService.Delete(id);
-                }
-                catch (Exception){ }
-            }
-
-            Response.StatusCode = 200;
-            return Json(new { status = "success" });
-        }
-
-        [Authorize(Roles = "Admin, Merchant")]
         public IActionResult AddDiscount()
         {
             
@@ -528,6 +376,19 @@ namespace Web.Controllers
                     ViewData["Categories"] = getList;
                 }
                 else ViewData["MerchantProducts"] = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
+            }
+
+            return View();
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
+        public IActionResult AddProduct()
+        {
+            var getList = categoryService.GetList();
+
+            if (getList != null)
+            {
+                ViewData["Categories"] = getList;
             }
 
             return View();
@@ -565,6 +426,35 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin, Merchant")]
+        public IActionResult ListCategory(string categoryTypeId)
+        {
+            List<CategoryViewModel> categoryViewModels = new List<CategoryViewModel>();
+            List<Category> categories = new List<Category>();
+            List<Product> products = new List<Product>();
+            categories = categoryService.GetList();
+
+            if (categories != null)
+            {
+                foreach (var category in categories)
+                {
+                    if (category.MainCategoryId != Guid.Empty)
+                    {
+                        CategoryViewModel model = new CategoryViewModel();
+                        products = productService.GetList().Where(x => x.CategoryId == category.Id).ToList();
+                        model.Name = category.Name;
+                        model.CategoryType = category.CategoryType;
+                        model.Id = category.Id;
+                        model.ProductCount = products.Count();
+                        categoryViewModels.Add(model);
+                    }
+
+                }
+            }
+
+            return View(categoryViewModels);
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
         public IActionResult ListDiscount()
         {
             List<DiscountViewModel> discountViewModels = new List<DiscountViewModel>();
@@ -597,16 +487,49 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin, Merchant")]
-        public IActionResult AddProduct()
+        public IActionResult DeleteProduct(Guid id)
         {
-            var getList = categoryService.GetList();
-
-            if (getList != null)
+            if (id != Guid.Empty)
             {
-                ViewData["Categories"] = getList;
+                try
+                {
+                    productService.Delete(id);
+                }
+                catch (Exception) { }
             }
 
-            return View();
+            Response.StatusCode = 200;
+            return Json(new { status = "success" });
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
+        public IActionResult DeleteDiscount(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                try
+                {
+
+                    var getDiscount = discountService.Get(id);
+                    if (getDiscount.CategoryId != Guid.Empty)
+                    {
+                        var getCategory = categoryService.Get(getDiscount.CategoryId);
+                        getCategory.Discounts -= getDiscount.Percent;
+                        categoryService.Update(getCategory);
+                    }
+                    else if (getDiscount.ProductId != Guid.Empty)
+                    {
+                        var getProduct = productService.Get(getDiscount.ProductId);
+                        getProduct.Discounts -= getDiscount.Percent;
+                        productService.Update(getProduct);
+                    }
+                    discountService.Delete(id);
+                }
+                catch (Exception) { }
+            }
+
+            Response.StatusCode = 200;
+            return Json(new { status = "success" });
         }
 
         [Authorize(Roles = "Admin, Merchant")]
@@ -749,6 +672,36 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = "Admin, Merchant")]
+        public IActionResult ListRoleFilter(int ListId)
+        {
+            if (ListId == 0)
+            {
+                return Json(userManager.GetUsersInRoleAsync("User").Result.ToList());
+            }
+            else if (ListId == 1)
+            {
+                return Json(userManager.GetUsersInRoleAsync("Merchant").Result.ToList());
+            }
+            else if (ListId == 2)
+            {
+                return Json(userManager.GetUsersInRoleAsync("Admin").Result.ToList());
+            }
+            else if (ListId == 3)
+            {
+                object obj = new
+                {
+                    admins = userManager.GetUsersInRoleAsync("Admin").Result.ToList(),
+                    users = userManager.GetUsersInRoleAsync("User").Result.ToList(),
+                    merchants = userManager.GetUsersInRoleAsync("Merchant").Result.ToList()
+                };
+
+                return Json(obj);
+            }
+
+            return View();
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
         public IActionResult UpdateProduct(Guid id)
         {
             if (id != Guid.Empty)
@@ -776,6 +729,109 @@ namespace Web.Controllers
                 return View(model);
             }
             return View();
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
+        public IActionResult AddProductAltKategorileriGetir(Guid KategoriID)
+        {
+
+            List<Category> TumAltKategoriler = new List<Category>();
+
+            TumAltKategoriler = categoryService.GetList();
+
+            List<Category> altkategoriler = TumAltKategoriler.Where(k => k.MainCategoryId == KategoriID).ToList();
+            return Json(altkategoriler);
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
+        public IActionResult AddDiscountAltUrunleriGetir(Guid KategoriID)
+        {
+
+            List<Product> TumAltUrunler = new List<Product>();
+
+            if (User.IsInRole("Merchant"))
+                TumAltUrunler = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
+            else
+                TumAltUrunler = productService.GetList();
+
+            List<Product> altkategoriler = TumAltUrunler.Where(k => k.CategoryId == KategoriID).ToList();
+            return Json(altkategoriler);
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddProduct(ProductViewModel productViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Product product = new Product
+                {
+                    Name = productViewModel.Name,
+                    Price = productViewModel.Price,
+                    Stock = productViewModel.Stock,
+                    CategoryId = productViewModel.Category.Id,
+                    IsAvailable = productViewModel.IsAvailable,
+                    MerchantUserName = User.Identity.Name,
+                    Description = productViewModel.Description
+                };
+
+                if (productViewModel.File != null && productViewModel.File.Length > 0)
+                {
+                    string fileName = "assets/img/" + DateTime.Now.ToFileTime() + "_" + productViewModel.File.FileName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        productViewModel.File.CopyTo(stream);
+                    }
+
+                    product.ImageUrl = "/" + fileName;
+                }
+
+                productService.Add(product);
+                return RedirectToAction("ListProduct");
+            }
+
+            return View(productService);
+        }
+
+        [Authorize(Roles = "Admin, Merchant")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddDiscount(DiscountViewModel discountViewModel)
+        {
+            Discount discount = new Discount();
+
+            //üründe indirim var
+            if (discountViewModel.ProductId != null)
+            {
+                Product product = productService.Get(discountViewModel.ProductId);
+                product.Discounts += discountViewModel.Percent;
+
+                discount.ProductId = discountViewModel.ProductId;
+                discount.Percent = discountViewModel.Percent;
+                discount.Name = product.Name;
+                discount.MerchantUserName = User.Identity.Name;
+
+                discountService.Add(discount);
+                productService.Update(product);
+            }
+            else if (discountViewModel.CategoryId != null || discountViewModel.MainCategoryId != null) //kategoride indirim var
+            {
+                Category category = categoryService.Get(discountViewModel.CategoryId);
+                category.Discounts += discountViewModel.Percent;
+
+                discount.CategoryId = discountViewModel.ProductId;
+                discount.Percent = discountViewModel.Percent;
+                discount.Name = category.Name;
+                discount.MerchantUserName = User.Identity.Name;
+
+                discountService.Add(discount);
+                categoryService.Update(category);
+            }
+
+            return RedirectToAction("ListDiscount");
         }
 
         [Authorize(Roles = "Admin, Merchant")]
@@ -813,64 +869,6 @@ namespace Web.Controllers
 
             return View(productViewModel);
         }
-
-        [Authorize(Roles = "Admin, Merchant")]
-        public IActionResult AddProductAltKategorileriGetir(Guid KategoriID)
-        {
-
-            List<Category> TumAltKategoriler = new List<Category>();
-
-            TumAltKategoriler = categoryService.GetList();
-
-            List<Category> altkategoriler = TumAltKategoriler.Where(k => k.MainCategoryId == KategoriID).ToList();
-            return Json(altkategoriler);
-        }
-
-        [Authorize(Roles = "Admin, Merchant")]
-        public IActionResult AddDiscountAltUrunleriGetir(Guid KategoriID)
-        {
-
-            List<Product> TumAltUrunler = new List<Product>();
-
-            if (User.IsInRole("Merchant"))
-                TumAltUrunler = productService.GetList().Where(x => x.MerchantUserName == User.Identity.Name).ToList();
-            else
-                TumAltUrunler = productService.GetList();
-
-            List<Product> altkategoriler = TumAltUrunler.Where(k => k.CategoryId == KategoriID).ToList();
-            return Json(altkategoriler);
-        }
-
-        [Authorize(Roles = "Admin, Merchant")]
-        public IActionResult ListRoleFilter(int ListId)
-        {
-            if (ListId == 0)
-            {
-                return Json(userManager.GetUsersInRoleAsync("User").Result.ToList());
-            }
-            else if (ListId == 1)
-            {
-                return Json(userManager.GetUsersInRoleAsync("Merchant").Result.ToList());
-            }
-            else if (ListId == 2)
-            {
-                return Json(userManager.GetUsersInRoleAsync("Admin").Result.ToList());
-            }
-            else if (ListId == 3)
-            {
-                object obj = new
-                {
-                    admins = userManager.GetUsersInRoleAsync("Admin").Result.ToList(),
-                    users = userManager.GetUsersInRoleAsync("User").Result.ToList(),
-                    merchants = userManager.GetUsersInRoleAsync("Merchant").Result.ToList()
-                };
-
-                return Json(obj);
-            }
-
-            return View();
-        }
         #endregion
     }
-
 }

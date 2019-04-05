@@ -24,36 +24,29 @@
                     <table id="popup-list" class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Message</th>
-                                <th>Durumu</th>
-                                <th></th>
+                                <th>Mesaj</th>
+                                <th>Durum</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var message in ViewData["Messages"] as IEnumerable<Entities.Concrete.Popup>)
                             {
-                                <tr id="@message.Id">
-                                    <td>@message.Message</td>
-                                    <td>
-                                        @{
-                                            if (message.Status == true)
-                                            {
-                                                <span>Yayında</span>
-                                            }
-                                            if (message.Status == false)
-                                            {
-                                                <span>Yayında Değil</span>
-                                            }
-                                        }
-                                    </td>
-                                    <td>
-                                        <label class="btn btn-outline-secondary btn-sm float-right updatePop">Yayın Durumunu Değiş</label>
-                                    </td>
-                                    <td>
-                                        <label class="btn btn-outline-primary btn-sm float-right removePop">Sil</label>
-                                    </td>
+                            <tr id="@message.Id">
+                                <td>@message.Message</td>
 
-                                </tr>
+                                @if (message.Status)
+                                {
+                                    <td class="text-success">Yayında</td>
+                                    <td><label class="btn btn-outline-secondary btn-sm float-right updatePop">Yayından kaldır</label></td>
+                                }
+                                else
+                                {
+                                    <td class="text-danger">Yayında değil</td>
+                                    <td><label class="btn btn-outline-secondary btn-sm float-right updatePop">Yayınla</label></td>
+                                }
+
+                                <td><label class="btn btn-outline-primary btn-sm float-right removePop">Sil</label></td>
+                            </tr>
                             }
                         </tbody>
 
@@ -91,21 +84,9 @@
                 url: '@Url.Action("UpdatePopup", "Admin")',
                 type: 'GET',
                 data: { id: popupId },
-                  success: function (fillPopuptable) {
-                        var table = $("#product-list tbody");
-                        $(table).find("tr").remove();
-                        $.each(fillPopuptable, function (index, product) {
-                            if (product.category.categoryType == 0) {
-                                table.append("<tr id=" + product.id + "><td><a href=" + urlString + " class=" + '"d-block"' + ">" + product.name + "</a></td><td>" + " Kadın " + "</td><td>" + product.category.name + "</td><td>" + product.stock + "</td><td>" + (product.Price - (product.Price * product.Discounts) / 100) + "</td><td>" + "<label class=" + '"btn btn-outline-secondary btn-sm float-right updatePro"' + ">Düzenle</label>" + "</td><td>" + "<label class=" + '"btn btn-outline-primary btn-sm float-right removePro"' + ">Sil</label>" + "</td></tr>");
-                            }
-                        });
-                    },
-                    error: function () {
-                        /*Bu metod ile Ajax işlemi başarısız
-                        olursa eğer hata mesajı verebiliyoruz.*/
-                        alert("Hata");
-                    },
-
+                success: function (fillPopuptable) {
+                    window.location.reload();
+                    }
             });
 
         });
