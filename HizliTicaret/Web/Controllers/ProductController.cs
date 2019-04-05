@@ -89,7 +89,7 @@ namespace Web.Controllers
 
                     saleService.Add(sale);
                     product.Stock -= quantity;
-                    product.SoldCount++;
+                    product.SoldCount += quantity;
 
                     if (product.Stock <= 0) product.IsAvailable = false;
                     productService.Update(product);
