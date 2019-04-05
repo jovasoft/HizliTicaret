@@ -11,7 +11,6 @@ namespace Web.Models
         public List<Product> MostSales { get; set; }
         public List<Product> MostAddsToCart { get; set; }
         public List<Category> MostSalesCategories { get; set; }
-        public List<Category> MostSalesMainCategories { get; set; }
 
         public int DailyVisitor { get; set; }
         public int MonthlyVisitor { get; set; }

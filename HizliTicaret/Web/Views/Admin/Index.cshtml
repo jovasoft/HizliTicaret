@@ -128,66 +128,10 @@
             <hr class="border-light container-m--x mt-0 mb-4">
 
             <div class="row">
-                <!-- Popular main category -->
-                <div class="col-md-6 col-lg-12 col-xl-6">
+                <!-- Traffic chart + sources -->
+                <div class="col-md-6 col-lg-6 col-xl-6">
                     <div class="card mb-4">
-                        <h6 class="card-header">En Çok Ürün Satılan Kategoriler</h6>
-                        <div class="table-responsive">
-                            <table class="table card-table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Ana Kategori</th>
-                                        <th>Satış</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.MostSalesMainCategories)
-                                    {
-                                    <tr>
-                                        <td class="align-middle"> @item.Name </td>
-                                        <td></td>
-                                        <td class="align-middle">@item.SoldCount</td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- / Popular main category -->
-                <!-- Popular category -->
-                <div class="col-md-6 col-lg-12 col-xl-6">
-                    <div class="card mb-4">
-                        <h6 class="card-header">En Çok Ürün Satılan Kategoriler</h6>
-                        <div class="table-responsive">
-                            <table class="table card-table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Kategori</th>
-                                        <th>Satış</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.MostSalesCategories)
-                                    {
-                                    <tr>
-                                        <td class="align-middle"><a href="@Url.Action("Index", "Category", new { id = item.Id } )" class="text-dark">@item.Name</a></td>
-                                        <td></td>
-                                        <td class="align-middle">@item.SoldCount</td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- / Popular category -->
-            </div>
-            <!-- Traffic chart + sources -->
-            <div class="row">
-                <div class="col-md-12 col-lg-12 col-xl-12">
-                    <div class="card mb-4">
-                        <h5 class="card-header with-elements border-0 pt-3 pb-0">
+                        <h5 class="card-header with-elements border-0 pb-0">
                             <span class="card-header-title"><i class="ion ion-md-stats text-primary"></i>&nbsp; Trafik</span>
                             <div class="card-header-elements ml-auto">
                                 <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
@@ -200,7 +144,6 @@
                                 </div>
                             </div>
                         </h5>
-                        <hr class="border-light mb-0">
                         <div class="row no-gutters row-bordered row-border-light">
                             <!-- Sources -->
                             <div class="col-md-12 col-lg-12 col-xl-12 px-4 pt-4">
@@ -230,8 +173,35 @@
                         </div>
                     </div>
                 </div>
+                <!-- / Traffic chart + sources -->
+                <!-- Popular category -->
+                <div class="col-md-6 col-lg-12 col-xl-6">
+                    <div class="card mb-4">
+                        <h6 class="card-header">En Çok Ürün Satılan Kategoriler</h6>
+                        <div class="table-responsive">
+                            <table class="table card-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Kategori</th>
+                                        <th>Satış</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.MostSalesCategories)
+                                    {
+                                        <tr>
+                                            <td class="align-middle"><a href="@Url.Action("Index", "Category", new { id = item.Id } )" class="text-dark">@item.Name</a></td>
+                                            <td></td>
+                                            <td class="align-middle">@item.SoldCount</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Popular category -->
             </div>
-            <!-- / Traffic chart + sources -->
         </div>
         <!-- / Content -->
     </div>

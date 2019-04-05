@@ -28,7 +28,7 @@ namespace Web.Controllers
 
         private readonly IHostingEnvironment _appEnvironment;
 
-        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, ISaleService saleService, IVisitService visitService, IPopupService popupService IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager)
+        public AdminController(IProductService productService, ICategoryService categoryService, IDiscountService discountService, ISaleService saleService, IVisitService visitService, IPopupService popupService, IHostingEnvironment appEnvironment, UserManager<User> _userManager, RoleManager<Role> _roleManager)
         {
             this.productService = productService;
             this.categoryService = categoryService;
@@ -320,6 +320,7 @@ namespace Web.Controllers
 
             return RedirectToAction("ListPopup");
         }
+
         #region merchant
 
         [Authorize(Roles = "Admin, Merchant")]
@@ -327,10 +328,9 @@ namespace Web.Controllers
         {
             DashboardViewModel dashboardViewModel = new DashboardViewModel();
 
-            dashboardViewModel.MostSales = productService.GetList().OrderBy(x => x.SoldCount).Take(5).ToList();
-            dashboardViewModel.MostAddsToCart = productService.GetList().OrderBy(x => x.AddedToCartCount).Take(5).ToList();
-            dashboardViewModel.MostSalesCategories = categoryService.GetList().Where(x => x.MainCategoryId != Guid.Empty).OrderBy(x => x.SoldCount).Take(3).ToList();
-            dashboardViewModel.MostSalesMainCategories = categoryService.GetList().Where(x => x.MainCategoryId == Guid.Empty).OrderBy(x => x.SoldCount).ToList();
+            dashboardViewModel.MostSales = productService.GetList().OrderByDescending(x => x.SoldCount).Take(5).ToList();
+            dashboardViewModel.MostAddsToCart = productService.GetList().OrderByDescending(x => x.AddedToCartCount).Take(5).ToList();
+            dashboardViewModel.MostSalesCategories = categoryService.GetList().Where(x => x.MainCategoryId != Guid.Empty).OrderByDescending(x => x.SoldCount).Take(3).ToList();
 
             dashboardViewModel.DailyMembers = userManager.Users.Where(x => x.RegisteredDate.Value.Day == DateTime.Now.Day).Count();
             dashboardViewModel.MonthlyMembers = userManager.Users.Where(x => x.RegisteredDate.Value.Month == DateTime.Now.Month).Count();
@@ -555,6 +555,7 @@ namespace Web.Controllers
                     model.Stock = urun.Stock;
                     model.Id = urun.Id;
                     model.Discounts = urun.Discounts;
+                    model.PriceWithDiscounts = urun.PriceWithDiscounts;
 
                     productViewModels.Add(model);
                 }
@@ -636,6 +637,8 @@ namespace Web.Controllers
                         model.Stock = product.Stock;
                         model.IsAvailable = product.IsAvailable;
                         model.Id = product.Id;
+                        model.Discounts = product.Discounts;
+                        model.PriceWithDiscounts = product.PriceWithDiscounts;
 
                         productViewModels.Add(model);
 
